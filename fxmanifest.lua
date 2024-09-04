@@ -21,6 +21,9 @@ server_scripts {
     'frameworks/qbox/server.lua',
     -- standalone
     'frameworks/standalone/server.lua',
+    
+    --
+    'server/server.lua',
 }
 
 shared_scripts {
@@ -31,9 +34,13 @@ shared_scripts {
 
 client_scripts {
     'client/cache.lua',
-    'client/input/utils.lua',
-    'client/input/target.lua',
-    'client/input/inputs.lua',
+    
+    'client/functions.lua',
+    'client/client.lua',
+    
+    'client/interactions/utils.lua',
+    'client/interactions/target.lua',
+    'client/interactions/interactions.lua',
     
     'frameworks/client.lua',
     

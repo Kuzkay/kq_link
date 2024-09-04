@@ -31,3 +31,7 @@ RegisterNetEvent('esx:setJob')
 AddEventHandler('esx:setJob', function(jobData)
     PLAYER_DATA.job = jobData
 end)
+
+function NotifyViaFramework(message, success)
+    ESX.ShowNotification(message, false, false, 0)
+end
