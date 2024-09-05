@@ -2,9 +2,9 @@ if Link.framework ~= 'qb-core' and Link.framework ~= 'qbcore' then
     return
 end
 
-if QBX.Functions.GetPlayerData() and QBX.Functions.GetPlayerData().job then
-    PLAYER_DATA = QBX.PlayerData
-end
+QBX = exports['qbx_core']:GetCoreObject()
+
+PLAYER_DATA = QBX.PlayerData
 
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded')
 AddEventHandler('QBCore:Client:OnPlayerLoaded', function()
