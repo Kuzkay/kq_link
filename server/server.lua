@@ -12,5 +12,3 @@ function AddPlayerItemToFit(player, item, amount)
     
     return gotItems, amount
 end
-exports('AddPlayerItemToFit', AddPlayerItemToFit)
-exports('GivePlayerItemToFit', AddPlayerItemToFit)
