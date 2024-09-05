@@ -1,5 +1,5 @@
 function Notify(message, type)
-    if Link.notifications == 'framework' then
+    if Link.notifications == 'framework' and NotifyViaFramework ~= nil then
         NotifyViaFramework(message, type)
         return
     end
