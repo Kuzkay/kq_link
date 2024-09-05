@@ -33,5 +33,10 @@ AddEventHandler('esx:setJob', function(jobData)
 end)
 
 function NotifyViaFramework(message, type)
+    -- ESX does not have the warning type by default. We will simply use the error type
+    if type == 'warning' then
+        type = 'error'
+    end
+    
     ESX.ShowNotification(message, type, 4000)
 end

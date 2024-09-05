@@ -23,6 +23,7 @@ ___
 
 ## Supported Inventories
 - ox_inventory
+- qs-inventory
 
 > All framework integrated inventories also are supported. esx_inventory, qb-inventory etc.
 
@@ -41,11 +42,11 @@ ___
 ___
 
 ## Notification systems
-- 
--
--
-
-(WIP)
+- ox
+- codem-notification
+- okokNotify
+- mythic
+- 17mov
 
 > All framework integrated notification systems also are supported. esx notifications, qb-notify etc.
 > When no system is selected and no framework system is available, The script will use native GTA V notifications

@@ -11,6 +11,7 @@ provide 'kq_link'
 server_scripts {
     -- INVENTORIES
     'inventories/ox_inventory/server.lua',
+    'inventories/qs-inventory/server.lua',
     
     -- FRAMEWORKS
     -- esx

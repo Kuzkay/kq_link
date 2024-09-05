@@ -33,13 +33,19 @@ Link = {
 ------------------------
 --- 'framework' -- The native framework inventory system will be used
 ---
---- 'ox_inventory' -- Ox inventory system will be used instead of the framework inventory system
+--- 'ox_inventory' -- Ox inventory system
+--- 'qs-inventory' -- Quasar inventory system
 Link.inventory = 'framework'
 
 
 --- NOTIFICATION OPTIONS
 ------------------------
---- 'framework' -- The native framework inventory system will be used
+--- 'framework' -- The native framework notification system will be used
+--- 'ox' -- Notification system made by OX
+--- 'codem-notification' -- Notifications system made by CodeM
+--- 'okokNotify' -- Notifications system made by okok
+--- 'mythic' -- Notifications system made by mythic
+--- '17mov' -- Notifications system made by 17Movement
 ---
 --- 'standalone' -- A standalone solution will be used for notifications (top left display)
 Link.notifications = 'framework'
