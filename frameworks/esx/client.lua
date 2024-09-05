@@ -21,9 +21,9 @@ Citizen.CreateThread(function()
     while ESX == nil or ESX.GetPlayerData().job == nil do
         Citizen.Wait(10)
     end
-    
+
     ESX.PlayerData = ESX.GetPlayerData()
-    
+
     PLAYER_DATA    = ESX.PlayerData
 end)
 
@@ -32,6 +32,6 @@ AddEventHandler('esx:setJob', function(jobData)
     PLAYER_DATA.job = jobData
 end)
 
-function NotifyViaFramework(message, success)
-    ESX.ShowNotification(message, false, false, 0)
+function NotifyViaFramework(message, type)
+    ESX.ShowNotification(message, type, 4000)
 end
