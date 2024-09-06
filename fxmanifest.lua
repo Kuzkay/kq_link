@@ -52,7 +52,6 @@ client_scripts {
     -- qbcore
     'frameworks/qbcore/client.lua',
     -- qbox
-    '@qbx_core/modules/playerdata.lua',
     'frameworks/qbox/client.lua',
     
     -- standalone
