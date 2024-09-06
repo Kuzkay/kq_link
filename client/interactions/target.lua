@@ -1,6 +1,6 @@
 local SYSTEM = Link.input.target.system
 
-function AddEntityToTargeting(entity, message, event, canInteract, meta, icon)
+function AddEntityToTargeting(entity, message, event, canInteract, meta, maxDist, icon)
     if not Link.input.target.enabled or not SYSTEM then
         return
     end
@@ -13,7 +13,7 @@ function AddEntityToTargeting(entity, message, event, canInteract, meta, icon)
             label = message,
             targetEntity = entity,
             meta = meta,
-            distance = 1.5,
+            distance = maxDist,
             canInteract = canInteract or function()
                 return true
             end
@@ -25,13 +25,13 @@ function AddEntityToTargeting(entity, message, event, canInteract, meta, icon)
     else
         exports[SYSTEM]:AddTargetEntity(entity, {
             options = options,
-            distance = 1.5
+            distance = maxDist
         })
         return entity
     end
 end
 
-function AddZoneToTargeting(coords, rotation, scale, message, event, canInteract, meta, icon)
+function AddZoneToTargeting(coords, rotation, scale, message, event, canInteract, meta, maxDist, icon)
     if not Link.input.target.enabled or not SYSTEM then
         return
     end
@@ -43,7 +43,7 @@ function AddZoneToTargeting(coords, rotation, scale, message, event, canInteract
             icon = icon or 'fas fa-hand',
             label = message,
             meta = meta,
-            distance = 1.5,
+            distance = maxDist,
             canInteract = canInteract or function()
                 return true
             end
@@ -70,7 +70,7 @@ function AddZoneToTargeting(coords, rotation, scale, message, event, canInteract
             maxZ = coords + (scale.z / 2),
         }, {
             options = options,
-            distance = 1.5
+            distance = maxDist
         })
         
         return identifier

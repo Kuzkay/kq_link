@@ -2,8 +2,8 @@ local PLAYER_INTERACTIONS = {}
 local INTERACTION_THREAD_RUNNING = false
 local LAST_OUTLINE_ENTITY = nil
 
-function AddInteractionEntity(entity, offset, message, targetMessage, input, callback, canInteract, meta, icon)
-    RegisterInteraction({
+function AddInteractionEntity(entity, offset, message, targetMessage, input, callback, canInteract, meta, interactDist, icon)
+    return RegisterInteraction({
         entity = entity,
         offset = offset,
         
@@ -12,14 +12,15 @@ function AddInteractionEntity(entity, offset, message, targetMessage, input, cal
         input = input,
         callback = callback,
         canInteract = canInteract,
+        interactDist = interactDist,
         icon = icon,
         
         meta = meta,
     })
 end
 
-function AddInteractionZone(coords, rotation, scale, message, targetMessage, input, callback, canInteract, meta, icon)
-    RegisterInteraction({
+function AddInteractionZone(coords, rotation, scale, message, targetMessage, input, callback, canInteract, meta, interactDist, icon)
+    return RegisterInteraction({
         coords = coords,
         rotation = rotation,
         scale = scale,
@@ -29,6 +30,7 @@ function AddInteractionZone(coords, rotation, scale, message, targetMessage, inp
         input = input,
         callback = callback,
         canInteract = canInteract,
+        interactDist = interactDist,
         icon = icon,
         
         meta = meta,
@@ -51,6 +53,8 @@ function RegisterInteraction(data)
         message = data.message,
         targetMessage = data.targetMessage,
         input = data.input,
+        interactDist = data.interactDist or 2,
+        
         callback = data.callback,
         canInteract = data.canInteract,
         
@@ -83,9 +87,9 @@ function RegisterInteraction(data)
         end)
         
         if self.entity then
-            self.targetEntity = AddEntityToTargeting(self.entity, self.targetMessage, eventKey, self.canInteract, self.meta, self.icon)
+            self.targetEntity = AddEntityToTargeting(self.entity, self.targetMessage, eventKey, self.canInteract, self.meta, self.interactDist, self.icon)
         else
-            self.targetZone = AddZoneToTargeting(self.coords, self.rotation, self.scale, self.targetMessage, eventKey, self.canInteract, self.meta, self.icon)
+            self.targetZone = AddZoneToTargeting(self.coords, self.rotation, self.scale, self.targetMessage, eventKey, self.canInteract, self.meta, self.interactDist, self.icon)
         end
     end
     
@@ -119,7 +123,7 @@ function RegisterInteraction(data)
     
     -- Perform a safe callback with error logging
     self.PerformSafeCallback = function()
-        local success, err = pcall(self.callback, self)
+        local success, err = pcall(self.callback, self.clientReturnData)
         if not success then
             print(
                 ('^1Interactable callback from {resource} has failed.'):gsub('{resource}', self.invoker),
@@ -172,32 +176,42 @@ function RegisterInteraction(data)
     -- Add the interaction to the list
     PLAYER_INTERACTIONS[self.key] = self
     
-    return {
+    print('Registered new interactable', json.encode(self.meta), self.GetCoords(), DoesEntityExist(self.entity))
+    
+    self.clientReturnData = {
         GetMeta = self.GetMeta,
         GetCoords = self.GetCoords,
         GetEntity = self.GetEntity,
         GetInvoker = self.GetInvoker,
         Delete = self.Delete,
     }
+    
+    return self.clientReturnData
 end
 
 function TriggerInteractionThread()
-    -- Only needs to run once for non-target systems
-    if INTERACTION_THREAD_RUNNING or Link.input.target.enabled then
-        return
-    end
-    
-    INTERACTION_THREAD_RUNNING = true
     Citizen.CreateThread(function()
+        Citizen.Wait(500
+        )
+        print('triggering interaction thread')
+        -- Only needs to run once for non-target systems
+        if INTERACTION_THREAD_RUNNING or Link.input.target.enabled then
+            print('aborted', Count(PLAYER_INTERACTIONS))
+            return
+        end
+        
+        INTERACTION_THREAD_RUNNING = true
+        
         while Count(PLAYER_INTERACTIONS) > 0 do
             local sleep = 2500
+            print('thread running')
             
             local interaction, distance = GetClosestPlayerInteraction(5)
             if interaction then
                 sleep = 500
             end
             
-            if interaction ~= nil and distance < 1.5 then
+            if interaction ~= nil and distance < interaction.interactDist then
                 sleep = 1
                 interaction.Handle()
                 
@@ -225,13 +239,12 @@ function TriggerInteractionThread()
             
             Citizen.Wait(sleep)
         end
+        INTERACTION_THREAD_RUNNING = false
         
         if Link.input.other.outline.enabled then
             SetEntityDrawOutline(LAST_OUTLINE_ENTITY, false)
             LAST_OUTLINE_ENTITY = nil
         end
-        
-        INTERACTION_THREAD_RUNNING = false
     end)
 end
 
