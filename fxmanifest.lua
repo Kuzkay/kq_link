@@ -32,7 +32,6 @@ server_scripts {
 shared_scripts {
     'config.lua',
     'frameworks/shared.lua',
-    '@ox_core/lib/init.lua',
 }
 
 client_scripts {
