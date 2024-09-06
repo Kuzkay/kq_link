@@ -2,6 +2,8 @@ if Link.framework ~= 'qb-core' and Link.framework ~= 'qbcore' then
     return
 end
 
+require '@qbx_core.modules.playerdata'
+
 QBX = exports['qbx_core']:GetCoreObject()
 
 PLAYER_DATA = QBX.PlayerData
