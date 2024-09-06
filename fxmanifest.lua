@@ -32,6 +32,9 @@ server_scripts {
 shared_scripts {
     'config.lua',
     'frameworks/shared.lua',
+    
+    '@ox_lib/init.lua',
+    '@ox_core/lib/init.lua',
 }
 
 client_scripts {
@@ -51,6 +54,7 @@ client_scripts {
     -- qbcore
     'frameworks/qbcore/client.lua',
     -- qbox
+    '@qbx_core/modules/playerdata.lua',
     'frameworks/qbox/client.lua',
     
     -- standalone

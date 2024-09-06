@@ -35,9 +35,9 @@ function AddInteractionZone(coords, rotation, scale, message, targetMessage, inp
     })
 end
 
-function RegisterInteraction(data)    
+function RegisterInteraction(data)
     local self = {
-        invoker = GetInvokingResource()
+        invoker = GetInvokingResource(),
         
         key = GetGameTimer() .. '-' .. math.random(0, 9999999),
         
