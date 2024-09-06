@@ -35,12 +35,10 @@ function AddInteractionZone(coords, rotation, scale, message, targetMessage, inp
     })
 end
 
-function RegisterInteraction(data)
-    local private = {
-        invoker = GetInvokingResource()
-    }
-    
+function RegisterInteraction(data)    
     local self = {
+        invoker = GetInvokingResource()
+        
         key = GetGameTimer() .. '-' .. math.random(0, 9999999),
         
         entity = data.entity,
@@ -124,7 +122,7 @@ function RegisterInteraction(data)
         local success, err = pcall(self.callback, self)
         if not success then
             print(
-                ('^1Interactable callback from {resource} has failed.'):gsub('{resource}', private.invoker),
+                ('^1Interactable callback from {resource} has failed.'):gsub('{resource}', self.invoker),
                 err
             )
         end
@@ -136,11 +134,15 @@ function RegisterInteraction(data)
     end
     
     self.GetInvoker = function()
-        return private.invoker
+        return self.invoker
     end
     
     self.GetCoords = function()
         return self.coords or GetOffsetFromEntityInWorldCoords(self.entity, self.entityOffset)
+    end
+    
+    self.GetEntity = function()
+        return self.entity
     end
     
     -- Deleting
@@ -169,7 +171,14 @@ function RegisterInteraction(data)
     
     -- Add the interaction to the list
     PLAYER_INTERACTIONS[self.key] = self
-    return self
+    
+    return {
+        GetMeta = self.GetMeta,
+        GetCoords = self.GetCoords,
+        GetEntity = self.GetEntity,
+        GetInvoker = self.GetInvoker,
+        Delete = self.Delete,
+    }
 end
 
 function TriggerInteractionThread()
