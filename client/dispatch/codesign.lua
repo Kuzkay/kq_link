@@ -17,7 +17,7 @@ function SendDispatchMessage(data)
             flashes = (data.blip.flashes or false),
             text = (data.blip.text or 'Text Missing'),
             time = (data.blip.time or 5),
-            radius = (data.blip.radius or 0),
+            radius = (data.blip.radius or 0)
         }
     })
 end
