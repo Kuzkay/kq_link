@@ -1,9 +1,9 @@
 if Link.dispatch.system ~= 'ps' then return end
 
 function GetGender(ped)
-    if GetEntityModel(ped) == `mp_m_freemode_01` then
+    if GetEntityModel(ped) == GetHashKey('mp_m_freemode_01') then
         return 'male'
-    elseif `mp_f_freemode_01` then
+    elseif GetHashKey('mp_f_freemode_01') then
         return 'female'
     else
         return nil
