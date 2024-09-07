@@ -49,7 +49,7 @@ client_scripts {
 
     'frameworks/client.lua',
 
-    'client/dispatch/*.lua'
+    'client/dispatch/*.lua',
 
     -- esx
     'frameworks/esx/client.lua',
