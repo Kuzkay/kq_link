@@ -8,7 +8,7 @@ Link = {}
 Link = {
   -- Whether to enable debug options such as extra logging and target meshes
   debugMode = true,
-  
+
   --- FRAMEWORK OPTIONS
   ------------------------
   --- Options:
@@ -19,10 +19,10 @@ Link = {
   --- 'ox'
   --- 'qbox'
   --- 'none' / 'standalone'
-  
+
   framework = 'auto',
-  
-  
+
+
   -- Framework specific detail options (DO NOT REMOVE)
   esx = {
     useOldExport = false, -- Whether to use the old esx export method (via events)
@@ -59,15 +59,15 @@ Link.input = {
     enabled = false,
     system = 'ox_target' -- 'ox_target' or 'qb-target' or 'qtarget'  (Other systems might work as well)
   },
-  
+
   -- Only applicable when target is disabled
   other = {
     -- '3d-text', 'top-left', 'help-text'
     inputType = '3d-text',
-    
+
     textFont = 4,
     textScale = 1.0,
-    
+
     outline = {
       enabled = true,
       color = {
@@ -78,4 +78,14 @@ Link.input = {
       }
     }
   }
+}
+
+--- DISPATCH OPTIONS
+------------------------
+--- 'cd' -- Dispatch system made by Codesign
+--- 'ps' -- Dispatch system made by Project Sloth
+--- 'qs' -- Dispatch system made by Quasar
+--- 'rcore' --Dispatch system made by Rcore
+Link.dispatch = {
+  system = 'cd'
 }
