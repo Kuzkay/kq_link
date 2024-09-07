@@ -42,3 +42,6 @@ RegisterNetEvent('kq_link:client:notify')
 AddEventHandler('kq_link:client:notify', function(message, type)
     Notify(message, type or 'info')
 end)
+
+-- Exports
+exports('Notify', Notify)

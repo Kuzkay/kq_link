@@ -61,6 +61,8 @@ client_scripts {
 
     -- standalone
     'frameworks/standalone/client.lua',
+    
+    'client/exports.lua',
 }
 
 escrow_ignore {
