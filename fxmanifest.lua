@@ -12,7 +12,7 @@ server_scripts {
     -- INVENTORIES
     'inventories/ox_inventory/server.lua',
     'inventories/qs-inventory/server.lua',
-    
+
     -- FRAMEWORKS
     -- esx
     'frameworks/esx/server.lua',
@@ -22,33 +22,35 @@ server_scripts {
     'frameworks/qbox/server.lua',
     -- standalone
     'frameworks/standalone/server.lua',
-    
+
     --
     'server/server.lua',
-    
+
     'server/exports.lua',
 }
 
 shared_scripts {
     'config.lua',
     'frameworks/shared.lua',
-    
+
     '@ox_lib/init.lua',
     '@ox_core/lib/init.lua',
 }
 
 client_scripts {
     'client/cache.lua',
-    
+
     'client/functions.lua',
     'client/client.lua',
-    
+
     'client/interactions/utils.lua',
     'client/interactions/target.lua',
     'client/interactions/interactions.lua',
-    
+
     'frameworks/client.lua',
-    
+
+    'client/dispatch/*.lua'
+
     -- esx
     'frameworks/esx/client.lua',
     -- qbcore
@@ -56,7 +58,7 @@ client_scripts {
     -- qbox
     '@qbx_core/modules/playerdata.lua',
     'frameworks/qbox/client.lua',
-    
+
     -- standalone
     'frameworks/standalone/client.lua',
 }
