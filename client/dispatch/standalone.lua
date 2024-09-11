@@ -3,7 +3,7 @@ if Link.dispatch.system ~= 'standalone' then return end
 function SendDispatchMessage(data)
     local dispatchData = {
         coords = data.coords or GetEntityCoords(PlayerPedId()),
-        jobs = data.jobs or {'police', 'lspd'},
+        jobs = data.jobs or {'police', 'lspd', 'bcso'},
     
         title = data.message or '',
         subtitle = data.description or '',
@@ -21,7 +21,7 @@ end
 
 
 RegisterNetEvent('kq_link:client:dispatch:sendAlert')
-AddEventHandler('kq_link:client:dispatch:sendAlert', function(data.jobs)
+AddEventHandler('kq_link:client:dispatch:sendAlert', function(data)
     if not Contains(data.jobs, GetPlayerJob()) then
         return
     end

@@ -15,7 +15,7 @@ function SendDispatchMessage(data)
             scale = (data.blip.scale or 1.0),
             colour = (data.blip.colour or 3),
             flashes = (data.blip.flashes or false),
-            text = (data.blip.text or 'Text Missing'),
+            text = (data.blip.text or 'Dispatch Alert'),
             time = (data.blip.time or 5),
             radius = (data.blip.radius or 0)
         }
