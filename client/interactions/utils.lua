@@ -11,6 +11,12 @@ function ShowTooltip(message)
     EndTextCommandDisplayHelp(0, 0, 1, 2500)
 end
 
+function KeybindTip(message)
+    SetTextComponentFormat("STRING")
+    AddTextComponentString(message)
+    EndTextCommandDisplayHelp(0, 0, 1, 0)
+end
+
 -- This function is responsible for creating the text shown on the bottom of the screen
 function DrawMissionText(text, time)
     SetTextEntry_2("STRING")

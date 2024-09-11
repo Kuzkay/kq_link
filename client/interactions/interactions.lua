@@ -204,7 +204,6 @@ function TriggerInteractionThread()
         
         while Count(PLAYER_INTERACTIONS) > 0 do
             local sleep = 2500
-            print('thread running')
             
             local interaction, distance = GetClosestPlayerInteraction(5)
             if interaction then
