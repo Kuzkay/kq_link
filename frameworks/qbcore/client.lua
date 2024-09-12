@@ -19,7 +19,7 @@ AddEventHandler('QBCore:Client:OnJobUpdate', function(jobData)
 end)
 
 function GetPlayerJob()
-    return PLAYER_DATA.job
+    return PLAYER_DATA.job.name
 end
 
 function NotifyViaFramework(message, type)

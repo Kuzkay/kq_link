@@ -40,6 +40,7 @@ shared_scripts {
 client_scripts {
     'client/cache.lua',
 
+    'client/utils.lua',
     'client/functions.lua',
     'client/client.lua',
 

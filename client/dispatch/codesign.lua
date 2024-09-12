@@ -5,19 +5,17 @@ function SendDispatchMessage(data)
     TriggerServerEvent('cd_dispatch:AddNotification', {
         job_table = (data.jobs or {}),
         coords = data.coords or GetEntityCoords(PlayerPedId()),
-        title = (data.title or ''),
-        message = (data.message or ''),
-        flash = (data.flash or 0),
+        title = (data.message or ''),
+        message = (data.description or ''),
         unique_id = dispatchData.unique_id,
-        sound = (data.sound or 1),
+        sound = 1,
         blip = {
             sprite = (data.blip.sprite or 58),
             scale = (data.blip.scale or 1.0),
-            colour = (data.blip.colour or 3),
-            flashes = (data.blip.flashes or false),
+            colour = (data.blip.color or 3),
             text = (data.blip.text or 'Dispatch Alert'),
-            time = (data.blip.time or 5),
-            radius = (data.blip.radius or 0)
+            time = 2,
+            radius = 0,
         }
     })
 end

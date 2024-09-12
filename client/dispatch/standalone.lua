@@ -7,15 +7,18 @@ function SendDispatchMessage(data)
     
         title = data.message or '',
         subtitle = data.description or '',
-  
+        
+        duration = 120000,
+        
         blip = {
             sprite = (data.blip.sprite or 58),
-            colour = (data.blip.colour or 3),
+            color = (data.blip.color or 1),
             scale = (data.blip.scale or 1.0),
             text = (data.blip.text or 'Dispatch Alert'),
-            flashes = (data.flash or false),
+            flash = (data.blip.flash or false),
         }
     }
+    
     TriggerServerEvent('kq_link:server:dispatch:sendAlert', dispatchData)
 end
 
@@ -25,10 +28,10 @@ AddEventHandler('kq_link:client:dispatch:sendAlert', function(data)
     if not Contains(data.jobs, GetPlayerJob()) then
         return
     end
-
+    
     CreateDispatchBlip(data)
-
-    SendDispatchMessage(data.title, data.subtitle)
+    
+    NotifyDispatch(data.title, data.subtitle)
 end)
 
 
@@ -41,26 +44,26 @@ function CreateDispatchBlip(data)
         SetBlipHighDetail(blip, true)
         SetBlipColour(blip, blipData.color)
         SetBlipAlpha(blip, 255)
-        SetBlipFlashes(blip( blipData.flashes)
+        SetBlipFlashes(blip, blipData.flash)
         SetBlipScale(blip, blipData.scale)
         BeginTextCommandSetBlipName('STRING')
-        AddTextComponentString(data.subtitle)
+        AddTextComponentString(blipData.text)
         EndTextCommandSetBlipName(blip)
         SetBlipAsShortRange(blip, false)
 
-        RealWait(blipData.duration or 120000)
-
-        RemoveBlip(blip)
+        Citizen.SetTimeout(blipData.duration or 120000, function()
+            RemoveBlip(blip)
+        end)
     end)
 end
 
-function SendDispatchMessage(message, subtitle)
+function NotifyDispatch(message, subtitle)
     BeginTextCommandThefeedPost("STRING")
-    AddTextComponentSubstringPlayerName(message)
+    AddTextComponentSubstringPlayerName(subtitle)
 
     -- Set the notification icon, title and subtitle.
     local iconType = 0
-    EndTextCommandThefeedPostMessagetext('CHAR_CALL911', 'CHAR_CALL911', false, iconType, subtitle, '')
+    EndTextCommandThefeedPostMessagetext('CHAR_CALL911', 'CHAR_CALL911', false, iconType, message, '')
 
     -- Draw the notification
     local showInBrief = true

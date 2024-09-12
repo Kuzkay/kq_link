@@ -56,7 +56,7 @@ Link.notifications = 'framework'
 ------------------------
 Link.input = {
   target = {
-    enabled = false,
+    enabled = true,
     system = 'ox_target' -- 'ox_target' or 'qb-target' or 'qtarget'  (Other systems might work as well)
   },
 
@@ -85,7 +85,9 @@ Link.input = {
 --- 'cd' -- Dispatch system made by Codesign
 --- 'ps' -- Dispatch system made by Project Sloth
 --- 'qs' -- Dispatch system made by Quasar
---- 'rcore' --Dispatch system made by Rcore
+--- 'rcore' -- Dispatch system made by Rcore
+---
+--- 'standalone' -- Built in dispatch system
 Link.dispatch = {
-  system = 'cd'
+  system = 'standalone'
 }
