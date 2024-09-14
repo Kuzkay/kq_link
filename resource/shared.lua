@@ -40,3 +40,10 @@ function Contains(tab, val)
     
     return false
 end
+
+function Debug(...)
+    if not Link.debugMode then
+        return
+    end
+    print(...)
+end

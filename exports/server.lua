@@ -1,4 +1,4 @@
--- Basic
+-- LINKS
 exports('RegisterUsableItem', RegisterUsableItem)
 
 exports('CanPlayerAfford', CanPlayerAfford)
@@ -12,5 +12,7 @@ exports('AddPlayerItem', AddPlayerItem)
 exports('RemovePlayerItem', RemovePlayerItem)
 exports('GetPlayerCharacterId', GetPlayerCharacterId)
 
--- Custom
+-- RESOURCE
 exports('AddPlayerItemToFit', AddPlayerItemToFit)
+
+exports('AddGuardPedestrian', AddGuardPedestrian)

@@ -1,7 +1,7 @@
 -- LINKS
 exports('GetPlayerJob', GetPlayerJob)
-exports('SendDispatchMessage', SendDispatchMessage)
 exports('Notify', Notify)
+exports('SendDispatchMessage', SendDispatchMessage)
 
 -- RESOURCE
 exports('AddInteractionEntity', AddInteractionEntity)

@@ -255,7 +255,6 @@ local function RegisterInteraction(data)
     return self.clientReturnData
 end
 
-
 function AddInteractionEntity(entity, offset, message, targetMessage, input, callback, canInteract, meta, interactDist, icon)
     return RegisterInteraction({
         entity = entity,
