@@ -2,7 +2,50 @@ local PLAYER_INTERACTIONS = {}
 local INTERACTION_THREAD_RUNNING = false
 local LAST_OUTLINE_ENTITY = nil
 
-function TriggerInteractionThread()
+-- HELPER FUNCTIONS
+local function GetClosestPlayerInteraction(maxDistance)
+    return UseCache('GetClosestPlayerInteraction', function()
+        local playerPed = PlayerPedId()
+        local playerCoords = GetEntityCoords(playerPed)
+        
+        local nearest = nil
+        local nearestDistance = maxDistance
+        
+        for k, playerInteraction in pairs(PLAYER_INTERACTIONS) do
+            local coords = playerInteraction.GetCoords()
+            
+            local distance = #(playerCoords - coords)
+            if distance < nearestDistance then
+                nearest = playerInteraction
+                nearestDistance = distance
+            end
+        end
+        
+        return nearest, nearestDistance
+    end, 1000)
+end
+
+local function CleanUpDeadInteractions()
+    for k, interaction in pairs(PLAYER_INTERACTIONS) do
+        if interaction.entity and not DoesEntityExist(interaction.entity) then
+            interaction.Delete()
+        elseif GetResourceState(interaction.GetInvoker()) ~= 'started' then
+            interaction.Delete()
+        end
+    end
+end
+
+local function DeadInteractionRemovalThread()
+    Citizen.CreateThread(function()
+        while true do
+            CleanUpDeadInteractions()
+            Citizen.Wait(5000)
+        end
+    end)
+end
+
+--- MAIN
+local function TriggerInteractionThread()
     Citizen.CreateThread(function()
         Citizen.Wait(500
         )
@@ -60,85 +103,7 @@ function TriggerInteractionThread()
     end)
 end
 
-local function GetClosestPlayerInteraction(maxDistance)
-    return UseCache('GetClosestPlayerInteraction', function()
-        local playerPed = PlayerPedId()
-        local playerCoords = GetEntityCoords(playerPed)
-        
-        local nearest = nil
-        local nearestDistance = maxDistance
-        
-        for k, playerInteraction in pairs(PLAYER_INTERACTIONS) do
-            local coords = playerInteraction.GetCoords()
-            
-            local distance = #(playerCoords - coords)
-            if distance < nearestDistance then
-                nearest = playerInteraction
-                nearestDistance = distance
-            end
-        end
-        
-        return nearest, nearestDistance
-    end, 1000)
-end
-
-local function CleanUpDeadInteractions()
-    for k, interaction in pairs(PLAYER_INTERACTIONS) do
-        if interaction.entity and not DoesEntityExist(interaction.entity) then
-            interaction.Delete()
-        elseif GetResourceState(interaction.GetInvoker()) ~= 'started' then
-            interaction.Delete()
-        end
-    end
-end
-
---- CLEANUP
-local function DeadInteractionRemovalThread()
-    Citizen.CreateThread(function()
-        while true do
-            CleanUpDeadInteractions()
-            Citizen.Wait(5000)
-        end
-    end)
-end
-
-
-function AddInteractionEntity(entity, offset, message, targetMessage, input, callback, canInteract, meta, interactDist, icon)
-    return Interactions.RegisterInteraction({
-        entity = entity,
-        offset = offset,
-        
-        message = message,
-        targetMessage = targetMessage,
-        input = input,
-        callback = callback,
-        canInteract = canInteract,
-        interactDist = interactDist,
-        icon = icon,
-        
-        meta = meta,
-    })
-end
-
-function AddInteractionZone(coords, rotation, scale, message, targetMessage, input, callback, canInteract, meta, interactDist, icon)
-    return Interactions.RegisterInteraction({
-        coords = coords,
-        rotation = rotation,
-        scale = scale,
-        
-        message = message,
-        targetMessage = targetMessage,
-        input = input,
-        callback = callback,
-        canInteract = canInteract,
-        interactDist = interactDist,
-        icon = icon,
-        
-        meta = meta,
-    })
-end
-
-function Interactions.RegisterInteraction(data)
+local function RegisterInteraction(data)
     local self = {
         invoker = GetInvokingResource(),
         
@@ -188,9 +153,9 @@ function Interactions.RegisterInteraction(data)
         end)
         
         if self.entity then
-            self.targetEntity = Interactions.AddEntityToTargeting(self.entity, self.targetMessage, eventKey, self.canInteract, self.meta, self.interactDist, self.icon)
+            self.targetEntity = InputUtils.AddEntityToTargeting(self.entity, self.targetMessage, eventKey, self.canInteract, self.meta, self.interactDist, self.icon)
         else
-            self.targetZone = Interactions.AddZoneToTargeting(self.coords, self.rotation, self.scale, self.targetMessage, eventKey, self.canInteract, self.meta, self.interactDist, self.icon)
+            self.targetZone = InputUtils.AddZoneToTargeting(self.coords, self.rotation, self.scale, self.targetMessage, eventKey, self.canInteract, self.meta, self.interactDist, self.icon)
         end
     end
     
@@ -204,11 +169,11 @@ function Interactions.RegisterInteraction(data)
         
         local inputType = Link.input.other.inputType
         if inputType == 'top-left' then
-            Interactions.KeybindTip(self.message)
+            InputUtils.KeybindTip(self.message)
         elseif inputType == 'help-text' then
-            Interactions.DrawFloatingText(coords, self.message)
+            InputUtils.DrawFloatingText(coords, self.message)
         elseif inputType == '3d-text' then
-            Interactions.Draw3DText(coords, self.message, 0.042)
+            InputUtils.Draw3DText(coords, self.message, 0.042)
         end
         
         if IsControlJustReleased(0, self.input) then
@@ -259,9 +224,9 @@ function Interactions.RegisterInteraction(data)
         
         -- Targeting cleanup
         if self.targetEntity then
-            Interactions.RemoveTargetEntity(self.targetEntity)
+            InputUtils.RemoveTargetEntity(self.targetEntity)
         elseif self.targetZone then
-            Interactions.RemoveTargetZone(self.targetZone)
+            InputUtils.RemoveTargetZone(self.targetZone)
         end
         
         print('Delete interaction', self.key)
@@ -290,6 +255,43 @@ function Interactions.RegisterInteraction(data)
     return self.clientReturnData
 end
 
+
+function AddInteractionEntity(entity, offset, message, targetMessage, input, callback, canInteract, meta, interactDist, icon)
+    return RegisterInteraction({
+        entity = entity,
+        offset = offset,
+        
+        message = message,
+        targetMessage = targetMessage,
+        input = input,
+        callback = callback,
+        canInteract = canInteract,
+        interactDist = interactDist,
+        icon = icon,
+        
+        meta = meta,
+    })
+end
+
+function AddInteractionZone(coords, rotation, scale, message, targetMessage, input, callback, canInteract, meta, interactDist, icon)
+    return RegisterInteraction({
+        coords = coords,
+        rotation = rotation,
+        scale = scale,
+        
+        message = message,
+        targetMessage = targetMessage,
+        input = input,
+        callback = callback,
+        canInteract = canInteract,
+        interactDist = interactDist,
+        icon = icon,
+        
+        meta = meta,
+    })
+end
+
+-- CLEANUP
 DeadInteractionRemovalThread()
 
 AddEventHandler('onResourceStop', function(stoppedResource)
@@ -299,8 +301,3 @@ AddEventHandler('onResourceStop', function(stoppedResource)
         end
     end
 end)
-
-
---- EXPORTS
-exports('AddInteractionEntity', AddInteractionEntity)
-exports('AddInteractionZone', AddInteractionZone)

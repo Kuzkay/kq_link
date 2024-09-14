@@ -1,13 +1,13 @@
-Interactions = {}
+InputUtils = {}
 
 
-function Interactions.KeybindTip(message)
+function InputUtils.KeybindTip(message)
     SetTextComponentFormat("STRING")
     AddTextComponentString(message)
     EndTextCommandDisplayHelp(0, 0, 1, 0)
 end
 
-function Interactions.DrawFloatingText(coords, message)
+function InputUtils.DrawFloatingText(coords, message)
     AddTextEntry('KqInputFloatingHelpNotification', message)
     SetFloatingHelpTextWorldPosition(1, coords)
     SetFloatingHelpTextStyle(1, 1, 2, -1, 3, 2)
@@ -15,7 +15,7 @@ function Interactions.DrawFloatingText(coords, message)
     EndTextCommandDisplayHelp(2, false, false, -1)
 end
 
-function Interactions.Draw3DText(coords, textInput, scaleX)
+function InputUtils.Draw3DText(coords, textInput, scaleX)
     scaleX = scaleX * (Link.input.other.textScale or 1)
     local camCoords = GetGameplayCamCoords()
     local dist = #(camCoords - coords)
