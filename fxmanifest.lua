@@ -13,17 +13,17 @@ server_scripts {
     'resource/server.lua',
     
     -- FRAMEWORKS
-    'frameworks/esx/server.lua',
-    'frameworks/qbcore/server.lua',
-    'frameworks/qbox/server.lua',
-    'frameworks/standalone/server.lua',
+    'links/frameworks/esx/server.lua',
+    'links/frameworks/qbcore/server.lua',
+    'links/frameworks/qbox/server.lua',
+    'links/frameworks/standalone/server.lua',
     
     -- INVENTORIES
-    'inventories/ox_inventory/server.lua',
-    'inventories/qs-inventory/server.lua',
+    'links/inventories/ox_inventory/server.lua',
+    'links/inventories/qs-inventory/server.lua',
 
     -- DISPATCH
-    'dispatch/server/server.lua',
+    'links/dispatch/server/server.lua',
     
     -- BASE RESOURCE
     'resource/server.lua',
@@ -35,7 +35,7 @@ server_scripts {
 shared_scripts {
     'config.lua',
     'resource/shared.lua',
-    'frameworks/shared.lua',
+    'links/frameworks/shared.lua',
 
     '@ox_lib/init.lua',
     '@ox_core/lib/init.lua',
@@ -53,19 +53,19 @@ client_scripts {
     'resource/interactions/client/interactions.lua',
     
     -- NOTIFICATIONS
-    'notifications/client/client.lua',
+    'links/notifications/client/client.lua',
     
     
     -- DISPATCH
-    'dispatch/client/*.lua',
+    'links/dispatch/client/*.lua',
     
     -- FRAMEWORKS
-    'frameworks/client.lua',
+    'links/frameworks/client.lua',
     
-    'frameworks/esx/client.lua',
-    'frameworks/qbcore/client.lua',
-    'frameworks/qbox/client.lua',
-    'frameworks/standalone/client.lua',
+    'links/frameworks/esx/client.lua',
+    'links/frameworks/qbcore/client.lua',
+    'links/frameworks/qbox/client.lua',
+    'links/frameworks/standalone/client.lua',
     
     -- EXPORTS
     'exports/client.lua',
