@@ -51,6 +51,14 @@ ___
 > All framework integrated notification systems also are supported. esx notifications, qb-notify etc.
 > When no system is selected and no framework system is available, The script will use native GTA V notifications
 
+
+## Dispatch systems
+- Codesign - cd-dispatch
+- Project Sloth - ps-dispatch
+- Quasar - qs-dispatch
+- Rcore dispatch
+- Custom built-in solution
+
 ___
 
 # Pull requests
