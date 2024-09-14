@@ -1,4 +1,5 @@
 
+-- Custom useful functions
 function AddPlayerItemToFit(player, item, amount)
     local gotItems = false
     
@@ -12,8 +13,3 @@ function AddPlayerItemToFit(player, item, amount)
     
     return gotItems, amount
 end
-
-RegisterNetEvent('kq_link:server:dispatch:sendAlert')
-AddEventHandler('kq_link:server:dispatch:sendAlert', function(data)
-  TriggerClientEvent('kq_link:client:dispatch:sendAlert', -1, data)
-end)

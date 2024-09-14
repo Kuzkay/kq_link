@@ -1,7 +1,6 @@
 local cache = {}
 
 -- Basic caching system
-
 function SaveCache(key, data, lifespan)
     cache[key] = {
         data = data,
@@ -22,4 +21,22 @@ function UseCache(key, cb, lifespan)
     end
 
     return table.unpack(cache[key]['data'])
+end
+
+-- UTILS
+
+function Count(t)
+    local count = 0
+    for _ in pairs(t) do count = count + 1 end
+    return count
+end
+
+function Contains(tab, val)
+    for index, value in ipairs(tab) do
+        if value == val then
+            return true
+        end
+    end
+    
+    return false
 end

@@ -1,6 +1,6 @@
 local SYSTEM = Link.input.target.system
 
-function AddEntityToTargeting(entity, message, event, canInteract, meta, maxDist, icon)
+function Interactions.AddEntityToTargeting(entity, message, event, canInteract, meta, maxDist, icon)
     if not Link.input.target.enabled or not SYSTEM then
         return
     end
@@ -31,7 +31,7 @@ function AddEntityToTargeting(entity, message, event, canInteract, meta, maxDist
     end
 end
 
-function AddZoneToTargeting(coords, rotation, scale, message, event, canInteract, meta, maxDist, icon)
+function Interactions.AddZoneToTargeting(coords, rotation, scale, message, event, canInteract, meta, maxDist, icon)
     if not Link.input.target.enabled or not SYSTEM then
         return
     end
@@ -77,7 +77,7 @@ function AddZoneToTargeting(coords, rotation, scale, message, event, canInteract
     end
 end
 
-function RemoveTargetZone(identifier)
+function Interactions.RemoveTargetZone(identifier)
     if SYSTEM == 'ox-target' or SYSTEM == 'ox_target' then
         exports[SYSTEM]:removeZone(identifier)
     else
@@ -86,7 +86,7 @@ function RemoveTargetZone(identifier)
     end
 end
 
-function RemoveTargetEntity(identifier)
+function Interactions.RemoveTargetEntity(identifier)
     if SYSTEM == 'ox-target' or SYSTEM == 'ox_target' then
         exports[SYSTEM]:removeLocalEntity(identifier)
     else

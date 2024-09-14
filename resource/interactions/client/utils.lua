@@ -1,30 +1,13 @@
+Interactions = {}
 
-function Count(t)
-    local count = 0
-    for _ in pairs(t) do count = count + 1 end
-    return count
-end
 
-function ShowTooltip(message)
-    SetTextComponentFormat("STRING")
-    AddTextComponentString(message)
-    EndTextCommandDisplayHelp(0, 0, 1, 2500)
-end
-
-function KeybindTip(message)
+function Interactions.KeybindTip(message)
     SetTextComponentFormat("STRING")
     AddTextComponentString(message)
     EndTextCommandDisplayHelp(0, 0, 1, 0)
 end
 
--- This function is responsible for creating the text shown on the bottom of the screen
-function DrawMissionText(text, time)
-    SetTextEntry_2("STRING")
-    AddTextComponentString(text)
-    DrawSubtitleTimed(time or 30000, 1)
-end
-
-function DrawFloatingText(coords, message)
+function Interactions.DrawFloatingText(coords, message)
     AddTextEntry('KqInputFloatingHelpNotification', message)
     SetFloatingHelpTextWorldPosition(1, coords)
     SetFloatingHelpTextStyle(1, 1, 2, -1, 3, 2)
@@ -32,18 +15,7 @@ function DrawFloatingText(coords, message)
     EndTextCommandDisplayHelp(2, false, false, -1)
 end
 
-function Draw2DText(x, y, text, scale)
-    scale = scale * (Link.input.other.textScale or 1)
-    SetTextFont(Link.input.other.textFont or 4)
-    SetTextProportional(7)
-    SetTextScale(scale, scale)
-    SetTextDropShadow(0, 0, 0, 0, 255)
-    SetTextEntry("STRING")
-    AddTextComponentString(text)
-    EndTextCommandDisplayText(x, y)
-end
-
-function Draw3DText(coords, textInput, scaleX)
+function Interactions.Draw3DText(coords, textInput, scaleX)
     scaleX = scaleX * (Link.input.other.textScale or 1)
     local camCoords = GetGameplayCamCoords()
     local dist = #(camCoords - coords)
