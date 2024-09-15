@@ -55,6 +55,9 @@ client_scripts {
     'resource/interactions/client/target.lua',
     'resource/interactions/client/client.lua',
     
+    -- PEDESTRIANS
+    'resource/pedestrians/client/client.lua',
+    
     -- NOTIFICATIONS
     'links/notifications/client/client.lua',
     

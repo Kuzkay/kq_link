@@ -1,49 +1,29 @@
 local PEDESTRIANS = {}
 
-local STATES = {
+local STATUSES = {
     combat = 'COMBAT',
     returning = 'RETURNING',
     idle = 'IDLE',
 }
 
-local function GetCachedPlayersInformation()
-    return UseCache('GetPlayersInformation', function()
-        local players = {}
-        for _, playerId in ipairs(GetPlayers()) do
-            local playerPed = GetPlayerPed(playerId)
-            local playerCoords = GetEntityCoords(playerPed)
+local CLIENT_TASKS = {
+    TaskFollowNavMeshToCoord = 'TaskFollowNavMeshToCoord',
+}
 
-            table.insert(players, {
-                player = playerId,
-                ped = playerPed,
-                coords = playerCoords,
-            })
-        end
-        
-        return players
-    end, 10000)
-end
-
-local function GetPlayersInDistance(coords, maxDistance)
-    local players = {}
-    for _, playerCache in ipairs(GetCachedPlayersInformation()) do
-        local cachedDistance = #(coords - playerCache.coords)
-        
-        if maxDistance > cachedDistance then
-            local realCoords = GetEntityCoords(playerCache.ped)
-            local distance = #(coords - realCoords)
-            
-            table.insert(players, {
-                player = playerCache.player,
-                ped = playerCache.ped,
-                distance = distance,
-                coords = realCoords,
-            })
-        end
+local function TaskPedestrianCombatSelf(player, pedKey)
+    local pedestrian = PEDESTRIANS[pedKey]
+    
+    if pedestrian == nil or not DoesEntityExist(pedestrian.entity) then
+        return
     end
     
-    return players
+    pedestrian.CombatEntity(GetPlayerPed(player))
 end
+
+RegisterServerEvent('kq_link:server:pedestrians:combatPlayer')
+AddEventHandler('kq_link:server:pedestrians:combatPlayer', function(pedKey)
+    TaskPedestrianCombatSelf(source, pedKey)
+end)
 
 local function RegisterPedestrian(data)
     local self = {
@@ -59,24 +39,23 @@ local function RegisterPedestrian(data)
         noRespawn = data.noRespawn or false,
         respawnTime = data.respawnTime or 30000,
         
-        state = nil,
+        status = nil,
         
-        combat = {
-            entity = nil,
-            startTime = 0,
-        }
+        clientTask = nil,
     }
     
     self.Boot = function()
         if data.animation then
             self.animation = data.animation
         end
-        if data.guardZone then
-            self.guardZone = {
-                coords = data.guardZone.coords or data.coords,
-                radius = data.guardZone.radius or 1.0,
+        
+        if data.guard then
+            self.guard = {
+                coords = data.guard.coords or data.coords,
+                radius = data.guard.radius or 1.0,
             }
         end
+        
         if data.weapon then
             self.weapon = {
                 hash = data.weapon.hash or 'WEAPON_PISTOL',
@@ -86,8 +65,7 @@ local function RegisterPedestrian(data)
         
         self.Spawn()
         
-        Citizen.Wait(1000
-        )
+        Citizen.Wait(1000)
         self.RunMainThread()
     end
     
@@ -107,7 +85,36 @@ local function RegisterPedestrian(data)
             GiveWeaponToPed(self.entity, self.weapon.hash, 999, self.weapon.hidden, not self.weapon.hidden)
         end
         
-        self.state = STATES.idle
+        self.SetStatus(STATUSES.idle)
+    end
+    
+    self.SetStatus = function(newStatus)
+        self.status = newStatus
+        self.UpdateState()
+    end
+    
+    self.SetClientTask = function(task, meta)
+        self.clientTask = {
+            task = task,
+            meta = meta,
+        }
+        self.UpdateState()
+    end
+    
+    self.ResetClientTask = function()
+        self.clientTask = nil
+        self.UpdateState()
+    end
+    
+    self.UpdateState = function()
+        Entity(self.entity).state.kq_link_ped = {
+            key = self.key,
+            status = self.status,
+            
+            guard = self.guard,
+            
+            clientTask = self.clientTask,
+        }
     end
     
     self.RespawnIfNeeded = function()
@@ -145,62 +152,24 @@ local function RegisterPedestrian(data)
         Citizen.CreateThread(function()
             while self ~= nil do
                 
-                if self.guardZone then
-                    self.HandleGuarding()
-                end
-                
                 self.RespawnIfNeeded()
                 
                 self.HandleReturning()
                 
-                
-                Debug(self.state)
-                
-                Citizen.Wait(2000)
+                Citizen.Wait(3000)
             end
         end)
     end
     
-    --- TASKS
+    --- BASE TASKS
     self.ReturnToStart = function()
-        TaskGoStraightToCoord(self.entity, self.coords, 1.0, 20 * 1000, self.heading, 1.0)
-        self.state = STATES.returning
-    end
-    
-    self.HandleGuarding = function()
-        if self.state == STATES.combat then
-            
-            if #(GetEntityCoords(self.combat.entity) - GetEntityCoords(self.entity)) > 15.0 then
-                self.ReturnToStart()
-            else
-                TaskCombatPed(self.entity, self.combat.entity, 0, 16)
-            end
-            
-            return true
-        end
-        
-        local players = GetPlayersInDistance(self.guardZone.coords, self.guardZone.radius + 75)
-        
-        Debug('Players in radius', #players)
-        for k, playerData in pairs(players) do
-            if self.guardZone.radius >= playerData.distance then
-                self.combat.entity = playerData.ped
-                self.combat.startTime = GetGameTimer()
-                self.state = STATES.combat
-                
-                TaskCombatPed(self.entity, playerData.ped, 0, 16)
-                
-                return true
-            end
-        end
-        
-        return false
+        self.SetClientTask(CLIENT_TASKS.TaskFollowNavMeshToCoord, {self.coords, 2.0, 30 * 1000, 1.5, 0, self.heading})
+        self.SetStatus(STATUSES.returning)
     end
     
     self.HandleReturning = function()
-        if #(GetEntityCoords(self.entity) - self.coords) > 25.0 then
-            self.ReturnToStart()
-        elseif self.state == STATES.returning and #(GetEntityCoords(self.entity) - self.coords) < 1.5 then
+        local distance = #(GetEntityCoords(self.entity) - self.coords)
+        if self.status == STATUSES.returning and distance < 1.5 then
             ClearPedTasksImmediately(self.entity)
             
             SetEntityCoords(self.entity, self.coords + vector3(0, 0, -1))
@@ -210,7 +179,21 @@ local function RegisterPedestrian(data)
                 TaskPlayAnim(self.entity, self.animation.dict, self.animation.name, 1.5, 1.5, -1, 1, 1.0, 0, 0, 0)
             end
             
-            self.state = STATES.idle
+            self.ResetClientTask()
+            self.SetStatus(STATUSES.idle)
+        end
+        
+        if self.status == STATUSES.returning or distance > 25.0 then
+            self.ReturnToStart()
+        end
+    end
+    
+    --- ADVANCED TASKS
+    self.CombatEntity = function(entity)
+        if self.status ~= STATUSES.combat then
+            TaskCombatPed(self.entity, entity, 0, 16)
+            self.ResetClientTask()
+            self.SetStatus(STATUSES.combat)
         end
     end
     
@@ -239,6 +222,7 @@ local function RegisterPedestrian(data)
     
     return {
         Delete = self.Delete,
+        CombatEntity = self.CombatEntity,
         GetEntity = self.GetEntity,
         GetInvoker = self.GetInvoker,
     }
@@ -259,9 +243,9 @@ function AddGuardPedestrian(data)
             name = data.animation.name or '001393_02_mics3_3_talks_to_guard_idle_guard',
         },
         
-        guardZone = {
-            coords = data.guardZone.coords or data.coords,
-            radius = data.guardZone.radius or 1.0,
+        guard = {
+            coords = data.guard.coords or data.coords,
+            radius = data.guard.radius or 1.0,
         },
         
         weapon = {
