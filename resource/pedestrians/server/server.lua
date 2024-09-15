@@ -19,17 +19,6 @@ local function GetCachedPlayersInformation()
                 coords = playerCoords,
             })
         end
-
-        for _, playerId in ipairs(GetAllPeds()) do
-            local playerPed = playerId
-            local playerCoords = GetEntityCoords(playerPed)
-
-            table.insert(players, {
-                player = playerId,
-                ped = playerPed,
-                coords = playerCoords,
-            })
-        end
         
         return players
     end, 10000)
