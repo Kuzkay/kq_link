@@ -6,19 +6,49 @@ local STATES = {
     idle = 'IDLE',
 }
 
-local function GetPlayersInDistance(coords, maxDistance)
-    local players = {}
-    for _, playerId in ipairs(GetPlayers()) do
-        local playerPed = GetPlayerPed(playerId)
-        local playerCoords = GetEntityCoords(playerPed)
-        local distance = #(coords - playerCoords)
-        
-        if maxDistance > distance then
+local function GetCachedPlayersInformation()
+    return UseCache('GetPlayersInformation', function()
+        local players = {}
+        for _, playerId in ipairs(GetPlayers()) do
+            local playerPed = GetPlayerPed(playerId)
+            local playerCoords = GetEntityCoords(playerPed)
+
             table.insert(players, {
                 player = playerId,
                 ped = playerPed,
-                distance = distance,
                 coords = playerCoords,
+            })
+        end
+
+        for _, playerId in ipairs(GetAllPeds()) do
+            local playerPed = playerId
+            local playerCoords = GetEntityCoords(playerPed)
+
+            table.insert(players, {
+                player = playerId,
+                ped = playerPed,
+                coords = playerCoords,
+            })
+        end
+        
+        return players
+    end, 10000)
+end
+
+local function GetPlayersInDistance(coords, maxDistance)
+    local players = {}
+    for _, playerCache in ipairs(GetCachedPlayersInformation()) do
+        local cachedDistance = #(coords - playerCache.coords)
+        
+        if maxDistance > cachedDistance then
+            local realCoords = GetEntityCoords(playerCache.ped)
+            local distance = #(coords - realCoords)
+            
+            table.insert(players, {
+                player = playerCache.player,
+                ped = playerCache.ped,
+                distance = distance,
+                coords = realCoords,
             })
         end
     end
@@ -37,7 +67,8 @@ local function RegisterPedestrian(data)
         
         model = data.model,
         
-        respawnTime = data.respawnTime or 5000,
+        noRespawn = data.noRespawn or false,
+        respawnTime = data.respawnTime or 30000,
         
         state = nil,
         
@@ -108,6 +139,15 @@ local function RegisterPedestrian(data)
             Citizen.Wait(1000)
         end
         
+        if not self then
+            return
+        end
+        
+        if self.noRespawn then
+            self.Delete()
+            return
+        end
+        
         self.Spawn()
     end
     
@@ -127,7 +167,7 @@ local function RegisterPedestrian(data)
                 
                 Debug(self.state)
                 
-                Citizen.Wait(1000)
+                Citizen.Wait(2000)
             end
         end)
     end
@@ -150,9 +190,7 @@ local function RegisterPedestrian(data)
             return true
         end
         
-        local players = UseCache(self.key .. 'PlayersInDistance', function()
-            return GetPlayersInDistance(self.guardZone.coords, self.guardZone.radius + 50)
-        end, 5000)
+        local players = GetPlayersInDistance(self.guardZone.coords, self.guardZone.radius + 75)
         
         Debug('Players in radius', #players)
         for k, playerData in pairs(players) do
@@ -224,7 +262,8 @@ function AddGuardPedestrian(data)
         
         model = data.model,
         
-        respawnTime = data.respawnTime or 5000,
+        noRespawn = data.noRespawn or false,
+        respawnTime = data.respawnTime or 30000,
         
         animation = {
             dict = data.animation.dict or 'switch@michael@talks_to_guard',
