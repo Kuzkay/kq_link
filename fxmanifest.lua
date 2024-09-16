@@ -21,6 +21,7 @@ server_scripts {
     -- INVENTORIES
     'links/inventories/codem-inventory/server.lua',
     'links/inventories/ox_inventory/server.lua',
+    'links/inventories/ps-inventory/server.lua',
     'links/inventories/qs-inventory/server.lua',
 
     -- DISPATCH

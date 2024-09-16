@@ -24,8 +24,9 @@ ___
 
 ## Supported Inventories
 - ox_inventory
-- qs-inventory
 - codem-inventory
+- ps-inventory
+- qs-inventory
 
 > All framework integrated inventories also are supported. esx_inventory, qb-inventory etc.
 
