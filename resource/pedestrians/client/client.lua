@@ -2,10 +2,13 @@ local STATUSES = {
     combat = 'COMBAT',
     returning = 'RETURNING',
     idle = 'IDLE',
+    dead = 'DEAD',
+    respawning = 'RESPAWNING',
 }
 
 local CLIENT_TASKS = {
     TaskFollowNavMeshToCoord = 'TaskFollowNavMeshToCoord',
+    TaskPlayAnim = 'TaskPlayAnim',
 }
 
 local function GetPedLinkData(ped)
@@ -16,7 +19,12 @@ end
 
 local function IsLinkPed(ped)
     return UseCache('isLinkPed' .. ped, function()
-        return GetPedLinkData(ped) ~= nil
+        local linkData = GetPedLinkData(ped)
+        if not linkData then
+            return false
+        end
+        
+        return (linkData.lastUpdate and linkData.lastUpdate + (30 * 1000) > GetNetworkTime())
     end, 15000)
 end
 
@@ -36,6 +44,16 @@ local function GetPlayerCoords()
     return UseCache('GetPlayerCoords', function()
         return GetEntityCoords(PlayerPedId())
     end, 1000)
+end
+
+local function LoadInPedAnimationDict(ped)
+    local linkData = GetPedLinkData(ped)
+    
+    if not linkData.animation then
+        return
+    end
+    
+    
 end
 
 ---
@@ -60,8 +78,28 @@ local function PerformClientTasks(ped)
         return
     end
     
+    if clientTask.status and clientTask.status ~= linkData.status then
+        return
+    end
+    
     if clientTask.task == CLIENT_TASKS.TaskFollowNavMeshToCoord then
         TaskFollowNavMeshToCoord(ped, table.unpack(clientTask.meta))
+        return
+    end
+    
+    if clientTask.task == CLIENT_TASKS.TaskPlayAnim then
+        local taskMeta = clientTask.meta
+        local dict = taskMeta[1]
+        local name = taskMeta[2]
+        local flag = taskMeta[6]
+        
+        if not IsEntityPlayingAnim(ped, dict, name, flag) then
+            if not HasAnimDictLoaded(dict) then
+                RequestAnimDict(dict)
+            end
+            
+            TaskPlayAnim(ped, table.unpack(clientTask.meta))
+        end
         return
     end
 end
@@ -79,9 +117,18 @@ Citizen.CreateThread(function()
                     DoGuardChecks(ped)
                 end
                 
+                LoadInPedAnimationDict(ped)
                 if NetworkHasControlOfEntity(ped) then
                     PerformClientTasks(ped)
+                    
+                    if not linkData.configured then
+                        SetBlockingOfNonTemporaryEvents(ped, true)
+                        SetPedDropsWeaponsWhenDead(ped, false)
+                        
+                        TriggerServerEvent('kq_link:server:pedestrians:markConfigured', linkData.key)
+                    end
                 end
+                
             end
         end
         
