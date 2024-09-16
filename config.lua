@@ -35,6 +35,7 @@ Link = {
 ---
 --- 'ox_inventory' -- Ox inventory system
 --- 'qs-inventory' -- Quasar inventory system
+--- 'codem-inventory' -- CodeM inventory system
 Link.inventory = 'framework'
 
 
