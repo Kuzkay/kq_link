@@ -1,4 +1,4 @@
-# KuzQuality Link
+# KQ Link
 
 <img src="https://github.com/user-attachments/assets/851693c4-9116-4f82-b14d-21ba56a7fed7" width="100" height="100">
 
