@@ -7,6 +7,7 @@ This resource was made to link resources with frameworks and dependencies. Allow
 KuzQuality link not only links resources with other resources and frameworks. It also simplifies and adds additional helper functions to make creating of new scripts as easy and quick as possible. It also comes with its custom **interaction system** which is made to be as flexible as possible. Simply define the coordinates or entity, a callback function and few additional parameters to create a new interaction zone. The zone will automatically work with the selected input system, target, 3d-text or alike
 
 
+# [Official docs](https://docs.kuzquality.com/kq-link/kq-link-or-installation-guide)
 
 
 # Supported resources
