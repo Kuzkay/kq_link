@@ -176,6 +176,7 @@ local function RegisterPedestrian(data)
     self.RunMainThread = function()
         Citizen.CreateThread(function()
             while self ~= nil do
+                local sleep = 10000
                 
                 self.RespawnIfNeeded()
                 
@@ -183,7 +184,11 @@ local function RegisterPedestrian(data)
                 
                 self.UpdateState()
                 
-                Citizen.Wait(3000)
+                if self.status ~= STATUSES.idle then
+                    sleep = 2500
+                end
+                
+                Citizen.Wait(sleep)
             end
         end)
     end
