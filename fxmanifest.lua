@@ -19,6 +19,7 @@ server_scripts {
     'links/frameworks/standalone/server.lua',
     
     -- INVENTORIES
+    'links/inventories/codem-inventory/server.lua',
     'links/inventories/ox_inventory/server.lua',
     'links/inventories/qs-inventory/server.lua',
 
