@@ -20,7 +20,6 @@ local function RegisterPedestrian(data)
 
         state = {  
             status = 'CREATED',
-            task = 'NONE'
         },
     }
     
