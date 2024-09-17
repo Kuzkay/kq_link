@@ -4,10 +4,20 @@ local function GetPedestrianByKey(pedKey)
     return PEDESTRIANS[pedKey] or nil
 end
 
+RegisterNetEvent('kq_link:server:ped:respawn')
+AddEventHandler('kq_link:server:ped:respawn', function(pedKey)
+    local ped = GetPedestrianByKey(pedKey)
+    if not ped then
+        return
+    end
+
+    ped.Respawn()
+end)
+
 local function RegisterPedestrian(data)
     local self = {
         invoker = GetInvokingResource(),
-        
+
         key = GetGameTimer() .. '-' .. math.random(0, 9999999),
         
         coords = data.coords,
@@ -43,16 +53,20 @@ local function RegisterPedestrian(data)
         end
         
         self.Spawn()
+    end
+    
+    --- SPAWNING
+    self.Spawn = function()
+        if self.entity and DoesEntityExist(self.entity) then
+            DeleteEntity(self.entity)
+        end
+        
+        self.entity = CreatePed('CIVMALE', self.model, self.coords, self.heading, 1, 1)
         
         Citizen.Wait(1000)
         
         self.InitBaseState()
         self.InitState()
-    end
-    
-    --- SPAWNING
-    self.Spawn = function()
-        self.entity = CreatePed('CIVMALE', self.model, self.coords, self.heading, 1, 1)
     end
     
     self.InitBaseState = function()
@@ -74,7 +88,7 @@ local function RegisterPedestrian(data)
     self.InitState = function()
         Entity(self.entity).state.kq_link_ped_state = self.state
     end
-    
+
     self.Respawn = function()
         local respawnTime = GetGameTimer() + self.respawnTime
         
