@@ -73,10 +73,7 @@ local function RegisterPedestrian(data)
     end
     
     self.InitState = function()
-        Entity(self.entity).state.kq_link_ped_status = {
-            status = self.status,
-            task = self.task,
-        }
+        Entity(self.entity).state.kq_link_ped_state = self.state
     end
     
     self.Respawn = function()
