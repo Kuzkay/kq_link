@@ -65,6 +65,8 @@ local function InitalizePedestrian(entity)
                     
                     if NetworkHasControlOfEntity(self.entity) then
                         sleep = 2000
+                        
+                        self.CheckAliveState()
                         self.PerformActions()
                     end
                             
@@ -95,6 +97,15 @@ local function InitalizePedestrian(entity)
                 self.ReturnToSpawn()
             else
                 self.PlayBaseAnim()
+            end
+        end
+    end
+
+    self.CheckAliveState = function()
+        if not self.status == STATUSSES.respawning then
+            if not DoesEntityExist(self.entity) or GetEntityHealth(self.entity) <= 0.0 then
+                TriggerServerEvent('kq_link:server:ped:respawn', self.key)
+                self.SetStatus(STATUSSES.respawning)
             end
         end
     end
