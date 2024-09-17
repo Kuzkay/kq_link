@@ -14,5 +14,3 @@ exports('GetPlayerCharacterId', GetPlayerCharacterId)
 
 -- RESOURCE
 exports('AddPlayerItemToFit', AddPlayerItemToFit)
-
-exports('AddGuardPedestrian', AddGuardPedestrian)

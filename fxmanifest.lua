@@ -27,9 +27,6 @@ server_scripts {
     -- DISPATCH
     'links/dispatch/server/server.lua',
     
-    -- PEDESTRIANS
-    'resource/pedestrians/server/server.lua',
-    
     -- BASE RESOURCE
     'resource/server.lua',
     
@@ -56,9 +53,6 @@ client_scripts {
     'resource/interactions/client/utils.lua',
     'resource/interactions/client/target.lua',
     'resource/interactions/client/client.lua',
-    
-    -- PEDESTRIANS
-    'resource/pedestrians/client/client.lua',
     
     -- NOTIFICATIONS
     'links/notifications/client/client.lua',
