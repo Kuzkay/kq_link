@@ -17,8 +17,11 @@ local function RegisterPedestrian(data)
         
         noRespawn = data.noRespawn or false,
         respawnTime = data.respawnTime or 30000,
-        
-        status = 'CREATED',
+
+        state = {  
+            status = 'CREATED',
+            task = 'NONE'
+        },
     }
     
     self.Boot = function()
@@ -72,8 +75,7 @@ local function RegisterPedestrian(data)
     self.InitState = function()
         Entity(self.entity).state.kq_link_ped_status = {
             status = self.status,
-            guard = self.guard,
-            clientTask = self.clientTask,
+            task = self.task,
         }
     end
     
