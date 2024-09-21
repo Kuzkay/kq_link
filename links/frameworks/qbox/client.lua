@@ -1,4 +1,4 @@
-if Link.framework ~= 'qb-core' and Link.framework ~= 'qbcore' then
+if Link.framework ~= 'qbox' and Link.framework ~= 'qbx' and Link.framework ~= 'qbx-core' then
     return
 end
 
