@@ -6,27 +6,27 @@ Link = {}
 ----------------------------------
 
 Link = {
-  -- Whether to enable debug options such as extra logging and target meshes
-  debugMode = true,
+    -- Whether to enable debug options such as extra logging and target meshes
+    debugMode = false,
 
-  --- FRAMEWORK OPTIONS
-  ------------------------
-  --- Options:
-  --- 'auto' -- This will automatically detect your framework. I still recommend setting it to the correct one to be safe
-  ---
-  --- 'esx'
-  --- 'qb-core'
-  --- 'ox'
-  --- 'qbox'
-  --- 'none' / 'standalone'
+    --- FRAMEWORK OPTIONS
+    ------------------------
+    --- Options:
+    --- 'auto' -- This will automatically detect your framework. I still recommend setting it to the correct one to be safe
+    ---
+    --- 'esx'
+    --- 'qb-core'
+    --- 'ox'
+    --- 'qbox'
+    --- 'none' / 'standalone'
 
-  framework = 'auto',
+    framework = 'auto',
 
 
-  -- Framework specific detail options (DO NOT REMOVE)
-  esx = {
-    useOldExport = false, -- Whether to use the old esx export method (via events)
-  },
+    -- Framework specific detail options (DO NOT REMOVE)
+    esx = {
+        useOldExport = false, -- Whether to use the old esx export method (via events)
+    },
 }
 
 --- INVENTORY OPTIONS
@@ -57,29 +57,29 @@ Link.notifications = 'framework'
 --- INTERACTIONS INPUT OPTIONS
 ------------------------
 Link.input = {
-  target = {
-    enabled = true,
-    system = 'ox_target' -- 'ox_target' or 'qb-target' or 'qtarget'  (Other systems might work as well)
-  },
+    target = {
+        enabled = false,
+        system = 'ox_target' -- 'ox_target' or 'qb-target' or 'qtarget'  (Other systems might work as well)
+    },
 
-  -- Only applicable when target is disabled
-  other = {
-    -- '3d-text', 'top-left', 'help-text'
-    inputType = '3d-text',
+    -- Only applicable when target is disabled
+    other = {
+        -- '3d-text', 'top-left', 'help-text'
+        inputType = '3d-text',
 
-    textFont = 4,
-    textScale = 1.0,
+        textFont = 4,
+        textScale = 1.0,
 
-    outline = {
-      enabled = true,
-      color = {
-        r = 255,
-        g = 255,
-        b = 255,
-        a = 255,
-      }
+        outline = {
+            enabled = true,
+            color = {
+                r = 255,
+                g = 255,
+                b = 255,
+                a = 255,
+            }
+        }
     }
-  }
 }
 
 --- DISPATCH OPTIONS
@@ -91,5 +91,5 @@ Link.input = {
 ---
 --- 'standalone' -- Built in dispatch system
 Link.dispatch = {
-  system = 'standalone'
+    system = 'standalone'
 }
