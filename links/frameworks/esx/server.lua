@@ -87,7 +87,9 @@ if Link.inventory == 'framework' then
 
     function RemovePlayerItem(player, item, amount)
         local xPlayer = ESX.GetPlayerFromId(player)
-        return xPlayer.removeInventoryItem(item, amount or 1)
+        xPlayer.removeInventoryItem(item, amount or 1)
+        
+        return true
     end
 end
 
