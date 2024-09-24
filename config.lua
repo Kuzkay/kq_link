@@ -58,8 +58,15 @@ Link.notifications = 'framework'
 ------------------------
 Link.input = {
     target = {
+        -- Whether to use a targeting system
         enabled = false,
-        system = 'ox_target' -- 'ox_target' or 'qb-target' or 'qtarget'  (Other systems might work as well)
+        --- 'ox_target' -- ox targeting system
+        --- 'qb-target' -- QBCore targeting system
+        --- 'qtarget' -- The classic qtarget system commonly used in esx
+        --- 'interact' -- Interact system by darktrovx
+        ---
+        --- You may also try entering the name of other targeting systems, as they often use very similar exports.
+        system = 'ox_target'
     },
 
     -- Only applicable when target is disabled

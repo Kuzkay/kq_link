@@ -5,6 +5,25 @@ function InputUtils.AddEntityToTargeting(entity, message, event, canInteract, me
         return
     end
     
+    if SYSTEM == 'interact' then
+        return exports[SYSTEM]:AddLocalEntityInteraction({
+            entity = entity,
+            id = entity,
+            distance = maxDist * 3,
+            interactDst = maxDist,
+            ignoreLos = false,
+            interactDst = maxDist,
+            id = entity,
+            options = {
+                {
+                    label = message,
+                    canInteract = canInteract,
+                    event = event,
+                }
+            }
+        })
+    end
+    
     local options = {
         {
             type = 'client',
@@ -16,7 +35,7 @@ function InputUtils.AddEntityToTargeting(entity, message, event, canInteract, me
             distance = maxDist,
             canInteract = canInteract or function()
                 return true
-            end
+            end,
         }
     }
     
@@ -35,6 +54,26 @@ function InputUtils.AddZoneToTargeting(coords, rotation, scale, message, event, 
     if not Link.input.target.enabled or not SYSTEM then
         return
     end
+    
+    local identifier = math.random(0, 999999) .. '-' .. GetGameTimer()
+    
+    if SYSTEM == 'interact' then
+        return exports[SYSTEM]:AddInteraction({
+            coords = coords,
+            distance = maxDist * 3,
+            interactDst = maxDist,
+            id = identifier,
+            options = {
+                {
+                    label = message,
+                    canInteract = canInteract,
+                    event = event,
+                }
+            }
+        })
+    end
+    
+    -- NON interact system
     
     local options = {
         {
@@ -60,8 +99,6 @@ function InputUtils.AddZoneToTargeting(coords, rotation, scale, message, event, 
             options = options,
         })
     else
-        local identifier = math.random(0, 999999) .. '-' .. GetGameTimer()
-        
         exports[SYSTEM]:AddBoxZone(identifier, coords, scale.x, scale.y, {
             name = identifier,
             debugPoly = Link.debugMode or false,
@@ -80,6 +117,8 @@ end
 function InputUtils.RemoveTargetZone(identifier)
     if SYSTEM == 'ox-target' or SYSTEM == 'ox_target' then
         exports[SYSTEM]:removeZone(identifier)
+    elseif SYSTEM == 'interact' then
+        exports[SYSTEM]:RemoveInteraction(identifier)
     else
         -- Solution for qb-target and qtarget
         exports[SYSTEM]:RemoveZone(identifier)
@@ -89,6 +128,8 @@ end
 function InputUtils.RemoveTargetEntity(identifier)
     if SYSTEM == 'ox-target' or SYSTEM == 'ox_target' then
         exports[SYSTEM]:removeLocalEntity(identifier)
+    elseif SYSTEM == 'interact' then
+        exports[SYSTEM]:RemoveLocalEntityInteraction(identifier, identifier)
     else
         -- Solution for qb-target and qtarget
         exports[SYSTEM]:RemoveTargetEntity(identifier)

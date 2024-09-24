@@ -33,6 +33,7 @@ ___
 ___
 ## Supported Interaction systems (External)
 - ox_target
+- interact (by darktrovx)
 - qtarget
 - qb-target
 
