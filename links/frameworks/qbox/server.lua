@@ -2,7 +2,7 @@ if Link.framework ~= 'qbox' and Link.framework ~= 'qbx' and Link.framework ~= 'q
     return
 end
 
-QBX = exports['qbx_core']:GetCoreObject()
+QBX = exports['qb-core']:GetCoreObject()
 
 function CanPlayerAfford(player, amount)
     local xPlayer = QBX.GetPlayer(player)
