@@ -11,7 +11,7 @@ if Link.framework == 'auto' then
         for resource, config in pairs(frameworks) do
             if GetResourceState(resource) == 'started' then
                 Link.framework = config
-                print('set framework', config)
+                Debug('set framework', config)
                 return
             end
         end

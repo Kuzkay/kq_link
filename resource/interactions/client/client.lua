@@ -49,10 +49,10 @@ local function TriggerInteractionThread()
     Citizen.CreateThread(function()
         Citizen.Wait(500
         )
-        print('triggering interaction thread')
+        Debug('triggering interaction thread')
         -- Only needs to run once for non-target systems
         if INTERACTION_THREAD_RUNNING or Link.input.target.enabled then
-            print('aborted', Count(PLAYER_INTERACTIONS))
+            Debug('aborted', Count(PLAYER_INTERACTIONS))
             return
         end
         
@@ -191,7 +191,7 @@ local function RegisterInteraction(data)
     self.PerformSafeCallback = function()
         local success, err = pcall(self.callback, self.clientReturnData)
         if not success then
-            print(
+            Debug(
                 ('^1Interactable callback from {resource} has failed.'):gsub('{resource}', self.invoker),
                 err
             )
@@ -229,7 +229,7 @@ local function RegisterInteraction(data)
             InputUtils.RemoveTargetZone(self.targetZone)
         end
         
-        print('Delete interaction', self.key)
+        Debug('Delete interaction', self.key)
         
         PLAYER_INTERACTIONS[self.key] = nil
         self = nil
@@ -242,7 +242,7 @@ local function RegisterInteraction(data)
     -- Add the interaction to the list
     PLAYER_INTERACTIONS[self.key] = self
     
-    print('Registered new interactable', json.encode(self.meta), self.GetCoords(), DoesEntityExist(self.entity))
+    Debug('Registered new interactable', json.encode(self.meta), self.GetCoords(), DoesEntityExist(self.entity))
     
     self.clientReturnData = {
         GetMeta = self.GetMeta,
