@@ -28,7 +28,7 @@ function SendDispatchMessage(data)
         gender = GetGender(PlayerPedId()),
         street = GetStreetAndZone(data.coords or GetEntityCoords(PlayerPedId())),
         name = data.message or nil,
-        alertTime = 120000,
+        alertTime = 12,
         automaticGunfire = false,
         alert = {
             radius = 0,
