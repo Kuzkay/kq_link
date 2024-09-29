@@ -8,12 +8,11 @@ end
 
 function GetPlayerItemData(player, item)
     local data = exports['qs-inventory']:GetItemTotalAmount(player, item)
-    return data
+    return { amount = data }
 end
 
 function GetPlayerItemCount(player, item)
-    local data = GetPlayerItemData(player, item)
-    return data and (data.count or data.amount)
+    return exports['qs-inventory']:GetItemTotalAmount(player, item) or 0
 end
 
 function AddPlayerItem(player, item, amount, meta)
