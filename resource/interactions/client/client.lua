@@ -12,12 +12,14 @@ local function GetClosestPlayerInteraction(maxDistance)
         local nearestDistance = maxDistance
         
         for k, playerInteraction in pairs(PLAYER_INTERACTIONS) do
-            local coords = playerInteraction.GetCoords()
-            
-            local distance = #(playerCoords - coords)
-            if distance < nearestDistance then
-                nearest = playerInteraction
-                nearestDistance = distance
+            if playerInteraction.canInteract() then
+                local coords = playerInteraction.GetCoords()
+                
+                local distance = #(playerCoords - coords)
+                if distance < nearestDistance then
+                    nearest = playerInteraction
+                    nearestDistance = distance
+                end
             end
         end
         
@@ -68,9 +70,8 @@ local function TriggerInteractionThread()
             
             if interaction ~= nil and distance < interaction.interactDist then
                 sleep = 1
-                interaction.Handle()
                 
-                if interaction.entity then
+                if interaction.Handle() and interaction.entity then
                     local entity = interaction.entity
                     if Link.input.other.outline.enabled and LAST_OUTLINE_ENTITY ~= interaction.entity then
                         if LAST_OUTLINE_ENTITY ~= nil then
@@ -162,7 +163,7 @@ local function RegisterInteraction(data)
     -- Displaying and handling of the input options
     self.Handle = function()
         if not UseCache('canInteract' .. self.key, self.canInteract, 500) then
-            return
+            return false
         end
         
         local coords = self.GetCoords()
@@ -185,6 +186,8 @@ local function RegisterInteraction(data)
             self.PerformSafeCallback()
             Citizen.Wait(500) -- Interaction debounce
         end
+        
+        return true
     end
     
     -- Perform a safe callback with error logging

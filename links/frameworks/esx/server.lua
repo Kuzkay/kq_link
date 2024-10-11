@@ -91,6 +91,10 @@ if Link.inventory == 'framework' then
         
         return true
     end
+    
+    function OpenCustomStash()
+        -- Not available in base framework inv
+    end
 end
 
 function GetPlayerCharacterId(player)

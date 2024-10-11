@@ -74,6 +74,12 @@ if Link.inventory == 'framework' then
         local xPlayer = QBCore.Functions.GetPlayer(tonumber(player))
         return xPlayer.Functions.RemoveItem(item, amount or 1)
     end
+    
+    -- Stash
+    function OpenCustomStash(player, stashId, label, slots, weight)
+        local data = { label = label, maxweight = weight, slots = slots }
+        exports['qb-inventory']:OpenInventory(player, stashId, data)
+    end
 end
 
 function GetPlayerCharacterId(player)

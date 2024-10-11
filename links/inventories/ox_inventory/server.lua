@@ -25,3 +25,15 @@ function RemovePlayerItem(player, item, amount)
     local success, response = exports['ox_inventory']:RemoveItem(player, item, amount or 1)
     return success
 end
+
+-- Stashes
+local stashes = {}
+function OpenCustomStash(player, stashId, label, slots, weight)
+    if not stashes[stashId] then
+        exports.ox_inventory:RegisterStash(stashId, label, slots or 50, weight or 100000)
+        stashes[stashId] = true
+    end
+    
+    TriggerClientEvent('kq_link:client:ox_inventory:openStash', player, stashId)
+end
+--
