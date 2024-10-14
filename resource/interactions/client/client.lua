@@ -154,16 +154,24 @@ local function RegisterInteraction(data)
         end)
         
         if self.entity then
-            self.targetEntity = InputUtils.AddEntityToTargeting(self.entity, self.targetMessage, eventKey, self.canInteract, self.meta, self.interactDist, self.icon)
+            self.targetEntity = InputUtils.AddEntityToTargeting(self.entity, self.targetMessage, eventKey, function()
+                return self.canInteract(self.clientReturnData)
+            end, self.meta, self.interactDist, self.icon)
         else
-            self.targetZone = InputUtils.AddZoneToTargeting(self.coords, self.rotation, self.scale, self.targetMessage, eventKey, self.canInteract, self.meta, self.interactDist, self.icon)
+            self.targetZone = InputUtils.AddZoneToTargeting(self.coords, self.rotation, self.scale, self.targetMessage, eventKey, function()
+                return self.canInteract(self.clientReturnData)
+            end, self.meta, self.interactDist, self.icon)
         end
     end
     
     -- Displaying and handling of the input options
     self.Handle = function()
-        if not UseCache('canInteract' .. self.key, self.canInteract, 500) then
-            return false
+        local cachedCanInteract = UseCache('canInteract' .. self.key, function()
+            return self.canInteract(self.clientReturnData)
+        end, 500)
+        
+        if not cachedCanInteract then
+            return
         end
         
         local coords = self.GetCoords()
