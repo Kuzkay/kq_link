@@ -115,6 +115,10 @@ function InputUtils.AddZoneToTargeting(coords, rotation, scale, message, event, 
 end
 
 function InputUtils.RemoveTargetZone(identifier)
+    if not Link.input.target.enabled or not SYSTEM then
+        return
+    end
+    
     if SYSTEM == 'ox-target' or SYSTEM == 'ox_target' then
         exports[SYSTEM]:removeZone(identifier)
     elseif SYSTEM == 'interact' then
@@ -126,6 +130,10 @@ function InputUtils.RemoveTargetZone(identifier)
 end
 
 function InputUtils.RemoveTargetEntity(identifier)
+    if not Link.input.target.enabled or not SYSTEM then
+        return
+    end
+    
     if SYSTEM == 'ox-target' or SYSTEM == 'ox_target' then
         exports[SYSTEM]:removeLocalEntity(identifier)
     elseif SYSTEM == 'interact' then
@@ -135,3 +143,4 @@ function InputUtils.RemoveTargetEntity(identifier)
         exports[SYSTEM]:RemoveTargetEntity(identifier)
     end
 end
+

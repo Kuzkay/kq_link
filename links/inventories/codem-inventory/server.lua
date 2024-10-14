@@ -22,3 +22,10 @@ end
 function RemovePlayerItem(player, item, amount)
     return exports['codem-inventory']:RemoveItem(player, item, amount, nil)
 end
+
+
+-- Stashes
+function OpenCustomStash(player, stashId, label, slots, weight)
+    TriggerClientEvent('kq_link:client:codem-inventory:openStash', player, stashId, weight, slots)
+end
+--

@@ -4,7 +4,7 @@ lua54 'yes'
 
 author 'KuzQuality.com | Kuzkay'
 description 'KuzQuality Link | Made to link existing frameworks and dependencies'
-version '1.0.1'
+version '1.1.0'
 
 provide 'kq_link'
 
@@ -68,6 +68,12 @@ client_scripts {
     'links/frameworks/qbcore/client.lua',
     'links/frameworks/qbox/client.lua',
     'links/frameworks/standalone/client.lua',
+    
+    
+    -- INVENTORIES
+    'links/inventories/ox_inventory/client.lua',
+    'links/inventories/qs-inventory/client.lua',
+    'links/inventories/codem-inventory/client.lua',
     
     -- EXPORTS
     'exports/client.lua',

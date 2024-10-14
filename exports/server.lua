@@ -12,5 +12,8 @@ exports('AddPlayerItem', AddPlayerItem)
 exports('RemovePlayerItem', RemovePlayerItem)
 exports('GetPlayerCharacterId', GetPlayerCharacterId)
 
+exports('OpenCustomStash', OpenCustomStash)
+
 -- RESOURCE
 exports('AddPlayerItemToFit', AddPlayerItemToFit)
+

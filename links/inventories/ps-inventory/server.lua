@@ -22,3 +22,10 @@ end
 function RemovePlayerItem(player, item, amount)
     return exports['ps-inventory']:RemoveItem(player, item, amount, nil)
 end
+
+-- Stashes
+function OpenCustomStash(player, stashId, label, slots, weight)
+    local data = { label = label, maxweight = weight, slots = slots }
+    exports['ps-inventory']:OpenInventory(player, stashId, data)
+end
+--

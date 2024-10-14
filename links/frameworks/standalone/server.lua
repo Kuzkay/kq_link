@@ -33,3 +33,7 @@ end
 function GetPlayerCharacterId(player)
     return GetPlayerIdentifierByType(player, 'license')
 end
+
+function OpenCustomStash()
+    -- Not available in base framework inv
+end
