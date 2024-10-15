@@ -28,4 +28,8 @@ function OpenCustomStash(player, stashId, label, slots, weight)
     local data = { label = label, maxweight = weight, slots = slots }
     exports['ps-inventory']:OpenInventory(player, stashId, data)
 end
+
+function GetStashItems(stashId)
+    exports['ps-inventory']:GetInventory(stashId)
+end
 --

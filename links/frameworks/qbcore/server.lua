@@ -80,6 +80,10 @@ if Link.inventory == 'framework' then
         local data = { label = label, maxweight = weight, slots = slots }
         exports['qb-inventory']:OpenInventory(player, stashId, data)
     end
+    
+    function GetStashItems(stashId)
+        exports['qb-inventory']:GetInventory(stashId)
+    end
 end
 
 function GetPlayerCharacterId(player)
