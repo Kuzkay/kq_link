@@ -13,6 +13,7 @@ exports('RemovePlayerItem', RemovePlayerItem)
 exports('GetPlayerCharacterId', GetPlayerCharacterId)
 
 exports('OpenCustomStash', OpenCustomStash)
+exports('GetStashItems', GetStashItems)
 
 -- RESOURCE
 exports('AddPlayerItemToFit', AddPlayerItemToFit)

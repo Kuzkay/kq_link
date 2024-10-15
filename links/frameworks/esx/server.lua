@@ -94,6 +94,12 @@ if Link.inventory == 'framework' then
     
     function OpenCustomStash()
         -- Not available in base framework inv
+        return true
+    end
+    
+    function GetCustomStash()
+        -- Not available in standalone
+        return {}
     end
 end
 
