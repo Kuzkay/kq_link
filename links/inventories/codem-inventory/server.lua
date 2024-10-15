@@ -28,4 +28,8 @@ end
 function OpenCustomStash(player, stashId, label, slots, weight)
     TriggerClientEvent('kq_link:client:codem-inventory:openStash', player, stashId, weight, slots)
 end
+
+function GetStashItems(stashId)
+    return exports['codem-inventory']:GetStashItems(stashId)
+end
 --

@@ -36,4 +36,12 @@ function OpenCustomStash(player, stashId, label, slots, weight)
     
     TriggerClientEvent('kq_link:client:ox_inventory:openStash', player, stashId)
 end
+
+function GetStashItems(stashId)
+    if not stashes[stashId] then
+        return {}
+    end
+    
+    return exports.ox_inventory:GetInventoryItems(stashId)
+end
 --

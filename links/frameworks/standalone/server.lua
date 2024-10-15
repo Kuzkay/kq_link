@@ -35,5 +35,11 @@ function GetPlayerCharacterId(player)
 end
 
 function OpenCustomStash()
-    -- Not available in base framework inv
+    -- Not available in standalone
+    return true
+end
+
+function GetCustomStash()
+    -- Not available in standalone
+    return {}
 end
