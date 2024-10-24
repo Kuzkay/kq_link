@@ -3,7 +3,7 @@ if Link.inventory ~= 'qs-inventory' and Link.inventory ~= 'qs' then
 end
 
 function RegisterUsableItem(...)
-    return true -- Does not exist in this system
+    return exports['qs-inventory']:CreateUsableItem(...)
 end
 
 function GetPlayerItemData(player, item)
