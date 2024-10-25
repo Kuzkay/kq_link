@@ -82,7 +82,11 @@ if Link.inventory == 'framework' then
     end
     
     function GetStashItems(stashId)
-        exports['qb-inventory']:GetInventory(stashId)
+        local invData = exports['qb-inventory']:GetInventory(stashId)
+        if invData == nil or invData == {} then
+            return {}
+        end
+        return invData.items
     end
 end
 
