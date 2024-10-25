@@ -31,7 +31,7 @@ function OpenCustomStash(player, stashId, label, slots, weight)
         stashes[stashId] = true
     end
     
-    TriggerClientEvent('kq_link:client:qs-inventory:openStash', player, stashId)
+    TriggerClientEvent('kq_link:client:qs-inventory:openStash', player, stashId, {maxweight = weight, slots = slots})
 end
 
 function GetStashItems(stashId)
