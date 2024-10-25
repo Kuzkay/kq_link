@@ -34,7 +34,7 @@ function OpenCustomStash(player, stashId, label, slots, weight)
     TriggerClientEvent('kq_link:client:qs-inventory:openStash', player, stashId)
 end
 
-function GetCustomStash(stashId)
+function GetStashItems(stashId)
     return exports['qs-inventory']:GetStashItems(stashId)
 end
 --
