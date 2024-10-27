@@ -37,6 +37,8 @@ function OpenCustomStash(player, stashId, label, slots, weight)
 end
 
 function GetStashItems(stashId)
+    stashId = ('stash_' .. stashId):gsub('-', '_')
+    
     return exports['qs-inventory']:GetStashItems(stashId)
 end
 --
