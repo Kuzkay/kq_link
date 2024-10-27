@@ -26,6 +26,8 @@ end
 -- Stashes
 local stashes = {}
 function OpenCustomStash(player, stashId, label, slots, weight)
+    stashId = ('stash_' .. stashId):gsub('-', '_')
+    
     if not stashes[stashId] then
         exports['qs-inventory']:RegisterStash(player, stashId, slots, weight)
         stashes[stashId] = true
