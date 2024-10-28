@@ -37,6 +37,7 @@ Link = {
 --- 'qs-inventory' -- Quasar inventory system
 --- 'ps-inventory' -- Project Sloth inventory system
 --- 'codem-inventory' -- CodeM inventory system
+--- 'ak47_inventory' -- menan AK47 inventory system
 Link.inventory = 'framework'
 
 
