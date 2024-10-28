@@ -97,7 +97,7 @@ if Link.inventory == 'framework' then
         return true
     end
     
-    function GetCustomStash()
+    function GetStashItems()
         -- Not available in standalone
         return {}
     end
