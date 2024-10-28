@@ -26,6 +26,7 @@ ___
 - ox_inventory
 - ak47_inventory (menan)
 - codem-inventory
+- core_inventory (c8re)
 - ps-inventory
 - qs-inventory
 

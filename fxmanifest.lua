@@ -4,7 +4,7 @@ lua54 'yes'
 
 author 'KuzQuality.com | Kuzkay'
 description 'KuzQuality Link | Made to link existing frameworks and dependencies'
-version '1.2.0'
+version '1.3.0'
 
 provide 'kq_link'
 
@@ -21,6 +21,7 @@ server_scripts {
     -- INVENTORIES
     'links/inventories/ak47_inventory/server.lua',
     'links/inventories/codem-inventory/server.lua',
+    'links/inventories/core_inventory/server.lua',
     'links/inventories/ox_inventory/server.lua',
     'links/inventories/ps-inventory/server.lua',
     'links/inventories/qs-inventory/server.lua',
