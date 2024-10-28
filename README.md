@@ -24,6 +24,7 @@ ___
 
 ## Supported Inventories
 - ox_inventory
+- ak47_inventory (menan)
 - codem-inventory
 - ps-inventory
 - qs-inventory
