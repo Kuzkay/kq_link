@@ -26,6 +26,8 @@ if Link.framework == 'auto' then
                 ['ox_inventory'] = 'ox_inventory',
                 ['qs-inventory'] = 'qs-inventory',
                 ['ps-inventory'] = 'ps-inventory',
+                ['ak47_inventory'] = 'ak47_inventory',
+                ['core_inventory'] = 'core_inventory',
                 ['minventory'] = 'codem-inventory',
             }
             
