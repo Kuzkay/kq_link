@@ -166,6 +166,10 @@ local function RegisterInteraction(data)
     
     -- Displaying and handling of the input options
     self.Handle = function()
+        if not self then
+            return
+        end
+        
         local cachedCanInteract = UseCache('canInteract' .. self.key, function()
             return self.canInteract(self.clientReturnData)
         end, 500)
