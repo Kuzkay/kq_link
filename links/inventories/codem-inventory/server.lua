@@ -2,10 +2,6 @@ if Link.inventory ~= 'codem-inventory' and Link.inventory ~= 'codem' then
     return
 end
 
-function RegisterUsableItem(...)
-    return true -- Does not exist in this system
-end
-
 function GetPlayerItemData(player, item)
     local data = exports['codem-inventory']:GetItemsByName(player, item)
     return data

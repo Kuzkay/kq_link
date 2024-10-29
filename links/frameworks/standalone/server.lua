@@ -34,6 +34,10 @@ function GetPlayerCharacterId(player)
     return GetPlayerIdentifierByType(player, 'license')
 end
 
+function RegisterUsableItem(...)
+    return true -- This system doesn't have it
+end
+
 function OpenCustomStash()
     -- Not available in standalone
     return true

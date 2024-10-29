@@ -28,3 +28,7 @@ function GetPlayerCharacterId(player)
     
     return xPlayer.charId
 end
+
+function RegisterUsableItem(...)
+    return true -- This system doesn't have it
+end

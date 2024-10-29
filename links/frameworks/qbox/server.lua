@@ -58,3 +58,6 @@ function GetPlayerCharacterId(player)
     return xPlayer.PlayerData.citizenid
 end
 
+function RegisterUsableItem(...)
+    return true -- This system doesn't have it
+end

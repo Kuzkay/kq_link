@@ -2,10 +2,6 @@ if Link.inventory ~= 'core_inventory' and Link.inventory ~= 'core' then
     return
 end
 
-function RegisterUsableItem(...)
-    return true -- Does not exist in this system
-end
-
 function GetPlayerItemData(player, item)
     local data = exports['core_inventory']:getItem(player, item)
     return data

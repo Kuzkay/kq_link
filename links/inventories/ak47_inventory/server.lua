@@ -2,10 +2,6 @@ if Link.inventory ~= 'ak47_inventory' and Link.inventory ~= 'ak47' then
     return
 end
 
-function RegisterUsableItem(...)
-    return true -- Does not exist in this system
-end
-
 function GetPlayerItemData(player, item)
     local data = exports['ak47_inventory']:GetItem(player, item)
     return data
