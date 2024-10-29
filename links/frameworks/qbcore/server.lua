@@ -48,11 +48,11 @@ function RemovePlayerMoney(player, amount)
     return false
 end
 
+function RegisterUsableItem(...)
+    QBCore.Functions.CreateUseableItem(...)
+end
+
 if Link.inventory == 'framework' then
-    function RegisterUsableItem(...)
-        QBCore.Functions.CreateUseableItem(...)
-    end
-    
     function GetPlayerItemData(player, item)
         local xPlayer = QBCore.Functions.GetPlayer(player)
         
