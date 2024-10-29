@@ -24,10 +24,10 @@ end
 
 -- Stashes
 function OpenCustomStash(player, stashId, label, slots, weight)
-    exports['core_inventory']:openInventory(player, stashId, 'stash', 300, 300, true, nil, false)
+    exports['core_inventory']:openInventory(player, ('stash-' .. stashId):gsub(' ', ''), 'stash', 300, 300, true, nil, false)
 end
 
 function GetStashItems(stashId)
-    return exports['core_inventory']:getInventory(stashId)
+    return exports['core_inventory']:getInventory( ('stash-' .. stashId):gsub(' ', ''))
 end
 --
