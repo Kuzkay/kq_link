@@ -58,11 +58,11 @@ function RemovePlayerMoney(player, amount)
     return false
 end
 
-if Link.inventory == 'framework' then
-    function RegisterUsableItem(...)
-        ESX.RegisterUsableItem(...)
-    end
+function RegisterUsableItem(...)
+    ESX.RegisterUsableItem(...)
+end
 
+if Link.inventory == 'framework' then
     function GetPlayerItemData(player, item)
         local xPlayer = ESX.GetPlayerFromId(player)
 
