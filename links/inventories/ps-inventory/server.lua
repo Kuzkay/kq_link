@@ -21,11 +21,15 @@ end
 
 -- Stashes
 function OpenCustomStash(player, stashId, label, slots, weight)
+    stashId = ('stash_' .. stashId):gsub('-', '_')
+    
     local data = { label = label, maxweight = weight, slots = slots }
     exports['ps-inventory']:OpenInventory(player, stashId, data)
 end
 
 function GetStashItems(stashId)
-    exports['ps-inventory']:GetInventory(stashId)
+    stashId = ('stash_' .. stashId):gsub('-', '_')
+    
+    exports['ps-inventory']:GetStashItems(stashId)
 end
 --
