@@ -29,6 +29,7 @@ ___
 - core_inventory (c8re)
 - ps-inventory
 - qs-inventory
+- origen_inventory
 
 > All framework integrated inventories also are supported. esx_inventory, qb-inventory etc.
 
