@@ -43,7 +43,7 @@ function OpenCustomStash()
     return true
 end
 
-function GetCustomStash()
+function GetStashItems()
     -- Not available in standalone
     return {}
 end
