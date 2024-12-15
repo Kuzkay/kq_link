@@ -16,6 +16,10 @@ function AddPlayerItem(player, item, amount, meta)
 end
 
 function RemovePlayerItem(player, item, amount)
+    if GetPlayerItemCount(player, item) < amount then
+        return false
+    end
+    
     return exports['qs-inventory']:RemoveItem(player, item, amount, nil, meta)
 end
 
