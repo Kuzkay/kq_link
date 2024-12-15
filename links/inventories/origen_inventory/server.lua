@@ -2,6 +2,10 @@ if Link.inventory ~= 'origen_inventory' and Link.inventory ~= 'origen' then
     return
 end
 
+function RegisterUsableItem(...)
+    exports['origen_inventory']:CreateUseableItem(...)
+end
+
 function GetPlayerItemData(player, item)
     local data = exports['origen_inventory']:GetItem(player, item)
     return data
