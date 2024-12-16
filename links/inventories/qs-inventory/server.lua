@@ -2,6 +2,10 @@ if Link.inventory ~= 'qs-inventory' and Link.inventory ~= 'qs' then
     return
 end
 
+function RegisterUsableItem(...)
+    exports['qs-inventory']:CreateUsableItem(...)
+end
+
 function GetPlayerItemData(player, item)
     local data = exports['qs-inventory']:GetItemTotalAmount(player, item)
     return { amount = data }
