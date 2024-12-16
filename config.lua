@@ -31,6 +31,7 @@ Link = {
 
 --- INVENTORY OPTIONS
 ------------------------
+--- 'auto' -- The script will automatically find the inventory system
 --- 'framework' -- The native framework inventory system will be used
 ---
 --- 'ox_inventory' -- Ox inventory system
@@ -40,7 +41,7 @@ Link = {
 --- 'core_inventory' -- Core inventory system (c8re)
 --- 'ak47_inventory' -- AK47 inventory system (menan)
 --- 'origen_inventory' -- Origen inventory system
-Link.inventory = 'framework'
+Link.inventory = 'auto'
 
 
 --- NOTIFICATION OPTIONS

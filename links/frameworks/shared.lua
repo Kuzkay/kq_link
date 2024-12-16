@@ -21,7 +21,9 @@ if Link.framework == 'auto' then
     end
     
     local function DetectAndSetInventory()
-        if Link.inventory == 'framework' then
+        if Link.inventory == 'auto' then
+            Link.inventory = 'framework'
+            
             local inventories = {
                 ['ox_inventory'] = 'ox_inventory',
                 ['qs-inventory'] = 'qs-inventory',
