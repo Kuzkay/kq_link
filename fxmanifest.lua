@@ -4,7 +4,7 @@ lua54 'yes'
 
 author 'KuzQuality.com | Kuzkay'
 description 'KuzQuality Link | Made to link existing frameworks and dependencies'
-version '1.4.3'
+version '1.5.0'
 
 provide 'kq_link'
 
@@ -16,6 +16,7 @@ server_scripts {
     'links/frameworks/esx/server.lua',
     'links/frameworks/qbcore/server.lua',
     'links/frameworks/qbox/server.lua',
+    'links/frameworks/vrp/server.lua',
     'links/frameworks/standalone/server.lua',
     
     -- INVENTORIES

@@ -4,12 +4,12 @@ end
 
 function GetPlayerItemData(player, item)
     local data = exports['ak47_inventory']:GetItem(player, item)
-    return data
+    return data or {}
 end
 
 function GetPlayerItemCount(player, item)
     local data = GetPlayerItemData(player, item)
-    return data and (data.count or data.amount)
+    return data.count or data.amount or 0
 end
 
 function AddPlayerItem(player, item, amount, meta)
