@@ -4,7 +4,7 @@ end
 
 function GetPlayerItemData(player, item)
     local data = exports['codem-inventory']:GetItemsByName(player, item)
-    return data
+    return data or {}
 end
 
 function GetPlayerItemCount(player, item)
