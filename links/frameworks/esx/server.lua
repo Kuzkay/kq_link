@@ -71,7 +71,7 @@ if Link.inventory == 'framework' then
 
     function GetPlayerItemCount(player, item)
         local data = GetPlayerItemData(player, item)
-        return data and (data.count or data.amount)
+        return data.count or data.amount or 0
     end
 
     function AddPlayerItem(player, item, amount, meta)
