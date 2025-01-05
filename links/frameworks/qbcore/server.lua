@@ -62,6 +62,9 @@ if Link.inventory == 'framework' then
     
     function GetPlayerItemCount(player, item)
         local data = GetPlayerItemData(player, item)
+        if not data then
+            return 0
+        end
         return data.amount or data.count or 0
     end
     
