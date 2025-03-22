@@ -78,5 +78,3 @@ function ProgressBar(coords, duration, baseScale)
         end
     end
 end
-
---ProgressBar(GetEntityCoords(PlayerPedId()), 8000, 0.5)

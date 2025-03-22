@@ -69,13 +69,11 @@ local function DrawMinigameBoxes(sequence, pressedFlags, coords, currentIndex, h
         end
         DrawSequenceRect(bx, sy - boxH / 2, boxW, boxH, r, g, b, 180)
 
-        -- Choose label
         local label = keyData.label
         if hiddenMode and currentIndex > 1 and (not pressedFlags[i]) then
             label = "#"
         end
 
-        -- Basic scaling for text length
         local textX = bx + (boxW / 2)
         local textY = sy - (boxH / 2) + 0.004
         local textScale = 0.3 - (0.022 * #label)
@@ -129,13 +127,6 @@ local function DisablePlayerInput()
     EnableControlAction(0, 242, true) -- MouseWheelDown (zoom)
 end
 
------------------------------------------------
--- The main minigame function
---  coords: vector3 for UI
---  length: # of random keys
---  hiddenMode: bool => hide unpressed keys after first press
---  Returns true if completed, false if failed
------------------------------------------------
 function SequenceMinigame(coords, length, hiddenMode, label, infoText)
     local sequence = GenerateSequence(length)
     local pressedFlags = {}
@@ -149,6 +140,10 @@ function SequenceMinigame(coords, length, hiddenMode, label, infoText)
 
     while gameActive do
         Citizen.Wait(0)
+        
+        if IsRawKeyDown(0x1B) or IsRawKeyDown(0x08) then
+            return false
+        end
 
         DisablePlayerInput()
 
@@ -194,5 +189,3 @@ function SequenceMinigame(coords, length, hiddenMode, label, infoText)
 
     return wasSuccess
 end
-
---SequenceMinigame(GetEntityCoords(PlayerPedId()), 10, false, 'Looting', 'Press each button to progress')
