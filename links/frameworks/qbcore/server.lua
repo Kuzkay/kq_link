@@ -52,7 +52,7 @@ function RegisterUsableItem(...)
     QBCore.Functions.CreateUseableItem(...)
 end
 
-if Link.inventory == 'framework' then
+if Link.inventory == 'framework' or Link.inventory == 'qb-inventory' then
     function GetPlayerItemData(player, item)
         local xPlayer = QBCore.Functions.GetPlayer(player)
         

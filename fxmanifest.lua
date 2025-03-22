@@ -4,9 +4,7 @@ lua54 'yes'
 
 author 'KuzQuality.com | Kuzkay'
 description 'KuzQuality Link | Made to link existing frameworks and dependencies'
-version '1.5.3'
-
-provide 'kq_link'
+version '1.6.0'
 
 server_scripts {
     -- RESOURCE BASE
@@ -57,6 +55,11 @@ client_scripts {
     'resource/interactions/client/utils.lua',
     'resource/interactions/client/target.lua',
     'resource/interactions/client/client.lua',
+    
+    -- MINIGAMES
+    'resource/minigames/progressbar.lua',
+    'resource/minigames/sequence.lua',
+    'resource/minigames/slowSequence.lua',
     
     -- NOTIFICATIONS
     'links/notifications/client/client.lua',
