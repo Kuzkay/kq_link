@@ -40,7 +40,7 @@ local function DisablePlayerInput()
     EnableControlAction(0, 242, true)
 end
 
-local function DrawMultiMinigameBoxes(multiSequences, currentStep, progress, pressedFlags, coords, label, infoText, alpha)
+local function DrawMultiMinigameBoxes(multiSequences, currentStep, progress, pressedFlags, coords, label, infoText, alpha, boostPos)
     alpha = alpha or 1
     local onScreen, sx, sy = GetScreenCoordFromWorldCoord(coords.x, coords.y, coords.z)
     if not onScreen then return end
@@ -78,7 +78,12 @@ local function DrawMultiMinigameBoxes(multiSequences, currentStep, progress, pre
                 DrawSecRect(bx, rowY - boxH * 0.5, boxW, boxH, 108, 240, 156, 180 * alpha)
             elseif i == cStep then
                 DrawSecRect(bx, rowY - boxH * 0.5, boxW, boxH, 0, 0, 0, 180 * alpha)
+                
                 local fillW = boxW * cProgress
+                if boostPos and boostPos + 0.1 > cProgress then
+                    DrawSecRect(bx + boxW * boostPos, rowY - boxH * 0.5, boxW * 0.1, boxH, 108, 255, 156, 75 * alpha)
+                end
+                
                 DrawSecRect(bx, rowY - boxH * 0.5, fillW, boxH, 108, 240, 156, 180 * alpha)
             else
                 DrawSecRect(bx, rowY - boxH * 0.5, boxW, boxH, 0, 0, 0, 180 * alpha)
@@ -95,9 +100,10 @@ local function DrawMultiMinigameBoxes(multiSequences, currentStep, progress, pre
     end
 end
 
-function HoldSequenceMinigame(coords, sequenceCount, length, timePerInput, label, infoText)
+function HoldSequenceMinigame(coords, sequenceCount, length, timePerInput, allowSkips, label, infoText)
     sequenceCount = math.max(1, sequenceCount)
     
+    local seed = GetGameTimer()
     local multiSequences = {}
     for s = 1, sequenceCount do
         local seq = {}
@@ -119,13 +125,8 @@ function HoldSequenceMinigame(coords, sequenceCount, length, timePerInput, label
         end
     end
 
-    local decRate = 2
     local finished = false
     local prevTime = nil
-
-    print(("HoldSequenceMinigame start, seqCount=%d, length=%d, time=%d ms"):format(
-        sequenceCount, length, timePerInput
-    ))
 
     while not finished do
         Citizen.Wait(0)
@@ -135,8 +136,14 @@ function HoldSequenceMinigame(coords, sequenceCount, length, timePerInput, label
         end
         
         DisablePlayerInput()
+        
+        local boostPos
+        if sequenceCount == 1 and allowSkips then
+            math.randomseed(seed .. currentStep[1])
+            boostPos = math.random(5, 8) / 10
+        end
 
-        DrawMultiMinigameBoxes(multiSequences, currentStep, progress, pressedFlags, coords, label, infoText)
+        DrawMultiMinigameBoxes(multiSequences, currentStep, progress, pressedFlags, coords, label, infoText, 1, boostPos)
 
         local allDone = true
         for s = 1, sequenceCount do
@@ -169,9 +176,12 @@ function HoldSequenceMinigame(coords, sequenceCount, length, timePerInput, label
                             progress[s] = 0.0
                         end
                     else
-                        local dec = (deltaMS / timePerInput) * decRate
-                        progress[s] = progress[s] - dec
-                        if progress[s] < 0 then
+                        if boostPos and progress[s] >= boostPos + 0.02 and progress[s] <= boostPos + 0.12 then
+                            progress[s] = 1.0
+                            pressedFlags[s][currentStep[s]] = true
+                            currentStep[s] = currentStep[s] + 1
+                            progress[s] = 0.0
+                        else
                             progress[s] = 0
                         end
                     end

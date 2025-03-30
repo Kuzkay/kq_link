@@ -7,7 +7,7 @@ local function DrawProgressBar(coords, fraction, alpha, scale)
     local onScreen, sx, sy = GetScreenCoordFromWorldCoord(coords.x, coords.y, coords.z)
     if not onScreen then return end
     
-    local boxW, boxH = 0.12 * scale, 0.02 * scale
+    local boxW, boxH = 0.1 * scale, 0.018 * scale
     
     fraction = math.max(0.0, math.min(fraction, 1.0))
     alpha = math.max(0, math.min(alpha, 255))
@@ -77,4 +77,6 @@ function ProgressBar(coords, duration, baseScale)
             break
         end
     end
+    
+    return true
 end

@@ -83,7 +83,7 @@ Link.input = {
         textScale = 1.0,
 
         outline = {
-            enabled = true,
+            enabled = false, -- May cause issues in recent FiveM builds
             color = {
                 r = 255,
                 g = 255,

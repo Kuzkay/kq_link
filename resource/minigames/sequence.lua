@@ -39,6 +39,7 @@ local function DrawSequenceText(x, y, text, scale, r, g, b, a, center, outline)
 end
 
 local function DrawLabelAndInfo(sx, sy, totalHeight, label, infoText, alpha)
+    alpha = alpha or 1
     local labelY = sy - (totalHeight * 0.5) - 0.02
     local infoY  = sy + (totalHeight * 0.5) + 0.005
     
@@ -71,7 +72,8 @@ local function DrawMinigameBoxes(sequence, pressedFlags, coords, currentIndex, h
 
         local label = keyData.label
         if hiddenMode and currentIndex > 1 and (not pressedFlags[i]) then
-            label = "#"
+            local scrambled = {'#', '?', '$', '%'}
+            label = scrambled[((math.floor(GetGameTimer() / 50) + i) % #scrambled) + 1]
         end
 
         local textX = bx + (boxW / 2)
@@ -174,17 +176,20 @@ function SequenceMinigame(coords, length, hiddenMode, label, infoText)
     local endDuration, colorMode
     if wasSuccess then
         colorMode = 'green'
-        endDuration = 1000
+        endDuration = 500
     else
         colorMode = 'red'
-        endDuration = 2000
+        endDuration = 1000
     end
     
-    local endTime = GetGameTimer() + 2000
+    local endTime = GetGameTimer() + endDuration
     while GetGameTimer() < endTime do
         Citizen.Wait(0)
         DisablePlayerInput()
-        DrawFinalSequence(sequence, coords, colorMode, label, infoText, math.max(0, (endTime - GetGameTimer()) / endDuration))
+
+        local alpha = math.max(0, (endTime - GetGameTimer()) / endDuration)
+        
+        DrawFinalSequence(sequence, coords, colorMode, label, infoText, alpha)
     end
 
     return wasSuccess
