@@ -1,6 +1,8 @@
 -- LINKS
 exports('RegisterUsableItem', RegisterUsableItem)
 
+exports('GetPlayersWithJob', GetPlayersWithJob)
+
 exports('CanPlayerAfford', CanPlayerAfford)
 exports('AddPlayerMoney', AddPlayerMoney)
 exports('RemovePlayerMoney', RemovePlayerMoney)

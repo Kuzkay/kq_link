@@ -12,6 +12,34 @@ else
     end)
 end
 
+function GetPlayersWithJob(jobs)
+    local matchingPlayers = {}
+    local players = GetPlayers()
+    local isTable = type(jobs) == 'table'
+    
+    for _, playerId in ipairs(players) do
+        local src = tonumber(playerId)
+        local xPlayer = ESX.GetPlayerFromId(src)
+        local job = xPlayer and xPlayer.job and xPlayer.job.name
+        
+        if job then
+            if isTable then
+                for _, name in ipairs(jobs) do
+                    if job == name then
+                        table.insert(matchingPlayers, src)
+                        break
+                    end
+                end
+            elseif job == jobs then
+                table.insert(matchingPlayers, src)
+            end
+        end
+    end
+    
+    return matchingPlayers
+end
+
+
 function CanPlayerAfford(player, amount)
     local xPlayer = ESX.GetPlayerFromId(player)
 

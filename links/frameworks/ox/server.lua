@@ -4,6 +4,11 @@ end
 
 local Ox = require '@ox_core/lib/init.lua'
 
+function GetPlayersWithJob(jobs)
+    -- Not implemented by framework
+    return {}
+end
+
 function CanPlayerAfford(player, amount)
     -- Not implemented by framework
     return true

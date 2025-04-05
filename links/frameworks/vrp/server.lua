@@ -6,6 +6,31 @@ local Tunnel = module("vrp", "lib/Tunnel")
 local Proxy = module("vrp", "lib/Proxy")
 vRP = Proxy.getInterface("vRP")
 
+function GetPlayersWithJob(jobs)
+    local matchingPlayers = {}
+    local users = vRP.getUsers()
+    local isTable = type(jobs) == 'table'
+    
+    for userId, _ in pairs(users) do
+        local src = vRP.getUserSource(userId)
+        if src then
+            if isTable then
+                for _, name in ipairs(jobs) do
+                    if vRP.hasGroup(userId, name) then
+                        table.insert(matchingPlayers, src)
+                        break
+                    end
+                end
+            elseif vRP.hasGroup(userId, jobs) then
+                table.insert(matchingPlayers, src)
+            end
+        end
+    end
+    
+    return matchingPlayers
+end
+
+
 function CanPlayerAfford(player, amount)
     local user_id = vRP.getUserId({player})
     if user_id then

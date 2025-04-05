@@ -7,6 +7,11 @@ exports('SendDispatchMessage', SendDispatchMessage)
 exports('AddInteractionEntity', AddInteractionEntity)
 exports('AddInteractionZone', AddInteractionZone)
 
+exports('ProgressBar', ProgressBar)
+exports('SequenceMinigame', SequenceMinigame)
+exports('HoldSequenceMinigame', HoldSequenceMinigame)
+
+
 -- TARGET
 exports('AddEntityToTargeting', InputUtils.AddEntityToTargeting)
 exports('AddZoneToTargeting', InputUtils.AddZoneToTargeting)

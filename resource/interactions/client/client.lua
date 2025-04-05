@@ -155,10 +155,12 @@ local function RegisterInteraction(data)
         
         if self.entity then
             self.targetEntity = InputUtils.AddEntityToTargeting(self.entity, self.targetMessage, eventKey, function()
+                if not self then return end
                 return self.canInteract(self.clientReturnData)
             end, self.meta, self.interactDist, self.icon)
         else
             self.targetZone = InputUtils.AddZoneToTargeting(self.coords, self.rotation, self.scale, self.targetMessage, eventKey, function()
+                if not self then return end
                 return self.canInteract(self.clientReturnData)
             end, self.meta, self.interactDist, self.icon)
         end
