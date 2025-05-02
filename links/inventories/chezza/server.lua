@@ -1,68 +1,73 @@
+print('chezza inventory server loaded')
+print()
 if Link.inventory ~= 'chezza' and Link.inventory ~= 'chezza' then
     return
 end
 
-
+stahes = {}
 
 function GetPlayerItemData(player, item)
-    -- test
-return {}
+    local xPlayer = ESX.GetPlayerFromId(player)
+
+    return xPlayer.getInventoryItem(item)
 end
 
 function GetPlayerItemCount(player, item)
-    print('GetPlayerItemCount', player, item)
-    -- local data = GetPlayerItemData(player, item)
-    count = 0
-        
-    local inventory = exports.inventory:getInventory(xPlayer, inv)
-
-    if not inventory then
+    local data = GetPlayerItemData(player, item)
+    if not data then
         return 0
     end
-
-    for k,v in pairs(inventory) do
-        if v.name == item then
-           count = count + count
-        end
-    end
-    print('GetPlayerItemCount', player, item, count)
-
-
-    return count
+    return data.count or data.amount or 0
 end
 
 function AddPlayerItem(player, item, amount, meta)
-    xPlayer = ESX.GetPlayerFromId(player)
- xPlayer.addInventoryItem(item, amount or 1, meta)
-    return true
+    local xPlayer = ESX.GetPlayerFromId(player)
+
+    if xPlayer.canCarryItem(item, amount or 1) then
+        xPlayer.addInventoryItem(item, amount or 1, meta)
+        return true
+    else
+        return false
+    end
 end
 
 function RemovePlayerItem(player, item, amount)
-  xPlayer = ESX.GetPlayerFromId(player)
-  xPlayer.removeInventoryItem(item, amount or 1)
+    if GetPlayerItemCount(player, item) < amount then
+        return false
+    end
+    
+    local xPlayer = ESX.GetPlayerFromId(player)
+    xPlayer.removeInventoryItem(item, amount or 1)
+    
     return true
 end
 
--- Stashes
-local stashes = {}
 function OpenCustomStash(player, stashId, label, slots, weight)
-    -- if not stashes[stashId] then
-    --     exports['ak47_inventory']:LoadInventory(stashId, {
-    --         label = label,
-    --         maxWeight = weight or 100000,
-    --         maxSlots = slots or 50,
-    --         type = 'stash',
-    --     })
-        
-    --     stashes[stashId] = true
-    -- end
-    
-    -- exports['ak47_inventory']:OpenInventory(player, stashId)
-
+print('openCustomStash', stashId, label, slots, weight)
 if not stashes[stashId] then
-    TriggerEvent('inventory:openStorage', label, stashId, 100, 1000, {})
+    print("Opening stash:" .. stashId .. " with label: " .. label)
+
+    identifier = ESX.GetPlayerFromId(player).getIdentifier()
+    print("identifier: " .. identifier)
+    print("stashId: " .. stashId)
+    print("label: " .. label)
+    TriggerClientEvent('inventory:openHouse', player, identifier, stashId, label, 3000)
+print("Opening stash with data: " .. identifier .. ", " .. stashId .. ", " .. label .. ", " .. 3000)
+
+    -- TriggerEvent('inventory:openHouse', stash, "house-1", "House Title", 300)
+
+
+    TriggerClientEvent('inventory:openInventory', client {
+        type = "stash",
+        id = stashId,
+        title = label,
+        weight = weight or false,
+        delay = 100,
+        save = true
+    })
+    print("opened Stash")
     stashes[stashId] = true
-end
+    end
 end
 
 function GetStashItems(stashId)
@@ -72,4 +77,5 @@ function GetStashItems(stashId)
     
     return {}
 end
+
 --

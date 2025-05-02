@@ -42,7 +42,8 @@ Link = {
 --- 'core_inventory' -- Core inventory system (c8re)
 --- 'ak47_inventory' -- AK47 inventory system (menan)
 --- 'origen_inventory' -- Origen inventory system
-Link.inventory = 'auto'
+-- 'chezza' -- Chezza inventory system (inventory)
+Link.inventory = 'chezza'
 
 
 --- NOTIFICATION OPTIONS
