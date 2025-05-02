@@ -43,15 +43,19 @@ end
 function OpenCustomStash(player, stashId, label, slots, weight)
 
 if not stashes[stashId] then
-    TriggerClientEvent('inventory:openInventory', player, {
-        type = "stash",
-        id = stashId,
-        title = label,
-        weight = weight or 3000,
-        delay = 100,
-        save = true
-    })
-    stashes[stashId] = true
+
+    -- statshes dont work for some reason it wont open twice
+    -- TriggerClientEvent('inventory:openInventory', player, {
+    --     type = "stash",
+    --     id = stashId,
+    --     title = label,
+    --     weight = weight or 3000,
+    --     delay = 100,
+    --     save = true
+    -- })
+    -- stashes[stashId] = true
+    xPlayer = ESX.GetPlayerFromId(player)
+    TriggerClientEvent('inventory:openHouse', xPlayer.source, xPlayer.identifier, stashId, label, weight)
     end
 end
 
@@ -59,6 +63,8 @@ function GetStashItems(stashId)
     if not stashes[stashId] then
         return {}
     end
+    local xPlayer = ESX.GetPlayerFromId(src)y
+    local inventory = exports.inventory:getInventory(xPlayer, inv)
     
     return {}
 end
