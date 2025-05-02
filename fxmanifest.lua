@@ -25,7 +25,7 @@ server_scripts {
     'links/inventories/ps-inventory/server.lua',
     'links/inventories/qs-inventory/server.lua',
     'links/inventories/origen_inventory/server.lua',
-
+    'links/inventories/chezza/server.lua',
     -- DISPATCH
     'links/dispatch/server/server.lua',
     
@@ -81,6 +81,7 @@ client_scripts {
     'links/inventories/ox_inventory/client.lua',
     'links/inventories/qs-inventory/client.lua',
     'links/inventories/codem-inventory/client.lua',
+    'links/inventories/chezza/client.lua',
     
     -- EXPORTS
     'exports/client.lua',
