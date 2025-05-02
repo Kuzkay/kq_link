@@ -43,7 +43,7 @@ Link = {
 --- 'ak47_inventory' -- AK47 inventory system (menan)
 --- 'origen_inventory' -- Origen inventory system
 -- 'chezza' -- Chezza inventory system (inventory)
-Link.inventory = 'chezza'
+Link.inventory = 'framework'
 
 
 --- NOTIFICATION OPTIONS

@@ -1,10 +1,8 @@
-print('chezza inventory server loaded')
-print()
 if Link.inventory ~= 'chezza' and Link.inventory ~= 'chezza' then
     return
 end
 
-stahes = {}
+stashes = {}
 
 function GetPlayerItemData(player, item)
     local xPlayer = ESX.GetPlayerFromId(player)
@@ -43,29 +41,16 @@ function RemovePlayerItem(player, item, amount)
 end
 
 function OpenCustomStash(player, stashId, label, slots, weight)
-print('openCustomStash', stashId, label, slots, weight)
+
 if not stashes[stashId] then
-    print("Opening stash:" .. stashId .. " with label: " .. label)
-
-    identifier = ESX.GetPlayerFromId(player).getIdentifier()
-    print("identifier: " .. identifier)
-    print("stashId: " .. stashId)
-    print("label: " .. label)
-    TriggerClientEvent('inventory:openHouse', player, identifier, stashId, label, 3000)
-print("Opening stash with data: " .. identifier .. ", " .. stashId .. ", " .. label .. ", " .. 3000)
-
-    -- TriggerEvent('inventory:openHouse', stash, "house-1", "House Title", 300)
-
-
-    TriggerClientEvent('inventory:openInventory', client {
+    TriggerClientEvent('inventory:openInventory', player, {
         type = "stash",
         id = stashId,
         title = label,
-        weight = weight or false,
+        weight = weight or 3000,
         delay = 100,
         save = true
     })
-    print("opened Stash")
     stashes[stashId] = true
     end
 end

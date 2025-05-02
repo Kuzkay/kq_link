@@ -37,6 +37,7 @@ local function DetectAndSetInventory()
         ['ak47_inventory'] = 'ak47_inventory',
         ['core_inventory'] = 'core_inventory',
         ['minventory'] = 'codem-inventory',
+        ['inventory'] = 'chezza',
     }
     
     for resource, config in pairs(inventories) do
