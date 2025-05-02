@@ -81,8 +81,7 @@ client_scripts {
     'links/inventories/ox_inventory/client.lua',
     'links/inventories/qs-inventory/client.lua',
     'links/inventories/codem-inventory/client.lua',
-    'links/inventories/chezza/client.lua',
-    
+
     -- EXPORTS
     'exports/client.lua',
 }
