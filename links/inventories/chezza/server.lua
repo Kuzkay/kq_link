@@ -1,4 +1,4 @@
-if Link.inventory ~= 'chezza' and Link.inventory ~= 'chezza' then
+if Link.inventory ~= 'chezza' then
     return
 end
 
