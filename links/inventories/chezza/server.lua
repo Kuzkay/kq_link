@@ -63,7 +63,7 @@ function GetStashItems(stashId)
     if not stashes[stashId] then
         return {}
     end
-    local xPlayer = ESX.GetPlayerFromId(src)y
+    local xPlayer = ESX.GetPlayerFromId(src)
     local inventory = exports.inventory:getInventory(xPlayer, inv)
     
     return {}
