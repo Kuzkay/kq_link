@@ -2,14 +2,13 @@
 local sequenceKeys = {
     { code = 0x56, label = "V" },
     { code = 0x43, label = "C" },
-    { code = 0x52, label = "R" },
-    { code = 0x51, label = "Q" },
-    { code = 0x47, label = "G" },
     { code = 0x45, label = "E" },
-    { code = 0x58, label = "X" },
-    { code = 0x59, label = "Y" },
+    { code = 0x46, label = "F" },
+    { code = 0x47, label = "G" },
     { code = 0x48, label = "H" },
-    { code = 0x5A, label = "Z" },
+    { code = 0x49, label = "I" },
+    { code = 0x4B, label = "K" },
+    { code = 0x58, label = "X" }
 }
 
 local function DrawSecRect(x, y, w, h, r, g, b, a)

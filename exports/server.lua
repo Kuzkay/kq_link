@@ -20,3 +20,5 @@ exports('GetStashItems', GetStashItems)
 -- RESOURCE
 exports('AddPlayerItemToFit', AddPlayerItemToFit)
 
+exports('RegisterServerCallback', RegisterServerCallback)
+
