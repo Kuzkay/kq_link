@@ -4,11 +4,12 @@ lua54 'yes'
 
 author 'KuzQuality.com | Kuzkay'
 description 'KuzQuality Link | Made to link existing frameworks and dependencies'
-version '1.7.0'
+version '1.8.0'
 
 server_scripts {
     -- RESOURCE BASE
     'resource/server.lua',
+    'resource/callbacks/server.lua',
     
     -- FRAMEWORKS
     'links/frameworks/esx/server.lua',
@@ -29,9 +30,6 @@ server_scripts {
     -- DISPATCH
     'links/dispatch/server/server.lua',
     
-    -- BASE RESOURCE
-    'resource/server.lua',
-    
     -- EXPORTS
     'exports/server.lua',
 }
@@ -42,7 +40,7 @@ shared_scripts {
     'links/frameworks/shared.lua',
 
     '@ox_lib/init.lua',
-    '@ox_core/lib/init.lua',
+    -- '@ox_core/lib/init.lua',
 }
 
 client_scripts {
@@ -50,6 +48,7 @@ client_scripts {
     
     -- RESOURCE BASE
     'resource/client.lua',
+    'resource/callbacks/client.lua',
     
     -- INTERACTIONS
     'resource/interactions/client/utils.lua',

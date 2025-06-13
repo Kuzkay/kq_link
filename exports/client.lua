@@ -12,6 +12,9 @@ exports('SequenceMinigame', SequenceMinigame)
 exports('HoldSequenceMinigame', HoldSequenceMinigame)
 
 
+exports('TriggerServerCallback', TriggerServerCallback)
+
+
 -- TARGET
 exports('AddEntityToTargeting', InputUtils.AddEntityToTargeting)
 exports('AddZoneToTargeting', InputUtils.AddZoneToTargeting)
