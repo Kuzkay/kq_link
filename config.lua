@@ -77,8 +77,10 @@ Link.input = {
 
     -- Only applicable when target is disabled
     other = {
-        -- '3d-text', 'top-left', 'help-text'
-        inputType = '3d-text',
+        -- The default option "kq" is our custom light-weight interaction system.
+        -- When multiple options are available, scroll through them using your scroll or arrow keys
+        -- 'kq', '3d-text', 'top-left', 'help-text'
+        inputType = 'kq',
 
         textFont = 4,
         textScale = 1.0,
