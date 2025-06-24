@@ -47,7 +47,7 @@ local function GetNearbyPlayerInteractions(maxDistance)
             local hasCloseInteractions = false
             for i = 2, #nearbyInteractions do
                 local distanceToNearest = #(nearbyInteractions[i].coords - nearestCoords)
-                if distanceToNearest <= 0.5 then
+                if distanceToNearest <= 0.25 then
                     table.insert(filteredInteractions, nearbyInteractions[i])
                     hasCloseInteractions = true
                 end
@@ -105,12 +105,12 @@ local function HandleScrollInput()
         if #NEARBY_INTERACTIONS > 1 then
             LAST_SCROLL_TIME = currentTime
             
-            if scrollUp then
+            if scrollDown then
                 CURRENT_INTERACTION_INDEX = CURRENT_INTERACTION_INDEX - 1
                 if CURRENT_INTERACTION_INDEX < 1 then
                     CURRENT_INTERACTION_INDEX = #NEARBY_INTERACTIONS
                 end
-            elseif scrollDown then
+            elseif scrollUp then
                 CURRENT_INTERACTION_INDEX = CURRENT_INTERACTION_INDEX + 1
                 if CURRENT_INTERACTION_INDEX > #NEARBY_INTERACTIONS then
                     CURRENT_INTERACTION_INDEX = 1
@@ -194,7 +194,7 @@ local function DisplayKQInteract(interactions, selectedIndex, coords)
     for i, interactionData in ipairs(interactions) do
         local interaction = interactionData.interaction
         local cleanMessage = interaction.targetMessage
-        local textWidth = #cleanMessage * 0.003
+        local textWidth = #cleanMessage * 0.004
         if textWidth > maxTextWidth then
             maxTextWidth = textWidth
         end
