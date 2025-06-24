@@ -31,6 +31,7 @@ ___
 - ps-inventory
 - qs-inventory
 - origen_inventory
+- chezza
 
 > All framework integrated inventories also are supported. esx_inventory, qb-inventory etc.
 

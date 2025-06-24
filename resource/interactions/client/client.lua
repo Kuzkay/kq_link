@@ -2,7 +2,67 @@ local PLAYER_INTERACTIONS = {}
 local INTERACTION_THREAD_RUNNING = false
 local LAST_OUTLINE_ENTITY = nil
 
+local CURRENT_INTERACTION_INDEX = 1
+local NEARBY_INTERACTIONS = {}
+local LAST_SCROLL_TIME = 0
+local SCROLL_DEBOUNCE = 250
+
 -- HELPER FUNCTIONS
+local function GetNearbyPlayerInteractions(maxDistance)
+    return UseCache('GetNearbyPlayerInteractions', function()
+        local playerPed = PlayerPedId()
+        local playerCoords = GetEntityCoords(playerPed)
+        
+        local nearbyInteractions = {}
+        
+        for k, playerInteraction in pairs(PLAYER_INTERACTIONS) do
+            if playerInteraction.canInteract(playerInteraction.clientReturnData) then
+                local coords = playerInteraction.GetCoords()
+                local distance = #(playerCoords - coords)
+                
+                if distance < maxDistance then
+                    table.insert(nearbyInteractions, {
+                        interaction = playerInteraction,
+                        distance = distance
+                    })
+                end
+            end
+        end
+        
+        -- Sort by distance (closest first)
+        table.sort(nearbyInteractions, function(a, b)
+            return a.distance < b.distance
+        end)
+        
+        -- Filter interactions based on proximity to the nearest one
+        if #nearbyInteractions > 1 then
+            local nearestDistance = nearbyInteractions[1].distance
+            local filteredInteractions = {}
+            
+            -- Add the nearest interaction first
+            table.insert(filteredInteractions, nearbyInteractions[1])
+            
+            -- Check if any other interactions are within 0.5 units of the nearest
+            local hasCloseInteractions = false
+            for i = 2, #nearbyInteractions do
+                if nearbyInteractions[i].distance - nearestDistance <= 0.5 then
+                    table.insert(filteredInteractions, nearbyInteractions[i])
+                    hasCloseInteractions = true
+                end
+            end
+            
+            -- If no interactions are close to the nearest, return only the nearest
+            if hasCloseInteractions then
+                return filteredInteractions
+            else
+                return {nearbyInteractions[1]}
+            end
+        end
+        
+        return nearbyInteractions
+    end, 1000)
+end
+
 local function GetClosestPlayerInteraction(maxDistance)
     return UseCache('GetClosestPlayerInteraction', function()
         local playerPed = PlayerPedId()
@@ -12,7 +72,7 @@ local function GetClosestPlayerInteraction(maxDistance)
         local nearestDistance = maxDistance
         
         for k, playerInteraction in pairs(PLAYER_INTERACTIONS) do
-            if playerInteraction.canInteract() then
+            if playerInteraction.canInteract(playerInteraction.clientReturnData) then
                 local coords = playerInteraction.GetCoords()
                 
                 local distance = #(playerCoords - coords)
@@ -25,6 +85,164 @@ local function GetClosestPlayerInteraction(maxDistance)
         
         return nearest, nearestDistance
     end, 1000)
+end
+
+local function HandleScrollInput()
+    local currentTime = GetGameTimer()
+    
+    if currentTime - LAST_SCROLL_TIME < SCROLL_DEBOUNCE then
+        return
+    end
+    
+    local scrollUp = IsControlJustPressed(0, 14) or IsDisabledControlJustPressed(0, 14)
+        or IsControlJustPressed(0, 172) or IsDisabledControlJustPressed(0, 172)
+    local scrollDown = IsControlJustPressed(0, 15) or IsDisabledControlJustPressed(0, 15)
+        or IsControlJustPressed(0, 173) or IsDisabledControlJustPressed(0, 173)
+    
+    if scrollUp or scrollDown then
+        if #NEARBY_INTERACTIONS > 1 then
+            LAST_SCROLL_TIME = currentTime
+            
+            if scrollUp then
+                CURRENT_INTERACTION_INDEX = CURRENT_INTERACTION_INDEX - 1
+                if CURRENT_INTERACTION_INDEX < 1 then
+                    CURRENT_INTERACTION_INDEX = #NEARBY_INTERACTIONS
+                end
+            elseif scrollDown then
+                CURRENT_INTERACTION_INDEX = CURRENT_INTERACTION_INDEX + 1
+                if CURRENT_INTERACTION_INDEX > #NEARBY_INTERACTIONS then
+                    CURRENT_INTERACTION_INDEX = 1
+                end
+            end
+        end
+    end
+end
+
+local function GetCurrentSelectedInteraction()
+    if #NEARBY_INTERACTIONS == 0 then
+        return nil
+    end
+    
+    if CURRENT_INTERACTION_INDEX > #NEARBY_INTERACTIONS then
+        CURRENT_INTERACTION_INDEX = 1
+    end
+    
+    return NEARBY_INTERACTIONS[CURRENT_INTERACTION_INDEX]
+end
+
+local function Display3DTextWithOptions(coords, interactions, selectedIndex)
+    local spacing = 0.10
+    
+    for i, interactionData in ipairs(interactions) do
+        local interaction = interactionData.interaction
+        local yOffset = (i - selectedIndex) * spacing
+        local adjustedCoords = vector3(coords.x, coords.y, coords.z + yOffset)
+        
+        if i == selectedIndex then
+            InputUtils.Draw3DText(adjustedCoords, interaction.message, 0.042)
+        else
+            InputUtils.Draw3DText(adjustedCoords, interaction.message, 0.025)
+        end
+    end
+    
+    if #interactions > 1 then
+        local hintCoords = vector3(coords.x, coords.y, coords.z - (#interactions * spacing * 0.5) - 0.1)
+        InputUtils.Draw3DText(hintCoords, "~w~Scroll (~y~" .. selectedIndex .. "/" .. #interactions .. "~w~)", 0.02)
+    end
+end
+
+local function DrawKQRect(x, y, w, h, r, g, b, a)
+    DrawRect(x + w * 0.5, y + h * 0.5, w, h, r, g, b, math.floor(a))
+end
+
+local function DrawKQText(x, y, text, scale, r, g, b, a, centered, outline)
+    SetTextFont(0)
+    SetTextScale(scale, scale)
+    SetTextColour(r, g, b, math.floor(a))
+    SetTextCentre(centered or false)
+    if outline then
+        SetTextDropshadow(1, 0, 0, 0, 50)
+        SetTextOutline()
+    end
+    SetTextEntry("STRING")
+    AddTextComponentSubstringPlayerName(text)
+    DrawText(x, y)
+end
+
+local function DisplayKQInteract(interactions, selectedIndex, coords)
+    local onScreen, sx, sy = GetScreenCoordFromWorldCoord(coords.x, coords.y, coords.z)
+    if not onScreen then return end
+    
+    local keybindWidth = 0.018
+    local keybindHeight = 0.028
+    local lineHeight = 0.028
+    local mainTextScale = 0.22
+    local altTextScale = 0.18
+    
+    local keybindBgColor = {r = 0, g = 0, b = 0, a = 150}
+    local keybindTextColor = {r = 255, g = 255, b = 255, a = 255}
+    local mainTextColor = {r = 255, g = 255, b = 255, a = 255}
+    local altTextColor = {r = 180, g = 180, b = 180, a = 200}
+    local selectedBgColor = {r = 0, g = 0, b = 0, a = 200}
+    
+    local totalHeight = #interactions * lineHeight
+    local startY = sy - (totalHeight * 0.5)
+    
+    local maxTextWidth = 0
+    for i, interactionData in ipairs(interactions) do
+        local interaction = interactionData.interaction
+        local cleanMessage = interaction.targetMessage
+        local textWidth = #cleanMessage * 0.003
+        if textWidth > maxTextWidth then
+            maxTextWidth = textWidth
+        end
+    end
+    
+    local totalWidth = keybindWidth + maxTextWidth
+    local startX = sx - (totalWidth * 0.5)
+    
+    for i, interactionData in ipairs(interactions) do
+        local interaction = interactionData.interaction
+        local yPos = startY + ((i - 1) * lineHeight)
+        local isSelected = (i == selectedIndex)
+        
+        if isSelected then
+            -- Draw background highlight for selected item
+            DrawKQRect(startX, yPos - keybindHeight * 0.5, totalWidth + 0.01, keybindHeight,
+                selectedBgColor.r, selectedBgColor.g, selectedBgColor.b, selectedBgColor.a)
+            
+            local color = {r = 255, g = 255, b = 255, a = 30}
+            if IsControlPressed(0, 38) then
+                color = {r = 108, g = 240, b = 156, a = 160}
+            end
+            -- Draw keybind square for selected interaction
+            DrawKQRect(startX + 0.002, (yPos - keybindHeight * 0.5) + 0.003, keybindWidth - 0.0055, keybindHeight - 0.0055,
+                color.r, color.g, color.b, color.a)
+            
+            -- Draw keybind text [E]
+            local keybindX = (startX + keybindWidth * 0.5) - 0.001
+            local keybindY = yPos - 0.008
+            DrawKQText(keybindX, keybindY, "E", 0.2, keybindTextColor.r, keybindTextColor.g,
+                keybindTextColor.b, keybindTextColor.a, true, false)
+            
+            -- Draw main interaction text with brackets
+            local textX = startX + keybindWidth
+            local textY = yPos - 0.008
+            local cleanMessage = interaction.targetMessage
+            DrawKQText(textX, textY, cleanMessage, mainTextScale,
+                mainTextColor.r, mainTextColor.g, mainTextColor.b, mainTextColor.a, false, false)
+        else
+            -- Draw alternative interaction
+            DrawKQRect(startX, yPos - keybindHeight * 0.5, totalWidth + 0.008, keybindHeight,
+                keybindBgColor.r, keybindBgColor.g, keybindBgColor.b, keybindBgColor.a)
+            
+            local textX = startX + keybindWidth
+            local textY = yPos - 0.008
+            local cleanMessage = interaction.targetMessage
+            DrawKQText(textX, textY, cleanMessage, altTextScale,
+                altTextColor.r, altTextColor.g, altTextColor.b, altTextColor.a, false, false)
+        end
+    end
 end
 
 local function CleanUpDeadInteractions()
@@ -49,8 +267,7 @@ end
 --- MAIN
 local function TriggerInteractionThread()
     Citizen.CreateThread(function()
-        Citizen.Wait(500
-        )
+        Citizen.Wait(500)
         Debug('triggering interaction thread')
         -- Only needs to run once for non-target systems
         if INTERACTION_THREAD_RUNNING or Link.input.target.enabled then
@@ -63,30 +280,44 @@ local function TriggerInteractionThread()
         while Count(PLAYER_INTERACTIONS) > 0 do
             local sleep = 2500
             
-            local interaction, distance = GetClosestPlayerInteraction(5)
-            if interaction then
-                sleep = 500
-            end
+            -- Get all nearby interactions
+            NEARBY_INTERACTIONS = GetNearbyPlayerInteractions(5)
             
-            if interaction ~= nil and distance < interaction.interactDist then
-                sleep = 1
+            if #NEARBY_INTERACTIONS > 0 then
+                sleep = 500
                 
-                if interaction.Handle() and interaction.entity then
-                    local entity = interaction.entity
-                    if Link.input.other.outline.enabled and LAST_OUTLINE_ENTITY ~= interaction.entity then
-                        if LAST_OUTLINE_ENTITY ~= nil then
-                            SetEntityDrawOutline(LAST_OUTLINE_ENTITY, false)
+                -- Handle scroll input
+                HandleScrollInput()
+                
+                -- Get the currently selected interaction
+                local selectedInteractionData = GetCurrentSelectedInteraction()
+                local interaction = selectedInteractionData and selectedInteractionData.interaction
+                local distance = selectedInteractionData and selectedInteractionData.distance
+                
+                if interaction and distance < interaction.interactDist then
+                    sleep = 1
+                    
+                    if interaction.Handle(NEARBY_INTERACTIONS, CURRENT_INTERACTION_INDEX) and interaction.entity then
+                        local entity = interaction.entity
+                        if Link.input.other.outline.enabled and LAST_OUTLINE_ENTITY ~= interaction.entity then
+                            if LAST_OUTLINE_ENTITY ~= nil then
+                                SetEntityDrawOutline(LAST_OUTLINE_ENTITY, false)
+                            end
+                            
+                            LAST_OUTLINE_ENTITY = entity
+                            
+                            SetEntityDrawOutline(entity, true)
+                            SetEntityDrawOutlineShader(1)
+                            local outlineColor = Link.input.other.outline.color
+                            SetEntityDrawOutlineColor(outlineColor.r, outlineColor.g, outlineColor.b, outlineColor.a)
                         end
-                        
-                        LAST_OUTLINE_ENTITY = entity
-                        
-                        SetEntityDrawOutline(entity, true)
-                        SetEntityDrawOutlineShader(1)
-                        local outlineColor = Link.input.other.outline.color
-                        SetEntityDrawOutlineColor(outlineColor.r, outlineColor.g, outlineColor.b, outlineColor.a)
                     end
                 end
             else
+                -- Reset when no interactions nearby
+                CURRENT_INTERACTION_INDEX = 1
+                NEARBY_INTERACTIONS = {}
+                
                 if LAST_OUTLINE_ENTITY ~= nil then
                     SetEntityDrawOutline(LAST_OUTLINE_ENTITY, false)
                     LAST_OUTLINE_ENTITY = nil
@@ -167,7 +398,7 @@ local function RegisterInteraction(data)
     end
     
     -- Displaying and handling of the input options
-    self.Handle = function()
+    self.Handle = function(allNearbyInteractions, selectedIndex)
         if not self then
             return
         end
@@ -184,11 +415,29 @@ local function RegisterInteraction(data)
         
         local inputType = Link.input.other.inputType
         if inputType == 'top-left' then
-            InputUtils.KeybindTip(self.message)
+            local message = self.message
+            if allNearbyInteractions and #allNearbyInteractions > 1 then
+                message = message .. " (~y~" .. selectedIndex .. "/" .. #allNearbyInteractions .. "~w~ - Scroll to change)"
+            end
+            InputUtils.KeybindTip(message)
         elseif inputType == 'help-text' then
-            InputUtils.DrawFloatingText(coords, self.message)
+            local message = self.message
+            if allNearbyInteractions and #allNearbyInteractions > 1 then
+                message = message .. " (" .. selectedIndex .. "/" .. #allNearbyInteractions .. " - Scroll to change)"
+            end
+            InputUtils.DrawFloatingText(coords, message)
         elseif inputType == '3d-text' then
-            InputUtils.Draw3DText(coords, self.message, 0.042)
+            if allNearbyInteractions and #allNearbyInteractions > 1 then
+                Display3DTextWithOptions(coords, allNearbyInteractions, selectedIndex)
+            else
+                InputUtils.Draw3DText(coords, self.message, 0.042)
+            end
+        elseif inputType == 'kq' then
+            if allNearbyInteractions and #allNearbyInteractions > 0 then
+                DisplayKQInteract(allNearbyInteractions, selectedIndex, coords)
+            else
+                DisplayKQInteract({{interaction = self, distance = 0}}, 1, coords)
+            end
         end
         
         if IsControlJustReleased(0, self.input) then
