@@ -4,7 +4,7 @@ lua54 'yes'
 
 author 'KuzQuality.com | Kuzkay'
 description 'KuzQuality Link | Made to link existing frameworks and dependencies'
-version '1.9.0'
+version '1.9.1'
 
 server_scripts {
     -- RESOURCE BASE
