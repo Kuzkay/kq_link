@@ -23,7 +23,8 @@ local function GetNearbyPlayerInteractions(maxDistance)
                 if distance < maxDistance then
                     table.insert(nearbyInteractions, {
                         interaction = playerInteraction,
-                        distance = distance
+                        distance = distance,
+                        coords = coords
                     })
                 end
             end
@@ -36,7 +37,7 @@ local function GetNearbyPlayerInteractions(maxDistance)
         
         -- Filter interactions based on proximity to the nearest one
         if #nearbyInteractions > 1 then
-            local nearestDistance = nearbyInteractions[1].distance
+            local nearestCoords = nearbyInteractions[1].coords
             local filteredInteractions = {}
             
             -- Add the nearest interaction first
@@ -45,7 +46,8 @@ local function GetNearbyPlayerInteractions(maxDistance)
             -- Check if any other interactions are within 0.5 units of the nearest
             local hasCloseInteractions = false
             for i = 2, #nearbyInteractions do
-                if nearbyInteractions[i].distance - nearestDistance <= 0.5 then
+                local distanceToNearest = #(nearbyInteractions[i].coords - nearestCoords)
+                if distanceToNearest <= 0.5 then
                     table.insert(filteredInteractions, nearbyInteractions[i])
                     hasCloseInteractions = true
                 end
@@ -233,7 +235,7 @@ local function DisplayKQInteract(interactions, selectedIndex, coords)
                 mainTextColor.r, mainTextColor.g, mainTextColor.b, mainTextColor.a, false, false)
         else
             -- Draw alternative interaction
-            DrawKQRect(startX, yPos - keybindHeight * 0.5, totalWidth + 0.008, keybindHeight,
+            DrawKQRect(startX, yPos - keybindHeight * 0.5, totalWidth + 0.01, keybindHeight,
                 keybindBgColor.r, keybindBgColor.g, keybindBgColor.b, keybindBgColor.a)
             
             local textX = startX + keybindWidth
