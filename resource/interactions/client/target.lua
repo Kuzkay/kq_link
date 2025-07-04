@@ -93,7 +93,7 @@ function InputUtils.AddZoneToTargeting(coords, rotation, scale, message, event, 
         return exports[SYSTEM]:addBoxZone({
             coords = coords,
             size = scale.yxz,
-            rotation = rotation or vector3(0, 0, 0),
+            rotation = (rotation or vector3(0, 0, 0)).z,
             debug = Link.debugMode or false,
             drawSprite = true,
             options = options,

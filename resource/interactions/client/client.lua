@@ -5,7 +5,7 @@ local LAST_OUTLINE_ENTITY = nil
 local CURRENT_INTERACTION_INDEX = 1
 local NEARBY_INTERACTIONS = {}
 local LAST_SCROLL_TIME = 0
-local SCROLL_DEBOUNCE = 250
+local SCROLL_DEBOUNCE = 150
 
 -- HELPER FUNCTIONS
 local function GetNearbyPlayerInteractions(maxDistance)
@@ -16,7 +16,7 @@ local function GetNearbyPlayerInteractions(maxDistance)
         local nearbyInteractions = {}
         
         for k, playerInteraction in pairs(PLAYER_INTERACTIONS) do
-            if playerInteraction.canInteract(playerInteraction.clientReturnData) then
+            if playerInteraction.SafeCanInteract() then
                 local coords = playerInteraction.GetCoords()
                 local distance = #(playerCoords - coords)
                 
@@ -24,26 +24,27 @@ local function GetNearbyPlayerInteractions(maxDistance)
                     table.insert(nearbyInteractions, {
                         interaction = playerInteraction,
                         distance = distance,
-                        coords = coords
+                        coords = coords,
+                        key = k
                     })
                 end
             end
         end
         
-        -- Sort by distance (closest first)
         table.sort(nearbyInteractions, function(a, b)
-            return a.distance < b.distance
+            if math.abs(a.distance - b.distance) < 0.25 then
+                return tostring(a.key) < tostring(b.key)
+            else
+                return a.distance < b.distance
+            end
         end)
         
-        -- Filter interactions based on proximity to the nearest one
         if #nearbyInteractions > 1 then
             local nearestCoords = nearbyInteractions[1].coords
             local filteredInteractions = {}
             
-            -- Add the nearest interaction first
             table.insert(filteredInteractions, nearbyInteractions[1])
             
-            -- Check if any other interactions are within 0.5 units of the nearest
             local hasCloseInteractions = false
             for i = 2, #nearbyInteractions do
                 local distanceToNearest = #(nearbyInteractions[i].coords - nearestCoords)
@@ -53,7 +54,6 @@ local function GetNearbyPlayerInteractions(maxDistance)
                 end
             end
             
-            -- If no interactions are close to the nearest, return only the nearest
             if hasCloseInteractions then
                 return filteredInteractions
             else
@@ -62,7 +62,7 @@ local function GetNearbyPlayerInteractions(maxDistance)
         end
         
         return nearbyInteractions
-    end, 1000)
+    end, 500)
 end
 
 local function GetClosestPlayerInteraction(maxDistance)
@@ -74,7 +74,7 @@ local function GetClosestPlayerInteraction(maxDistance)
         local nearestDistance = maxDistance
         
         for k, playerInteraction in pairs(PLAYER_INTERACTIONS) do
-            if playerInteraction.canInteract(playerInteraction.clientReturnData) then
+            if playerInteraction.SafeCanInteract() then
                 local coords = playerInteraction.GetCoords()
                 
                 local distance = #(playerCoords - coords)
@@ -97,9 +97,9 @@ local function HandleScrollInput()
     end
     
     local scrollUp = IsControlJustPressed(0, 14) or IsDisabledControlJustPressed(0, 14)
-        or IsControlJustPressed(0, 172) or IsDisabledControlJustPressed(0, 172)
-    local scrollDown = IsControlJustPressed(0, 15) or IsDisabledControlJustPressed(0, 15)
         or IsControlJustPressed(0, 173) or IsDisabledControlJustPressed(0, 173)
+    local scrollDown = IsControlJustPressed(0, 15) or IsDisabledControlJustPressed(0, 15)
+        or IsControlJustPressed(0, 172) or IsDisabledControlJustPressed(0, 172)
     
     if scrollUp or scrollDown then
         if #NEARBY_INTERACTIONS > 1 then
@@ -367,6 +367,18 @@ local function RegisterInteraction(data)
         eventHandler = nil,
     }
     
+    self.SafeCanInteract = function()
+        local success, response = pcall(self.canInteract, self.clientReturnData)
+        if not success then
+            Debug(
+                ('^1Interactable callback (canInteract) from {resource} has failed.'):gsub('{resource}', self.invoker),
+                response
+            )
+        end
+        
+        return response
+    end
+    
     -- Booting / Setup
     self.Boot = function()
         if Link.input.target.enabled then
@@ -389,12 +401,12 @@ local function RegisterInteraction(data)
         if self.entity then
             self.targetEntity = InputUtils.AddEntityToTargeting(self.entity, self.targetMessage, eventKey, function()
                 if not self then return end
-                return self.canInteract(self.clientReturnData)
+                return self.SafeCanInteract()
             end, self.meta, self.interactDist, self.icon)
         else
             self.targetZone = InputUtils.AddZoneToTargeting(self.coords, self.rotation, self.scale, self.targetMessage, eventKey, function()
                 if not self then return end
-                return self.canInteract(self.clientReturnData)
+                return self.SafeCanInteract()
             end, self.meta, self.interactDist, self.icon)
         end
     end
@@ -406,7 +418,7 @@ local function RegisterInteraction(data)
         end
         
         local cachedCanInteract = UseCache('canInteract' .. self.key, function()
-            return self.canInteract(self.clientReturnData)
+            return self.SafeCanInteract()
         end, 500)
         
         if not cachedCanInteract then
