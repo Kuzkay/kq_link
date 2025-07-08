@@ -4,20 +4,20 @@ lua54 'yes'
 
 author 'KuzQuality.com | Kuzkay'
 description 'KuzQuality Link | Made to link existing frameworks and dependencies'
-version '1.9.3'
+version '1.9.4'
 
 server_scripts {
     -- RESOURCE BASE
     'resource/server.lua',
     'resource/callbacks/server.lua',
-    
+
     -- FRAMEWORKS
     'links/frameworks/esx/server.lua',
     'links/frameworks/qbcore/server.lua',
     'links/frameworks/qbox/server.lua',
     'links/frameworks/vrp/server.lua',
     'links/frameworks/standalone/server.lua',
-    
+
     -- INVENTORIES
     'links/inventories/ak47_inventory/server.lua',
     'links/inventories/codem-inventory/server.lua',
@@ -29,7 +29,7 @@ server_scripts {
     'links/inventories/chezza/server.lua',
     -- DISPATCH
     'links/dispatch/server/server.lua',
-    
+
     -- EXPORTS
     'exports/server.lua',
 }
@@ -45,37 +45,37 @@ shared_scripts {
 
 client_scripts {
     '@qbx_core/modules/playerdata.lua',
-    
+
     -- RESOURCE BASE
     'resource/client.lua',
     'resource/callbacks/client.lua',
-    
+
     -- INTERACTIONS
     'resource/interactions/client/utils.lua',
     'resource/interactions/client/target.lua',
     'resource/interactions/client/client.lua',
-    
+
     -- MINIGAMES
     'resource/minigames/progressbar.lua',
     'resource/minigames/sequence.lua',
     'resource/minigames/slowSequence.lua',
-    
+
     -- NOTIFICATIONS
     'links/notifications/client/client.lua',
-    
-    
+
+
     -- DISPATCH
     'links/dispatch/client/*.lua',
-    
+
     -- FRAMEWORKS
     'links/frameworks/client.lua',
-    
+
     'links/frameworks/esx/client.lua',
     'links/frameworks/qbcore/client.lua',
     'links/frameworks/qbox/client.lua',
     'links/frameworks/standalone/client.lua',
-    
-    
+
+
     -- INVENTORIES
     'links/inventories/ox_inventory/client.lua',
     'links/inventories/qs-inventory/client.lua',
