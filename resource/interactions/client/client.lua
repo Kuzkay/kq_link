@@ -7,6 +7,8 @@ local NEARBY_INTERACTIONS = {}
 local LAST_SCROLL_TIME = 0
 local SCROLL_DEBOUNCE = 150
 
+local PLAYER_BUSY = false
+
 -- HELPER FUNCTIONS
 local function GetNearbyPlayerInteractions(maxDistance)
     return UseCache('GetNearbyPlayerInteractions', function()
@@ -360,6 +362,7 @@ local function RegisterInteraction(data)
         canInteract = data.canInteract,
 
         meta = data.meta,
+        icon = data.icon,
 
         -- Filled later
         targetEntity = nil,
@@ -403,19 +406,21 @@ local function RegisterInteraction(data)
 
         RegisterNetEvent(eventKey)
         self.eventHandler = AddEventHandler(eventKey, function()
+            PLAYER_BUSY = true
             self.PerformSafeCallback()
+            PLAYER_BUSY = false
         end)
 
         if self.entity then
             self.targetEntity = InputUtils.AddEntityToTargeting(self.entity, self.targetMessage, eventKey, function()
                 if not self then return end
-                return self.SafeCanInteract()
+                return not PLAYER_BUSY and self.SafeCanInteract()
             end, self.meta, self.interactDist, self.icon)
         else
             self.targetZone = InputUtils.AddZoneToTargeting(self.coords, self.rotation, self.scale, self.targetMessage,
                 eventKey, function()
                     if not self then return end
-                    return self.SafeCanInteract()
+                    return not PLAYER_BUSY and self.SafeCanInteract()
                 end, self.meta, self.interactDist, self.icon)
         end
     end
