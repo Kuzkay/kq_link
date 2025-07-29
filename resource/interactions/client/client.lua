@@ -10,22 +10,28 @@ local SCROLL_DEBOUNCE = 150
 local PLAYER_BUSY = false
 
 -- HELPER FUNCTIONS
-local function GetNearbyPlayerInteractions(maxDistance)
+local function GetNearbyPlayerInteractions()
     return UseCache('GetNearbyPlayerInteractions', function()
         local playerPed = PlayerPedId()
         local playerCoords = GetEntityCoords(playerPed)
 
         local nearbyInteractions = {}
-
         for k, playerInteraction in pairs(PLAYER_INTERACTIONS) do
             local coords = playerInteraction.GetCoords()
-            local distance = #(playerCoords - coords)
 
-            if distance < maxDistance then
+            local dx = playerCoords.x - coords.x
+            local dy = playerCoords.y - coords.y
+            local dz = playerCoords.z - coords.z
+            local distanceSq = dx * dx + dy * dy + dz * dz
+
+            local interactDist = playerInteraction.interactDist or 2
+            local interactDistSq = interactDist * interactDist
+
+            if distanceSq <= interactDistSq then
                 if playerInteraction.SafeCanInteract() then
                     table.insert(nearbyInteractions, {
                         interaction = playerInteraction,
-                        distance = distance,
+                        distance = math.sqrt(distanceSq), -- Only calculate actual distance when needed
                         coords = coords,
                         key = k
                     })
@@ -64,31 +70,7 @@ local function GetNearbyPlayerInteractions(maxDistance)
         end
 
         return nearbyInteractions
-    end, 500)
-end
-
-local function GetClosestPlayerInteraction(maxDistance)
-    return UseCache('GetClosestPlayerInteraction', function()
-        local playerPed = PlayerPedId()
-        local playerCoords = GetEntityCoords(playerPed)
-
-        local nearest = nil
-        local nearestDistance = maxDistance
-
-        for k, playerInteraction in pairs(PLAYER_INTERACTIONS) do
-            if playerInteraction.SafeCanInteract() then
-                local coords = playerInteraction.GetCoords()
-
-                local distance = #(playerCoords - coords)
-                if distance < nearestDistance then
-                    nearest = playerInteraction
-                    nearestDistance = distance
-                end
-            end
-        end
-
-        return nearest, nearestDistance
-    end, 1000)
+    end, 250)
 end
 
 local function HandleScrollInput()
@@ -196,7 +178,7 @@ local function DisplayKQInteract(interactions, selectedIndex, coords)
     for i, interactionData in ipairs(interactions) do
         local interaction = interactionData.interaction
         local cleanMessage = interaction.targetMessage
-        local textWidth = (#cleanMessage * 0.003) + 0.002
+        local textWidth = (#cleanMessage * 0.0033) + 0.003
         if textWidth > maxTextWidth then
             maxTextWidth = textWidth
         end
@@ -283,13 +265,13 @@ local function TriggerInteractionThread()
         INTERACTION_THREAD_RUNNING = true
 
         while Count(PLAYER_INTERACTIONS) > 0 do
-            local sleep = 2500
+            local sleep = 1000
 
             -- Get all nearby interactions
-            NEARBY_INTERACTIONS = GetNearbyPlayerInteractions(3)
+            NEARBY_INTERACTIONS = GetNearbyPlayerInteractions()
 
             if #NEARBY_INTERACTIONS > 0 then
-                sleep = 500
+                sleep = 250
 
                 -- Handle scroll input
                 HandleScrollInput()
