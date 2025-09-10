@@ -8,7 +8,12 @@ function GetPlayerItemData(player, item)
 end
 
 function GetPlayerItemCount(player, item)
-    return GetPlayerItemData(player, item).amount or 0
+  local itemData = GetPlayerItemData(player, item)
+  if not itemData then
+    return 0
+  end 
+
+  return itemData.amount or 0
 end
 
 function AddPlayerItem(player, item, amount, meta)
