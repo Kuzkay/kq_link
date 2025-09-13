@@ -29,9 +29,10 @@ ___
 - codem-inventory
 - core_inventory (c8re)
 - ps-inventory
-- qs-inventory
+- qs-inventory *(discontinued support)*
 - origen_inventory
 - chezza
+- tgiann-inventory
 
 > All framework integrated inventories also are supported. esx_inventory, qb-inventory etc.
 
