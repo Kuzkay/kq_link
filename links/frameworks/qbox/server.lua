@@ -6,11 +6,11 @@ function GetPlayersWithJob(jobs)
     local matchingPlayers = {}
     local players = GetPlayers()
     local isTable = type(jobs) == 'table'
-    
+
     for _, playerId in ipairs(players) do
         local src = tonumber(playerId)
         local xPlayer = exports.qbx_core:GetPlayer(src)
-        local job = xPlayer and xPlayer.job and xPlayer.job.name
+        local job = xPlayer and xPlayer.PlayerData.job and xPlayer.PlayerData.job.name
         
         if job then
             if isTable then
@@ -25,7 +25,7 @@ function GetPlayersWithJob(jobs)
             end
         end
     end
-    
+
     return matchingPlayers
 end
 
@@ -33,21 +33,21 @@ function CanPlayerAfford(player, amount)
     if exports.qbx_core:GetMoney(player, 'cash') >= amount then
         return true
     end
-    
+
     if exports.qbx_core:GetMoney(player, 'bank') >= amount then
         return true
     end
-    
+
     return false
 end
 
 function AddPlayerMoney(player, amount, account)
     local xPlayer = exports.qbx_core:GetPlayer(player)
-    
+
     if not xPlayer then
         return false
     end
-    
+
     return xPlayer.Functions.AddMoney(account or 'cash', amount)
 end
 
@@ -55,17 +55,17 @@ function RemovePlayerMoney(player, amount)
     if not CanPlayerAfford(player, amount) then
         return false
     end
-    
+
     if exports.qbx_core:GetMoney(player, 'cash') >= amount then
         exports.qbx_core:RemoveMoney(player, 'cash', amount)
         return true
     end
-    
+
     if exports.qbx_core:GetMoney(player, 'bank') >= amount then
         exports.qbx_core:RemoveMoney(player, 'bank', amount)
         return true
     end
-    
+
     return false
 end
 
@@ -75,7 +75,7 @@ end
 
 function GetPlayerCharacterId(player)
     local xPlayer = exports.qbx_core:GetPlayer(tonumber(player))
-    
+
     return xPlayer.PlayerData.citizenid
 end
 
