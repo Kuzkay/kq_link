@@ -12,33 +12,34 @@ else
     end)
 end
 
-function GetPlayersWithJob(jobs)
+function GetPlayersWithJob(jobs, minGrade)
     local matchingPlayers = {}
     local players = GetPlayers()
     local isTable = type(jobs) == 'table'
-    
+    minGrade = minGrade or 0
+
     for _, playerId in ipairs(players) do
         local src = tonumber(playerId)
         local xPlayer = ESX.GetPlayerFromId(src)
         local job = xPlayer and xPlayer.job and xPlayer.job.name
-        
-        if job then
+        local grade = xPlayer and xPlayer.job and xPlayer.job.grade
+
+        if job and grade then
             if isTable then
                 for _, name in ipairs(jobs) do
-                    if job == name then
+                    if job == name and grade >= minGrade then
                         table.insert(matchingPlayers, src)
                         break
                     end
                 end
-            elseif job == jobs then
+            elseif job == jobs and grade >= minGrade then
                 table.insert(matchingPlayers, src)
             end
         end
     end
-    
+
     return matchingPlayers
 end
-
 
 function CanPlayerAfford(player, amount)
     local xPlayer = ESX.GetPlayerFromId(player)
@@ -120,18 +121,18 @@ if Link.inventory == 'framework' then
         if GetPlayerItemCount(player, item) < amount then
             return false
         end
-        
+
         local xPlayer = ESX.GetPlayerFromId(player)
         xPlayer.removeInventoryItem(item, amount or 1)
-        
+
         return true
     end
-    
+
     function OpenCustomStash()
         -- Not available in base framework inv
         return true
     end
-    
+
     function GetStashItems()
         -- Not available in standalone
         return {}
