@@ -2,25 +2,27 @@ if Link.framework ~= 'qbox' and Link.framework ~= 'qbx' and Link.framework ~= 'q
     return
 end
 
-function GetPlayersWithJob(jobs)
+function GetPlayersWithJob(jobs, minGrade)
     local matchingPlayers = {}
     local players = GetPlayers()
     local isTable = type(jobs) == 'table'
+    minGrade = minGrade or 0
 
     for _, playerId in ipairs(players) do
         local src = tonumber(playerId)
         local xPlayer = exports.qbx_core:GetPlayer(src)
         local job = xPlayer and xPlayer.PlayerData.job and xPlayer.PlayerData.job.name
-        
-        if job then
+        local grade = xPlayer and xPlayer.PlayerData.job and xPlayer.PlayerData.job.grade
+
+        if job and grade then
             if isTable then
                 for _, name in ipairs(jobs) do
-                    if job == name then
+                    if job == name and grade >= minGrade then
                         table.insert(matchingPlayers, src)
                         break
                     end
                 end
-            elseif job == jobs then
+            elseif job == jobs and grade >= minGrade then
                 table.insert(matchingPlayers, src)
             end
         end
