@@ -4,12 +4,13 @@ lua54 'yes'
 
 author 'KuzQuality.com | Kuzkay'
 description 'KuzQuality Link | Made to link existing frameworks and dependencies'
-version '1.11.0'
+version '1.12.0'
 
 server_scripts {
     -- RESOURCE BASE
     'resource/server.lua',
     'resource/callbacks/server.lua',
+    'links/server.lua',
 
     -- FRAMEWORKS
     'links/frameworks/esx/server.lua',

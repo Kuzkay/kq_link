@@ -2,6 +2,10 @@ if Link.framework ~= 'none' and Link.framework ~= 'standalone' then
     return
 end
 
+function GetPlayerJob(player)
+    return '', ''
+end
+
 function GetPlayersWithJob(jobs)
     return {}
 end
