@@ -4,6 +4,15 @@ end
 
 QBCore = exports['qb-core']:GetCoreObject()
 
+
+function GetPlayerJob(player)
+    local xPlayer = QBCore.Functions.GetPlayer(player)
+    local job = xPlayer and xPlayer.PlayerData and xPlayer.PlayerData.job and xPlayer.PlayerData.job.name
+    local grade = xPlayer and xPlayer.PlayerData and xPlayer.PlayerData.job and xPlayer.PlayerData.job.grade and xPlayer.PlayerData.job.grade.level
+
+    return job, grade
+end
+
 function GetPlayersWithJob(jobs, minGrade)
     local matchingPlayers = {}
     local players = GetPlayers()
@@ -12,9 +21,7 @@ function GetPlayersWithJob(jobs, minGrade)
 
     for _, playerId in ipairs(players) do
         local src = tonumber(playerId)
-        local xPlayer = QBCore.Functions.GetPlayer(src)
-        local job = xPlayer and xPlayer.PlayerData and xPlayer.PlayerData.job and xPlayer.PlayerData.job.name
-        local grade = xPlayer and xPlayer.PlayerData and xPlayer.PlayerData.job and xPlayer.PlayerData.job.grade and xPlayer.PlayerData.job.grade.level
+        local job, grade = GetPlayerJob(src)
 
         if job and grade then
             if isTable then

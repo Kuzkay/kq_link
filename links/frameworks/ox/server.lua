@@ -4,6 +4,11 @@ end
 
 local Ox = require '@ox_core/lib/init.lua'
 
+function GetPlayerJob(player)
+    -- Not implemented by framework
+    return '', ''
+end
+
 function GetPlayersWithJob(jobs)
     -- Not implemented by framework
     return {}
@@ -30,7 +35,7 @@ end
 
 function GetPlayerCharacterId(player)
     local xPlayer = Ox.GetPlayer(tonumber(player))
-    
+
     return xPlayer.charId
 end
 

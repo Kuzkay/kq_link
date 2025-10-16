@@ -12,6 +12,14 @@ else
     end)
 end
 
+function GetPlayerJob(player)
+    local xPlayer = ESX.GetPlayerFromId(player)
+    local job = xPlayer and xPlayer.job and xPlayer.job.name
+    local grade = xPlayer and xPlayer.job and xPlayer.job.grade
+
+    return job, grade
+end
+
 function GetPlayersWithJob(jobs, minGrade)
     local matchingPlayers = {}
     local players = GetPlayers()
@@ -20,9 +28,7 @@ function GetPlayersWithJob(jobs, minGrade)
 
     for _, playerId in ipairs(players) do
         local src = tonumber(playerId)
-        local xPlayer = ESX.GetPlayerFromId(src)
-        local job = xPlayer and xPlayer.job and xPlayer.job.name
-        local grade = xPlayer and xPlayer.job and xPlayer.job.grade
+        local job, grade = GetPlayerJob(src)
 
         if job and grade then
             if isTable then
