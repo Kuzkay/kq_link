@@ -211,7 +211,7 @@ local function DisplayKQInteract(interactions, selectedIndex, coords)
             local keybindY = yPos - 0.008
             local keyButton = GetControlInstructionalButton(0, interaction.input, true)
             local keyLabel = keyButton:sub(3,3)
-            
+
             DrawKQText(keybindX, keybindY, keyLabel, 0.2, keybindTextColor.r, keybindTextColor.g,
                 keybindTextColor.b, keybindTextColor.a, true, false)
 
@@ -287,7 +287,6 @@ local function TriggerInteractionThread()
                 if interaction and distance < interaction.interactDist then
                     sleep = 1
 
-                    --mark1
                     if interaction.Handle(NEARBY_INTERACTIONS, CURRENT_INTERACTION_INDEX) and interaction.entity then
                         local entity = interaction.entity
                         if Link.input.other.outline.enabled and LAST_OUTLINE_ENTITY ~= interaction.entity then
