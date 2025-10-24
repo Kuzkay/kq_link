@@ -209,7 +209,10 @@ local function DisplayKQInteract(interactions, selectedIndex, coords)
             -- Draw keybind text [E]
             local keybindX = (startX + keybindWidth * 0.5) - 0.001
             local keybindY = yPos - 0.008
-            DrawKQText(keybindX, keybindY, "E", 0.2, keybindTextColor.r, keybindTextColor.g,
+            local keyButton = GetControlInstructionalButton(0, interaction.input, true)
+            local keyLabel = keyButton:sub(3,3)
+
+            DrawKQText(keybindX, keybindY, keyLabel, 0.2, keybindTextColor.r, keybindTextColor.g,
                 keybindTextColor.b, keybindTextColor.a, true, false)
 
             -- Draw main interaction text with brackets
