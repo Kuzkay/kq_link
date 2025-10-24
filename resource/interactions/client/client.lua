@@ -534,8 +534,7 @@ local function RegisterInteraction(data)
     return self.clientReturnData
 end
 
-function AddInteractionEntity(entity, offset, message, targetMessage, input, callback, canInteract, meta, interactDist,
-                              icon)
+function AddInteractionEntity(entity, offset, message, targetMessage, input, callback, canInteract, meta, interactDist, icon)
     return RegisterInteraction({
         entity = entity,
         offset = offset,
@@ -552,8 +551,7 @@ function AddInteractionEntity(entity, offset, message, targetMessage, input, cal
     })
 end
 
-function AddInteractionZone(coords, rotation, scale, message, targetMessage, input, callback, canInteract, meta,
-                            interactDist, icon)
+function AddInteractionZone(coords, rotation, scale, message, targetMessage, input, callback, canInteract, meta, interactDist, icon)
     return RegisterInteraction({
         coords = coords,
         rotation = rotation,
