@@ -209,7 +209,10 @@ local function DisplayKQInteract(interactions, selectedIndex, coords)
             -- Draw keybind text [E]
             local keybindX = (startX + keybindWidth * 0.5) - 0.001
             local keybindY = yPos - 0.008
-            DrawKQText(keybindX, keybindY, "E", 0.2, keybindTextColor.r, keybindTextColor.g,
+            local keyButton = GetControlInstructionalButton(0, interaction.input, true)
+            local keyLabel = keyButton:sub(3,3)
+            
+            DrawKQText(keybindX, keybindY, keyLabel, 0.2, keybindTextColor.r, keybindTextColor.g,
                 keybindTextColor.b, keybindTextColor.a, true, false)
 
             -- Draw main interaction text with brackets
@@ -284,6 +287,7 @@ local function TriggerInteractionThread()
                 if interaction and distance < interaction.interactDist then
                     sleep = 1
 
+                    --mark1
                     if interaction.Handle(NEARBY_INTERACTIONS, CURRENT_INTERACTION_INDEX) and interaction.entity then
                         local entity = interaction.entity
                         if Link.input.other.outline.enabled and LAST_OUTLINE_ENTITY ~= interaction.entity then
@@ -531,7 +535,8 @@ local function RegisterInteraction(data)
     return self.clientReturnData
 end
 
-function AddInteractionEntity(entity, offset, message, targetMessage, input, callback, canInteract, meta, interactDist, icon)
+function AddInteractionEntity(entity, offset, message, targetMessage, input, callback, canInteract, meta, interactDist,
+                              icon)
     return RegisterInteraction({
         entity = entity,
         offset = offset,
@@ -548,7 +553,8 @@ function AddInteractionEntity(entity, offset, message, targetMessage, input, cal
     })
 end
 
-function AddInteractionZone(coords, rotation, scale, message, targetMessage, input, callback, canInteract, meta, interactDist, icon)
+function AddInteractionZone(coords, rotation, scale, message, targetMessage, input, callback, canInteract, meta,
+                            interactDist, icon)
     return RegisterInteraction({
         coords = coords,
         rotation = rotation,
