@@ -18,6 +18,7 @@ Link = {
     --- 'qb-core'
     --- 'ox'
     --- 'qbox'
+    --- 'tmc'
     --- 'vrp' -- You will need to add the necessary vrp imports to the fxmanifest.
     --- 'none' / 'standalone'
 
