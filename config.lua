@@ -42,7 +42,8 @@ Link = {
 --- 'core_inventory' -- Core inventory system (c8re)
 --- 'ak47_inventory' -- AK47 inventory system (menan)
 --- 'origen_inventory' -- Origen inventory system
---- 'chezza' -- Chezza inventory system (inventory)
+--- 'chezza' -- Chezza inventory system
+--- 'tgiann-inventory' -- Tgiann inventory system
 Link.inventory = 'auto'
 
 
@@ -65,7 +66,7 @@ Link.notifications = 'standalone'
 Link.input = {
     target = {
         -- Whether to use a targeting system
-        enabled = false,
+        enabled = true,
         --- 'ox_target' -- ox targeting system
         --- 'qb-target' -- QBCore targeting system
         --- 'qtarget' -- The classic qtarget system commonly used in esx
