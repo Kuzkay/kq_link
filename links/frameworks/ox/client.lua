@@ -8,3 +8,6 @@ function NotifyViaFramework(message, type)
 end
 
 -- Not implemented by framework yet
+function GetPlayerJob()
+    return nil
+end

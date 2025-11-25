@@ -6,11 +6,20 @@ local Tunnel = module("vrp", "lib/Tunnel")
 local Proxy = module("vrp", "lib/Proxy")
 vRP = Proxy.getInterface("vRP")
 
+function GetPlayerJob(player)
+    local userId = vRP.getUserId(player)
+    if not userId then return nil end
+
+    local job = vRP.getUserGroupByType(userId, "job")
+
+    return job, 1
+end
+
 function GetPlayersWithJob(jobs)
     local matchingPlayers = {}
     local users = vRP.getUsers()
     local isTable = type(jobs) == 'table'
-    
+
     for userId, _ in pairs(users) do
         local src = vRP.getUserSource(userId)
         if src then
@@ -26,7 +35,7 @@ function GetPlayersWithJob(jobs)
             end
         end
     end
-    
+
     return matchingPlayers
 end
 
@@ -77,7 +86,7 @@ function GetPlayerItemData(player, item)
     if not user_id then
         return { count = 0 }
     end
-    
+
     local itemCount = vRP.getInventoryItemAmount({user_id, item})
     return {
         count = itemCount or 0
@@ -94,7 +103,7 @@ function AddPlayerItem(player, item, amount, meta)
     if not user_id then
         return false
     end
-    
+
     vRP.giveInventoryItem({user_id, item, amount})
     return true
 end
@@ -104,7 +113,7 @@ function RemovePlayerItem(player, item, amount)
     if not user_id then
         return false
     end
-    
+
     return vRP.tryGetInventoryItem({user_id, item, amount})
 end
 
