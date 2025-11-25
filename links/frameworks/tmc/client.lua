@@ -23,5 +23,11 @@ function GetPlayerJob()
 end
 
 function NotifyViaFramework(message, type)
-    TMC.Functions.Notify(message, type, 4000)
+    TMC.Functions.Notify({
+    	message = message,
+    	length = 4000,
+    	notifType = type,
+    	icon = '',
+    	style = {},
+    })
 end
