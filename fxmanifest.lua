@@ -16,6 +16,7 @@ server_scripts {
     'links/frameworks/qbcore/server.lua',
     'links/frameworks/qbox/server.lua',
     'links/frameworks/vrp/server.lua',
+    'links/frameworks/tmc/server.lua',
     'links/frameworks/standalone/server.lua',
 
     -- INVENTORIES
@@ -74,6 +75,7 @@ client_scripts {
     'links/frameworks/esx/client.lua',
     'links/frameworks/qbcore/client.lua',
     'links/frameworks/qbox/client.lua',
+    'links/frameworks/tmc/client.lua',
     'links/frameworks/standalone/client.lua',
 
 

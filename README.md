@@ -18,6 +18,7 @@ KuzQuality link not only links resources with other resources and frameworks. It
 - qb-core
 - ox-core
 - vrp
+- tmc
   
 > Along the frameworks all scripts using kq_link are able to function on standalone servers due to our mock functions made to always return correct data.
 

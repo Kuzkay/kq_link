@@ -1,0 +1,122 @@
+if Link.framework ~= 'tmc' then
+    return
+end
+
+TMC = exports.core:getCoreObject()
+
+function GetPlayerJob(player)
+    local xPlayer = TMC.Functions.GetPlayer(player)
+    local job = xPlayer and xPlayer.PlayerData and xPlayer.PlayerData.job and xPlayer.PlayerData.job[1] and xPlayer.PlayerData.job[1].name
+    local grade = xPlayer and xPlayer.PlayerData and xPlayer.PlayerData.job and xPlayer.PlayerData.job[1] and xPlayer.PlayerData.job[1].grade and xPlayer.PlayerData.job[1].grade.level
+    return job, grade
+end
+
+function GetPlayersWithJob(jobs, minGrade)
+    local matchingPlayers = {}
+    local players = GetPlayers()
+    local isTable = type(jobs) == 'table'
+    minGrade = minGrade or 0
+
+    for _, playerId in ipairs(players) do
+        local src = tonumber(playerId)
+        local job, grade = GetPlayerJob(src)
+        if job and grade then
+            if isTable then
+                for _, name in ipairs(jobs) do
+                    if job == name and grade >= minGrade then
+                        table.insert(matchingPlayers, src)
+                        break
+                    end
+                end
+            elseif job == jobs and grade >= minGrade then
+                table.insert(matchingPlayers, src)
+            end
+        end
+    end
+
+    return matchingPlayers
+end
+
+function CanPlayerAfford(player, amount)
+    local xPlayer = TMC.Functions.GetPlayer(player)
+    if xPlayer.Functions.GetMoney('cash') >= amount then
+        return true
+    end
+    if xPlayer.Functions.GetMoney('bank') >= amount then
+        return true
+    end
+    return false
+end
+
+function AddPlayerMoney(player, amount, account)
+    local xPlayer = TMC.Functions.GetPlayer(player)
+    if not xPlayer then
+        return false
+    end
+    return xPlayer.Functions.AddMoney(account or 'cash', amount)
+end
+
+function RemovePlayerMoney(player, amount)
+    local xPlayer = TMC.Functions.GetPlayer(player)
+    if not CanPlayerAfford(player, amount) then
+        return false
+    end
+    if xPlayer.Functions.GetMoney('cash') >= amount then
+        xPlayer.Functions.RemoveMoney('cash', amount)
+        return true
+    end
+    if xPlayer.Functions.GetMoney('bank') >= amount then
+        xPlayer.Functions.RemoveMoney('bank', amount)
+        return true
+    end
+    return false
+end
+
+function RegisterUsableItem(...)
+    TMC.Functions.CreateUseableItem(...)
+end
+
+if Link.inventory == 'framework' or Link.inventory == 'tmc-inventory' then
+    function GetPlayerItemData(player, item)
+        local xPlayer = TMC.Functions.GetPlayer(player)
+        local data    = xPlayer.Functions.GetItemByName(item)
+        return data
+    end
+
+    function GetPlayerItemCount(player, item)
+        local data = GetPlayerItemData(player, item)
+        if not data then
+            return 0
+        end
+        return data.amount or data.count or 0
+    end
+
+    function AddPlayerItem(player, item, amount, meta)
+        local xPlayer = TMC.Functions.GetPlayer(tonumber(player))
+        return xPlayer.Functions.AddItem(item, amount or 1)
+    end
+
+    function RemovePlayerItem(player, item, amount)
+        local xPlayer = TMC.Functions.GetPlayer(tonumber(player))
+        return xPlayer.Functions.RemoveItem(item, amount or 1)
+    end
+
+    -- Stash
+    function OpenCustomStash(player, stashId, label, slots, weight)
+        local data = { label = label, maxweight = weight, slots = slots }
+        exports['tmc-inventory']:OpenInventory(player, stashId, data)
+    end
+
+    function GetStashItems(stashId)
+        local invData = exports['tmc-inventory']:GetInventory(stashId)
+        if invData == nil or invData == {} then
+            return {}
+        end
+        return invData.items
+    end
+end
+
+function GetPlayerCharacterId(player)
+    local xPlayer = TMC.Functions.GetPlayer(tonumber(player))
+    return xPlayer.PlayerData.citizenid
+end
