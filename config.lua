@@ -45,6 +45,7 @@ Link = {
 --- 'origen_inventory' -- Origen inventory system
 --- 'chezza' -- Chezza inventory system
 --- 'tgiann-inventory' -- Tgiann inventory system
+--- 'jaksam_inventory' -- Jaksam's inventory system
 Link.inventory = 'auto'
 
 
