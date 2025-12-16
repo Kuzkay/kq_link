@@ -4,7 +4,7 @@ lua54 'yes'
 
 author 'KuzQuality.com | Kuzkay'
 description 'KuzQuality Link | Made to link existing frameworks and dependencies'
-version '1.13.1'
+version '1.14.0'
 
 server_scripts {
     -- RESOURCE BASE
@@ -28,6 +28,7 @@ server_scripts {
     'links/inventories/qs-inventory/server.lua',
     'links/inventories/origen_inventory/server.lua',
     'links/inventories/chezza/server.lua',
+    'links/inventories/jaksam/server.lua',
     'links/inventories/tgiann-inventory/server.lua',
     -- DISPATCH
     'links/dispatch/server/server.lua',
