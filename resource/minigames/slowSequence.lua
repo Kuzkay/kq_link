@@ -7,7 +7,6 @@ local sequenceKeys = {
     { code = 0x47, label = "G" },
     { code = 0x48, label = "H" },
     { code = 0x49, label = "I" },
-    { code = 0x4B, label = "K" },
     { code = 0x58, label = "X" }
 }
 
@@ -51,7 +50,7 @@ local function DrawMultiMinigameBoxes(multiSequences, currentStep, progress, pre
 
     local totalHeight = seqCount * boxH + (seqCount - 1) * rowSpace
     local startY      = sy - (totalHeight * 0.5)
-    
+
     local labelY = startY - 0.04
     if label and label ~= "" then
         DrawSeqText(sx, labelY, label, 0.18, 255, 255, 255, 255 * alpha, true)
@@ -77,12 +76,12 @@ local function DrawMultiMinigameBoxes(multiSequences, currentStep, progress, pre
                 DrawSecRect(bx, rowY - boxH * 0.5, boxW, boxH, 108, 240, 156, 180 * alpha)
             elseif i == cStep then
                 DrawSecRect(bx, rowY - boxH * 0.5, boxW, boxH, 0, 0, 0, 180 * alpha)
-                
+
                 local fillW = boxW * cProgress
                 if boostPos and boostPos + 0.1 > cProgress then
                     DrawSecRect(bx + boxW * boostPos, rowY - boxH * 0.5, boxW * 0.1, boxH, 108, 255, 156, 75 * alpha)
                 end
-                
+
                 DrawSecRect(bx, rowY - boxH * 0.5, fillW, boxH, 108, 240, 156, 180 * alpha)
             else
                 DrawSecRect(bx, rowY - boxH * 0.5, boxW, boxH, 0, 0, 0, 180 * alpha)
@@ -101,7 +100,7 @@ end
 
 function HoldSequenceMinigame(coords, sequenceCount, length, timePerInput, allowSkips, label, infoText)
     sequenceCount = math.max(1, sequenceCount)
-    
+
     local seed = GetGameTimer()
     local multiSequences = {}
     for s = 1, sequenceCount do
@@ -129,13 +128,13 @@ function HoldSequenceMinigame(coords, sequenceCount, length, timePerInput, allow
 
     while not finished do
         Citizen.Wait(0)
-        
+
         if IsRawKeyDown(0x1B) or IsRawKeyDown(0x08) then
             return false
         end
-        
+
         DisablePlayerInput()
-        
+
         local boostPos
         if sequenceCount == 1 and allowSkips then
             math.randomseed(seed .. currentStep[1])

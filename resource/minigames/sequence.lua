@@ -7,7 +7,6 @@ local sequenceKeys = {
     { code = 0x47, label = "G" },
     { code = 0x48, label = "H" },
     { code = 0x49, label = "I" },
-    { code = 0x4B, label = "K" },
     { code = 0x58, label = "X" }
 }
 
@@ -41,7 +40,7 @@ local function DrawLabelAndInfo(sx, sy, totalHeight, label, infoText, alpha)
     alpha = alpha or 1
     local labelY = sy - (totalHeight * 0.5) - 0.02
     local infoY  = sy + (totalHeight * 0.5) + 0.005
-    
+
     if label and label ~= "" then
         DrawSequenceText(sx, labelY, label, 0.18, 255, 255, 255, 255 * alpha, true, true)
     end
@@ -59,7 +58,7 @@ local function DrawMinigameBoxes(sequence, pressedFlags, coords, currentIndex, h
     local count      = #sequence
     local totalW     = (count * boxW) + ((count - 1) * spacing)
     local startX     = sx - (totalW * 0.5)
-    
+
     for i, keyData in ipairs(sequence) do
         local bx = startX + (i - 1) * (boxW + spacing)
 
@@ -81,7 +80,7 @@ local function DrawMinigameBoxes(sequence, pressedFlags, coords, currentIndex, h
         if textScale < 0.18 then textScale = 0.18 end
         DrawSequenceText(textX, textY, label, textScale, 255, 255, 255, 255, true)
     end
-    
+
     DrawLabelAndInfo(sx, sy, boxH, label, infoText)
 end
 
@@ -99,7 +98,7 @@ local function DrawFinalSequence(sequence, coords, colorMode, label, infoText, a
     if colorMode == 'red' then
         r, g, b = 200, 50, 50
     end
-    
+
     for i, keyData in ipairs(sequence) do
         local bx = startX + (i - 1) * (boxW + spacing)
 
@@ -113,7 +112,7 @@ local function DrawFinalSequence(sequence, coords, colorMode, label, infoText, a
 
         DrawSequenceText(textX, textY, label, textScale, 255, 255, 255, 255 * alpha, true)
     end
-    
+
     DrawLabelAndInfo(sx, sy, boxH, label, infoText, alpha)
 end
 
@@ -141,7 +140,7 @@ function SequenceMinigame(coords, length, hiddenMode, label, infoText)
 
     while gameActive do
         Citizen.Wait(0)
-        
+
         if IsRawKeyDown(0x1B) or IsRawKeyDown(0x08) then
             return false
         end
@@ -180,14 +179,14 @@ function SequenceMinigame(coords, length, hiddenMode, label, infoText)
         colorMode = 'red'
         endDuration = 1000
     end
-    
+
     local endTime = GetGameTimer() + endDuration
     while GetGameTimer() < endTime do
         Citizen.Wait(0)
         DisablePlayerInput()
 
         local alpha = math.max(0, (endTime - GetGameTimer()) / endDuration)
-        
+
         DrawFinalSequence(sequence, coords, colorMode, label, infoText, alpha)
     end
 
