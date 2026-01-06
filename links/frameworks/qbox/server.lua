@@ -6,7 +6,7 @@ end
 function GetPlayerJob(player)
     local xPlayer = exports.qbx_core:GetPlayer(player)
     local job = xPlayer and xPlayer.PlayerData.job and xPlayer.PlayerData.job.name
-    local grade = xPlayer and xPlayer.PlayerData.job and xPlayer.PlayerData.job.grade
+    local grade = xPlayer and xPlayer.PlayerData.job and xPlayer.PlayerData.job.grade and xPlayer.PlayerData.job.grade.level
 
     return job, grade
 end
