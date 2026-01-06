@@ -26,21 +26,21 @@ function GetPlayersWithJob(jobs, minGrade)
     local isTable = type(jobs) == 'table'
     minGrade = minGrade or 0
 
-    for _, playerId in ipairs(players) do
-        local src = tonumber(playerId)
+    local jobPlayers = ESX.GetExtendedPlayers("job", jobs)
+
+    for _, xPlayer in ipairs(jobPlayers) do
+        local src = tonumber(xPlayer.source)
         local job, grade = GetPlayerJob(src)
 
-        if job and grade then
-            if isTable then
-                for _, name in ipairs(jobs) do
-                    if job == name and grade >= minGrade then
-                        table.insert(matchingPlayers, src)
-                        break
-                    end
+        if isTable then
+            for _, name in ipairs(jobs) do
+                if job == name and grade >= minGrade then
+                    table.insert(matchingPlayers, src)
+                    break
                 end
-            elseif job == jobs and grade >= minGrade then
-                table.insert(matchingPlayers, src)
             end
+        elseif job == jobs and grade >= minGrade then
+            table.insert(matchingPlayers, src)
         end
     end
 
