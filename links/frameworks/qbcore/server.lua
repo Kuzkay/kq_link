@@ -134,3 +134,20 @@ function GetPlayerCharacterId(player)
 
     return xPlayer.PlayerData.citizenid
 end
+
+function GetPlayerCharacterName(player)
+    local xPlayer = QBCore.Functions.GetPlayer(tonumber(player))
+    if not xPlayer or not xPlayer.PlayerData or not xPlayer.PlayerData.charinfo then
+        return GetPlayerName(player) or 'Unknown'
+    end
+
+    local charinfo = xPlayer.PlayerData.charinfo
+    local firstName = charinfo.firstname
+    local lastName = charinfo.lastname
+
+    if firstName and lastName then
+        return firstName .. ' ' .. lastName
+    end
+
+    return GetPlayerName(player) or 'Unknown'
+end

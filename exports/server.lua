@@ -14,6 +14,7 @@ exports('AddPlayerItem', AddPlayerItem)
 
 exports('RemovePlayerItem', RemovePlayerItem)
 exports('GetPlayerCharacterId', GetPlayerCharacterId)
+exports('GetPlayerCharacterName', GetPlayerCharacterName)
 
 exports('OpenCustomStash', OpenCustomStash)
 exports('GetStashItems', GetStashItems)

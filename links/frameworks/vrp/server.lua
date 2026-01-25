@@ -131,3 +131,22 @@ function GetStashItems()
     -- Not available in vrp
     return {}
 end
+
+function GetPlayerCharacterId(player)
+    local userId = vRP.getUserId({player})
+    return userId
+end
+
+function GetPlayerCharacterName(player)
+    local userId = vRP.getUserId({player})
+    if not userId then
+        return GetPlayerName(player) or 'Unknown'
+    end
+
+    local identity = vRP.getUserIdentity({userId})
+    if identity and identity.firstname and identity.lastname then
+        return identity.firstname .. ' ' .. identity.lastname
+    end
+
+    return GetPlayerName(player) or 'Unknown'
+end

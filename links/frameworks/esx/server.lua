@@ -150,3 +150,19 @@ function GetPlayerCharacterId(player)
 
     return xPlayer.identifier
 end
+
+function GetPlayerCharacterName(player)
+    local xPlayer = ESX.GetPlayerFromId(player)
+    if not xPlayer then
+        return GetPlayerName(player) or 'Unknown'
+    end
+
+    local firstName = xPlayer.get('firstName')
+    local lastName = xPlayer.get('lastName')
+
+    if firstName and lastName then
+        return firstName .. ' ' .. lastName
+    end
+
+    return xPlayer.getName() or GetPlayerName(player) or 'Unknown'
+end

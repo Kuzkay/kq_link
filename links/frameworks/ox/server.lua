@@ -39,6 +39,22 @@ function GetPlayerCharacterId(player)
     return xPlayer.charId
 end
 
+function GetPlayerCharacterName(player)
+    local xPlayer = Ox.GetPlayer(tonumber(player))
+    if not xPlayer then
+        return GetPlayerName(player) or 'Unknown'
+    end
+
+    local firstName = xPlayer.firstName
+    local lastName = xPlayer.lastName
+
+    if firstName and lastName then
+        return firstName .. ' ' .. lastName
+    end
+
+    return GetPlayerName(player) or 'Unknown'
+end
+
 function RegisterUsableItem(...)
     return true -- This system doesn't have it
 end
