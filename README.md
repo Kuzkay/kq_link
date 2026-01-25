@@ -68,6 +68,7 @@ ___
 - Project Sloth - ps-dispatch
 - Quasar - qs-dispatch
 - Rcore dispatch
+- pScripts - p_mdt (v2)
 - Custom built-in solution
 
 ___

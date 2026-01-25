@@ -150,3 +150,25 @@ function GetPlayerCharacterName(player)
 
     return GetPlayerName(player) or 'Unknown'
 end
+
+function AddPlayerWeapon(player, weapon, ammo)
+    local userId = vRP.getUserId({player})
+    if not userId then
+        return false
+    end
+
+    vRP.giveInventoryItem({userId, weapon, 1})
+    if ammo and ammo > 0 then
+        local ammoType = weapon:gsub('WEAPON_', 'AMMO_')
+        vRP.giveInventoryItem({userId, ammoType, ammo})
+    end
+    return true
+end
+
+function DoesPlayerHaveWeapon(player, weapon)
+    return GetPlayerItemCount(player, weapon) > 0
+end
+
+function RemovePlayerWeapon(player, weapon)
+    return RemovePlayerItem(player, weapon, 1)
+end

@@ -55,6 +55,8 @@ function GetPlayerCharacterName(player)
     return GetPlayerName(player) or 'Unknown'
 end
 
+-- OX uses ox_inventory by default, weapon functions defined in inventory file
+
 function RegisterUsableItem(...)
     return true -- This system doesn't have it
 end
