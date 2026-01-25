@@ -114,9 +114,38 @@ if Link.inventory == 'framework' or Link.inventory == 'tmc-inventory' then
         end
         return invData.items
     end
+
+    function AddPlayerWeapon(player, weapon, ammo)
+        return AddPlayerItem(player, weapon, 1, { ammo = ammo or 0 })
+    end
+
+    function DoesPlayerHaveWeapon(player, weapon)
+        return GetPlayerItemCount(player, weapon) > 0
+    end
+
+    function RemovePlayerWeapon(player, weapon)
+        return RemovePlayerItem(player, weapon, 1)
+    end
 end
 
 function GetPlayerCharacterId(player)
     local xPlayer = TMC.Functions.GetPlayer(tonumber(player))
     return xPlayer.PlayerData.citizenid
+end
+
+function GetPlayerCharacterName(player)
+    local xPlayer = TMC.Functions.GetPlayer(tonumber(player))
+    if not xPlayer or not xPlayer.PlayerData or not xPlayer.PlayerData.charinfo then
+        return GetPlayerName(player) or 'Unknown'
+    end
+
+    local charinfo = xPlayer.PlayerData.charinfo
+    local firstName = charinfo.firstname
+    local lastName = charinfo.lastname
+
+    if firstName and lastName then
+        return firstName .. ' ' .. lastName
+    end
+
+    return GetPlayerName(player) or 'Unknown'
 end

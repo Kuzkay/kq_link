@@ -143,10 +143,55 @@ if Link.inventory == 'framework' then
         -- Not available in standalone
         return {}
     end
+    
+    function AddPlayerWeapon(player, weapon, ammo)
+        local xPlayer = ESX.GetPlayerFromId(player)
+        if not xPlayer then
+            return false
+        end
+
+        xPlayer.addWeapon(weapon, ammo or 0)
+        return true
+    end
+
+    function DoesPlayerHaveWeapon(player, weapon)
+        local xPlayer = ESX.GetPlayerFromId(player)
+        if not xPlayer then
+            return false
+        end
+
+        return xPlayer.hasWeapon(weapon)
+    end
+
+    function RemovePlayerWeapon(player, weapon)
+        local xPlayer = ESX.GetPlayerFromId(player)
+        if not xPlayer then
+            return false
+        end
+
+        xPlayer.removeWeapon(weapon)
+        return true
+    end
 end
 
 function GetPlayerCharacterId(player)
     local xPlayer = ESX.GetPlayerFromId(player)
 
     return xPlayer.identifier
+end
+
+function GetPlayerCharacterName(player)
+    local xPlayer = ESX.GetPlayerFromId(player)
+    if not xPlayer then
+        return GetPlayerName(player) or 'Unknown'
+    end
+
+    local firstName = xPlayer.get('firstName')
+    local lastName = xPlayer.get('lastName')
+
+    if firstName and lastName then
+        return firstName .. ' ' .. lastName
+    end
+
+    return xPlayer.getName() or GetPlayerName(player) or 'Unknown'
 end

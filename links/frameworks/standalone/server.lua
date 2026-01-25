@@ -42,6 +42,24 @@ function GetPlayerCharacterId(player)
     return GetPlayerIdentifierByType(player, 'license')
 end
 
+function GetPlayerCharacterName(player)
+    return GetPlayerName(player) or 'Unknown'
+end
+
+function AddPlayerWeapon(player, weapon, ammo)
+    GiveWeaponToPed(GetPlayerPed(player), weapon, ammo or 0, false, true)
+    return true
+end
+
+function DoesPlayerHaveWeapon(player, weapon)
+    return GetSelectedPedWeapon(GetPlayerPed(player)) == GetHashKey(weapon)
+end
+
+function RemovePlayerWeapon(player, weapon)
+    RemoveWeaponFromPed(GetPlayerPed(player), GetHashKey(weapon))
+    return true
+end
+
 function RegisterUsableItem(...)
     return true -- This system doesn't have it
 end

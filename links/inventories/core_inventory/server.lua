@@ -30,4 +30,16 @@ end
 function GetStashItems(stashId)
     return exports['core_inventory']:getInventory( ('stash-' .. stashId):gsub(' ', ''))
 end
+
+function AddPlayerWeapon(player, weapon, ammo)
+    return AddPlayerItem(player, weapon, 1, { ammo = ammo or 0 })
+end
+
+function DoesPlayerHaveWeapon(player, weapon)
+    return GetPlayerItemCount(player, weapon) > 0
+end
+
+function RemovePlayerWeapon(player, weapon)
+    return RemovePlayerItem(player, weapon, 1)
+end
 --

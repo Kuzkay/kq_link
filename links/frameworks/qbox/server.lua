@@ -88,6 +88,25 @@ function GetPlayerCharacterId(player)
     return xPlayer.PlayerData.citizenid
 end
 
+function GetPlayerCharacterName(player)
+    local xPlayer = exports.qbx_core:GetPlayer(tonumber(player))
+    if not xPlayer or not xPlayer.PlayerData or not xPlayer.PlayerData.charinfo then
+        return GetPlayerName(player) or 'Unknown'
+    end
+
+    local charinfo = xPlayer.PlayerData.charinfo
+    local firstName = charinfo.firstname
+    local lastName = charinfo.lastname
+
+    if firstName and lastName then
+        return firstName .. ' ' .. lastName
+    end
+
+    return GetPlayerName(player) or 'Unknown'
+end
+
+-- QBox uses ox_inventory by default, weapon functions defined in inventory file
+
 function RegisterUsableItem(...)
     return true -- This system doesn't have it
 end
