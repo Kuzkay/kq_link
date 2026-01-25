@@ -6,7 +6,7 @@ function SendDispatchMessage(data)
     local streetHash = GetStreetNameAtCoord(coords.x, coords.y, coords.z)
     local street = streetHash and GetStreetNameFromHashKey(streetHash) or nil
 
-    exports['p_mdt']:CreateAlert({
+    TriggerServerEvent('p_mdt/createAlert', {
         priority = data.priority or 'medium',
         code = '10-35',
         title = data.message or '',
