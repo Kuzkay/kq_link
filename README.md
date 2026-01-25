@@ -34,6 +34,7 @@ ___
 - origen_inventory
 - chezza
 - tgiann-inventory
+- jaksam_inventory
 
 > All framework integrated inventories also are supported. esx_inventory, qb-inventory etc.
 

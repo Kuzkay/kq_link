@@ -28,6 +28,7 @@ server_scripts {
     'links/inventories/qs-inventory/server.lua',
     'links/inventories/origen_inventory/server.lua',
     'links/inventories/chezza/server.lua',
+    'links/inventories/jaksam/server.lua',
     'links/inventories/tgiann-inventory/server.lua',
     -- DISPATCH
     'links/dispatch/server/server.lua',
