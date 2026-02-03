@@ -11,11 +11,13 @@ end
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded')
 AddEventHandler('QBCore:Client:OnPlayerLoaded', function()
     PLAYER_DATA = QBCore.Functions.GetPlayerData()
+    TriggerEvent('kq_link:jobUpdated', PLAYER_DATA.job.name)
 end)
 
 RegisterNetEvent('QBCore:Client:OnJobUpdate')
 AddEventHandler('QBCore:Client:OnJobUpdate', function(jobData)
     PLAYER_DATA.job = jobData
+    TriggerEvent('kq_link:jobUpdated', PLAYER_DATA.job.name)
 end)
 
 function GetPlayerJob()
