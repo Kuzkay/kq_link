@@ -24,12 +24,14 @@ Citizen.CreateThread(function()
 
     ESX.PlayerData = ESX.GetPlayerData()
 
-    PLAYER_DATA    = ESX.PlayerData
+    PLAYER_DATA = ESX.PlayerData
+    TriggerEvent('kq_link:jobUpdated', PLAYER_DATA.job.name)
 end)
 
 RegisterNetEvent('esx:setJob')
 AddEventHandler('esx:setJob', function(jobData)
     PLAYER_DATA.job = jobData
+    TriggerEvent('kq_link:jobUpdated', PLAYER_DATA.job.name)
 end)
 
 function GetPlayerJob()
@@ -41,6 +43,6 @@ function NotifyViaFramework(message, type)
     if type == 'warning' then
         type = 'error'
     end
-    
+
     ESX.ShowNotification(message, type, 4000)
 end
