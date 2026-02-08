@@ -21,26 +21,26 @@ function GetPlayerJob(player)
 end
 
 function GetPlayersWithJob(jobs, minGrade)
-    local matchingPlayers = {}
-    local players = GetPlayers()
-    local isTable = type(jobs) == 'table'
     minGrade = minGrade or 0
 
-    local jobPlayers = ESX.GetExtendedPlayers("job", jobs)
+    local matchingPlayers = {}
+    local added = {}
 
-    for _, xPlayer in ipairs(jobPlayers) do
-        local src = tonumber(xPlayer.source)
-        local job, grade = GetPlayerJob(src)
+    local isTable = type(jobs) == 'table'
+    local jobList = isTable and jobs or { jobs }
 
-        if isTable then
-            for _, name in ipairs(jobs) do
-                if job == name and grade >= minGrade then
-                    table.insert(matchingPlayers, src)
-                    break
+    for _, jobName in ipairs(jobList) do
+        local jobPlayers = ESX.GetExtendedPlayers('job', jobName) or {}
+
+        for _, xPlayer in ipairs(jobPlayers) do
+            local src = tonumber(xPlayer.source)
+            if src and not added[src] then
+                local job, grade = GetPlayerJob(src)
+                if job == jobName and grade >= minGrade then
+                    added[src] = true
+                    matchingPlayers[#matchingPlayers + 1] = src
                 end
             end
-        elseif job == jobs and grade >= minGrade then
-            table.insert(matchingPlayers, src)
         end
     end
 
@@ -143,7 +143,7 @@ if Link.inventory == 'framework' then
         -- Not available in standalone
         return {}
     end
-    
+
     function AddPlayerWeapon(player, weapon, ammo)
         local xPlayer = ESX.GetPlayerFromId(player)
         if not xPlayer then
