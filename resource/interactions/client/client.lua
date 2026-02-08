@@ -497,6 +497,10 @@ local function RegisterInteraction(data)
     -- Deleting
 
     self.Delete = function()
+        if not self then
+            return
+        end
+        
         if self.eventHandler then
             RemoveEventHandler(self.eventHandler)
         end

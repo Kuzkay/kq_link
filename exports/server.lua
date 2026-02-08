@@ -23,6 +23,9 @@ exports('GetPlayerCharacterName', GetPlayerCharacterName)
 exports('OpenCustomStash', OpenCustomStash)
 exports('GetStashItems', GetStashItems)
 
+exports('GiveVehicleKeys', GiveVehicleKeys)
+exports('RemoveVehicleKeys', RemoveVehicleKeys)
+
 -- RESOURCE
 exports('AddPlayerItemToFit', AddPlayerItemToFit)
 

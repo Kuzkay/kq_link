@@ -4,7 +4,7 @@ lua54 'yes'
 
 author 'KuzQuality.com | Kuzkay'
 description 'KuzQuality Link | Made to link existing frameworks and dependencies'
-version '1.16.0'
+version '1.17.0'
 
 server_scripts {
     -- RESOURCE BASE
@@ -32,6 +32,9 @@ server_scripts {
     'links/inventories/tgiann-inventory/server.lua',
     -- DISPATCH
     'links/dispatch/server/server.lua',
+
+    -- VEHICLE KEYS
+    'links/vehiclekeys/server/*.lua',
 
     -- EXPORTS
     'exports/server.lua',
@@ -85,6 +88,9 @@ client_scripts {
     'links/inventories/qs-inventory/client.lua',
     'links/inventories/codem-inventory/client.lua',
     'links/inventories/tgiann-inventory/client.lua',
+
+    -- VEHICLE KEYS
+    'links/vehiclekeys/client/mrnewb.lua',
 
     -- EXPORTS
     'exports/client.lua',
