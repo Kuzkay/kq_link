@@ -49,5 +49,31 @@ local function DetectAndSetInventory()
     end
 end
 
+local function DetectAndSetVehicleKeys()
+    if Link.vehiclekeys ~= 'auto' then
+        return
+    end
+
+    local vehiclekeys = {
+        ['qbx_vehiclekeys'] = 'qbx_vehiclekeys',
+        ['qb-vehiclekeys'] = 'qb-vehiclekeys',
+        ['wasabi_carlock'] = 'wasabi_carlock',
+        ['vehicles_keys'] = 'jaksam',
+        ['MrNewbVehicleKeys'] = 'mrnewb',
+        ['Renewed-Vehiclekeys'] = 'renewed',
+    }
+
+    for resource, config in pairs(vehiclekeys) do
+        if GetResourceState(resource) == 'started' then
+            Link.vehiclekeys = config
+            Debug('set vehiclekeys', config)
+            return
+        end
+    end
+
+    Link.vehiclekeys = 'standalone'
+end
+
 DetectAndSetFramework()
 DetectAndSetInventory()
+DetectAndSetVehicleKeys()

@@ -68,7 +68,7 @@ Link.notifications = 'standalone'
 Link.input = {
     target = {
         -- Whether to use a targeting system
-        enabled = false,
+        enabled = true,
         --- 'ox_target' -- ox targeting system
         --- 'qb-target' -- QBCore targeting system
         --- 'qtarget' -- The classic qtarget system commonly used in esx
@@ -112,3 +112,18 @@ Link.input = {
 Link.dispatch = {
     system = 'standalone'
 }
+
+
+--- VEHICLE KEYS OPTIONS
+------------------------
+--- 'auto' -- The script will automatically find the vehicle keys system
+---
+--- 'qb-vehiclekeys' -- QBCore vehicle keys system
+--- 'qbx_vehiclekeys' -- QBox vehicle keys system
+--- 'wasabi_carlock' -- Wasabi's car lock system
+--- 'jaksam' -- Jaksam's vehicle keys system
+--- 'mrnewb' -- MrNewbScripts vehicle keys system
+--- 'renewed' -- Renewed vehicle keys system
+---
+--- 'standalone' -- Set to this option if you are not using any vehicle keys systems
+Link.vehiclekeys = 'auto'
