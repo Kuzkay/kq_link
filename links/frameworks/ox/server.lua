@@ -13,7 +13,7 @@ function GetPlayersWithJob(jobs)
 end
 
 function CanPlayerAfford(player, amount)
-    if Link.inventory == "ox_inventory"
+    if Link.inventory == "ox_inventory" then
         if exports.ox_inventory:GetItemCount(player, "cash", amount) >= amount then
             return true
         end
