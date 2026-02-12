@@ -34,7 +34,7 @@ end
 
 function AddPlayerMoney(player, amount, account)
     if Link.inventory == "ox_inventory" and account == "cash" then
-        local success, response = exports.ox_inventory:AddItem(player, "cash", cashAmount)
+        local success, _ = exports.ox_inventory:AddItem(player, "cash", cashAmount)
 
         if success then
             return true
@@ -56,7 +56,7 @@ end
 
 function RemovePlayerMoney(player, cashAmount)
     if Link.inventory == "ox_inventory" then
-        local success, response = exports.ox_inventory:RemoveItem(player, "cash", cashAmount)
+        local success, _ = exports.ox_inventory:RemoveItem(player, "cash", cashAmount)
 
         if success then
             return true
