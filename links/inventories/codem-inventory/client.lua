@@ -5,3 +5,16 @@ AddEventHandler('kq_link:client:codem-inventory:openStash', function(stashId, we
         slots = slots
     })
 end)
+
+if Link.inventory ~= 'codem-inventory' and Link.inventory ~= 'codem' then
+    return
+end
+
+function IsPlayerCarryingItem(item_name)
+    --No export by default
+    return nil
+end
+
+function GetPlayerInventory()
+    return exports['codem-inventory']:getUserInventory()
+end

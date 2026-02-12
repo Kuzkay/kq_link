@@ -2,3 +2,17 @@ RegisterNetEvent('kq_link:client:tgiann-inventory:openStash')
 AddEventHandler('kq_link:client:tgiann-inventory:openStash', function(stashId)
     exports['tgiann-inventory']:OpenInventory('stash', stashId)
 end)
+
+if Link.inventory ~= 'tgiann-inventory' and Link.inventory ~= 'tgiann' then
+    return
+end
+
+function IsPlayerCarryingItem(item_name)
+    local count = exports["tgiann-inventory"]:GetItemCount(item_name)
+
+    return count and count > 0
+end
+
+function GetPlayerInventory()
+    return exports["tgiann-inventory"]:Items()
+end
