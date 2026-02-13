@@ -11,8 +11,7 @@ if Link.inventory ~= 'codem-inventory' and Link.inventory ~= 'codem' then
 end
 
 function GetItemCount(item_name)
-    --No export by default
-    return nil
+    return TriggerServerCallback('kq_link:callback:getItemCount', item_name)
 end
 
 function GetPlayerInventory()

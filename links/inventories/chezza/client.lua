@@ -7,6 +7,5 @@ function GetItemCount(item_name)
 end
 
 function GetPlayerInventory()
-    --No export by default
-    return nil
+    return TriggerServerCallback('kq_link:callback:getPlayerInventory')
 end
