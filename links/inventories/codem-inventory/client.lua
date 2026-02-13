@@ -10,7 +10,7 @@ if Link.inventory ~= 'codem-inventory' and Link.inventory ~= 'codem' then
     return
 end
 
-function IsPlayerCarryingItem(item_name)
+function GetItemCount(item_name)
     --No export by default
     return nil
 end

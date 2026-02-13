@@ -2,6 +2,10 @@ if Link.inventory ~= 'ox_inventory' and Link.inventory ~= 'ox' then
     return
 end
 
+function GetPlayerInventory(player)
+    return exports['ox_inventory']:GetInventory(player)
+end
+
 function GetPlayerItemData(player, item, meta)
     local data = exports['ox_inventory']:GetItem(player, item, meta)
     return data or {}

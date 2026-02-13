@@ -18,6 +18,7 @@ server_scripts {
     'links/frameworks/vrp/server.lua',
     'links/frameworks/tmc/server.lua',
     'links/frameworks/standalone/server.lua',
+    'links/frameworks/server.lua',
 
     -- INVENTORIES
     'links/inventories/ak47_inventory/server.lua',

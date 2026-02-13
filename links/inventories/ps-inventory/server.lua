@@ -2,6 +2,10 @@ if Link.inventory ~= 'ps-inventory' and Link.inventory ~= 'ps' then
     return
 end
 
+function GetPlayerInventory(player)
+    return exports['ps-inventory']:GetInventory(player)
+end
+
 function GetPlayerItemData(player, item)
     local data = exports['ps-inventory']:GetItemByName(player, item)
     return data

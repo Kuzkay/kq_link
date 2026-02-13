@@ -2,9 +2,8 @@ if Link.inventory ~= 'chezza' then
     return
 end
 
-function IsPlayerCarryingItem(item_name)
-    --No export by default
-    return nil
+function GetItemCount(item_name)
+    return TriggerServerCallback('kq_link:callback:getItemCount', item_name)
 end
 
 function GetPlayerInventory()

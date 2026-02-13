@@ -2,7 +2,7 @@ if Link.inventory ~= 'core_inventory' and Link.inventory ~= 'core' then
     return
 end
 
-function IsPlayerCarryingItem(item_name)
+function GetItemCount(item_name)
    local count = exports.core_inventory:getItemCount(item_name)
 
    return count and count > 0

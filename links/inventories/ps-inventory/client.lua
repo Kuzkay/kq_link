@@ -2,7 +2,7 @@ if Link.inventory ~= 'ps-inventory' and Link.inventory ~= 'ps' then
     return
 end
 
-function IsPlayerCarryingItem(item_name)
+function GetItemCount(item_name)
     local hasItem = exports['ps-inventory']:HasItem(item_name)
     return hasItem == true
 end

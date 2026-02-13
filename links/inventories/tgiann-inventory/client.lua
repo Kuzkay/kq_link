@@ -7,7 +7,7 @@ if Link.inventory ~= 'tgiann-inventory' and Link.inventory ~= 'tgiann' then
     return
 end
 
-function IsPlayerCarryingItem(item_name)
+function GetItemCount(item_name)
     local count = exports["tgiann-inventory"]:GetItemCount(item_name)
 
     return count and count > 0

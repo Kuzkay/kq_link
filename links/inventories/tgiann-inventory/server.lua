@@ -2,6 +2,10 @@ if Link.inventory ~= 'tgiann-inventory' and Link.inventory ~= 'tgiann' then
     return
 end
 
+function GetPlayerInventory(player)
+    return exports["tgiann-inventory"]:GetPlayerItems(player)
+end
+
 function GetPlayerItemData(player, item, meta)
     local data = exports['tgiann-inventory']:GetItem(player, item, meta, false)
     return data or {}

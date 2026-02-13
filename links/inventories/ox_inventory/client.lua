@@ -7,7 +7,7 @@ if Link.inventory ~= 'ox_inventory' and Link.inventory ~= 'ox' then
     return
 end
 
-function IsPlayerCarryingItem(item_name)
+function GetItemCount(item_name)
     local count = exports.ox_inventory:GetItemCount(item_name)
 
     return count and count > 0

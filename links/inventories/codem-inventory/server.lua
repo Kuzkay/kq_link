@@ -2,6 +2,12 @@ if Link.inventory ~= 'codem-inventory' and Link.inventory ~= 'codem' then
     return
 end
 
+--Unsure if this implementation is correct
+function GetPlayerInventory(player)
+    local identifier = GetPlayerIdentifierByType(player, 'license')
+    return exports['codem-inventory']:GetInventory(identifier, source)
+end
+
 function GetPlayerItemData(player, item)
     local data = exports['codem-inventory']:GetItemsByName(player, item)
     return data or {}

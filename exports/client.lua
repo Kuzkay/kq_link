@@ -24,4 +24,4 @@ exports('RemoveTargetZone', InputUtils.RemoveTargetZone)
 -- INVENTORY
 
 exports('GetPlayerInventory', GetPlayerInventory)
-exports('IsPlayerCarryingItem', IsPlayerCarryingItem)
+exports('GetItemCount', GetItemCount)
