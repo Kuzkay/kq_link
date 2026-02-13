@@ -8,5 +8,5 @@ function GetItemCount(item_name)
 end
 
 function GetPlayerInventory()
-    return exports.origen_inventory:GetInventory()
+    return NormalizeInventoryOutput(exports.origen_inventory:GetInventory())
 end

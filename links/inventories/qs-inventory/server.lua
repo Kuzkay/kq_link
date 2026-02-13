@@ -3,7 +3,7 @@ if Link.inventory ~= 'qs-inventory' and Link.inventory ~= 'qs' then
 end
 
 function GetPlayerInventory(player)
-    return exports['qs-inventory']:GetInventory(player)
+    return NormalizeInventoryOutput(exports['qs-inventory']:GetInventory(player))
 end
 
 function RegisterUsableItem(...)

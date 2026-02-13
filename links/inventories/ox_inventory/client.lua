@@ -14,5 +14,5 @@ function GetItemCount(item_name)
 end
 
 function GetPlayerInventory()
-    return exports.ox_inventory:GetPlayerItems()
+    return NormalizeInventoryOutput(exports.ox_inventory:GetPlayerItems())
 end

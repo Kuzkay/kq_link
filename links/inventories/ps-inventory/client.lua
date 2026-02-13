@@ -8,5 +8,5 @@ function GetItemCount(item_name)
 end
 
 function GetPlayerInventory()
-    return TriggerServerCallback('kq_link:callback:getPlayerInventory')
+    return NormalizeInventoryOutput(TriggerServerCallback('kq_link:callback:getPlayerInventory'))
 end

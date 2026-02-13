@@ -9,5 +9,5 @@ function GetItemCount(item_name)
 end
 
 function GetPlayerInventory()
-    return exports['jaksam_inventory']:getInventory()
+    return NormalizeInventoryOutput(exports['jaksam_inventory']:getInventory())
 end

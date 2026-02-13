@@ -3,7 +3,7 @@ if Link.inventory ~= 'ox_inventory' and Link.inventory ~= 'ox' then
 end
 
 function GetPlayerInventory(player)
-    return exports['ox_inventory']:GetInventory(player)
+    return NormalizeInventoryOutput(exports['ox_inventory']:GetInventory(player))
 end
 
 function GetPlayerItemData(player, item, meta)

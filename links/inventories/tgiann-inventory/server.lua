@@ -3,7 +3,7 @@ if Link.inventory ~= 'tgiann-inventory' and Link.inventory ~= 'tgiann' then
 end
 
 function GetPlayerInventory(player)
-    return exports["tgiann-inventory"]:GetPlayerItems(player)
+    return NormalizeInventoryOutput(exports["tgiann-inventory"]:GetPlayerItems(player))
 end
 
 function GetPlayerItemData(player, item, meta)

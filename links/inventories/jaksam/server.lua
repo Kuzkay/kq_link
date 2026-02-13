@@ -3,7 +3,7 @@ if Link.inventory ~= 'jaksam_inventory' and Link.inventory ~= 'jaksam' then
 end
 
 function GetPlayerInventory(player)
-    return exports['jaksam_inventory']:getInventory(player)
+    return NormalizeInventoryOutput(exports['jaksam_inventory']:getInventory(player))
 end
 
 function GetPlayerItemData(player, item, meta)

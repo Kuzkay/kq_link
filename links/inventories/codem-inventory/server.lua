@@ -5,7 +5,7 @@ end
 --Unsure if this implementation is correct
 function GetPlayerInventory(player)
     local identifier = GetPlayerIdentifierByType(player, 'license')
-    return exports['codem-inventory']:GetInventory(identifier, source)
+    return NormalizeInventoryOutput(exports['codem-inventory']:GetInventory(identifier, source))
 end
 
 function GetPlayerItemData(player, item)

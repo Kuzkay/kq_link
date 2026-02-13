@@ -15,5 +15,5 @@ function GetItemCount(item_name)
 end
 
 function GetPlayerInventory()
-    return exports['codem-inventory']:getUserInventory()
+    return NormalizeInventoryOutput(exports['codem-inventory']:getUserInventory())
 end

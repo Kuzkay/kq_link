@@ -45,6 +45,7 @@ shared_scripts {
     'config.lua',
     'resource/shared.lua',
     'links/frameworks/shared.lua',
+    'links/inventories/shared.lua',
 
     '@ox_lib/init.lua',
     -- '@ox_core/lib/init.lua',

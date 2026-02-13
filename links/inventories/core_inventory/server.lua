@@ -3,7 +3,7 @@ if Link.inventory ~= 'core_inventory' and Link.inventory ~= 'core' then
 end
 
 function GetPlayerInventory(player)
-    return exports['core_inventory']:getInventory(player)
+    return NormalizeInventoryOutput(exports['core_inventory']:getInventory(player))
 end
 
 function GetPlayerItemData(player, item)

@@ -11,7 +11,7 @@ function GetPlayerInventory(player)
         id = xPlayer.identifier -- assuming that's how the inventory system works
     }
 
-    return exports.inventory:getInventory(xPlayer, inv) or {}
+    return NormalizeInventoryOutput(exports.inventory:getInventory(xPlayer, inv) or {})
 end
 
 function GetPlayerItemData(player, item)

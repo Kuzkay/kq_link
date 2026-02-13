@@ -3,7 +3,7 @@ if Link.inventory ~= 'ps-inventory' and Link.inventory ~= 'ps' then
 end
 
 function GetPlayerInventory(player)
-    return exports['ps-inventory']:GetInventory(player)
+    return NormalizeInventoryOutput(exports['ps-inventory']:GetInventory(player))
 end
 
 function GetPlayerItemData(player, item)
