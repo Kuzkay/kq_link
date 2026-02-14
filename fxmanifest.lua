@@ -4,7 +4,7 @@ lua54 'yes'
 
 author 'KuzQuality.com | Kuzkay'
 description 'KuzQuality Link | Made to link existing frameworks and dependencies'
-version '1.17.1'
+version '1.18.0'
 
 server_scripts {
     -- RESOURCE BASE
@@ -19,6 +19,7 @@ server_scripts {
     'links/frameworks/vrp/server.lua',
     'links/frameworks/tmc/server.lua',
     'links/frameworks/standalone/server.lua',
+    'links/frameworks/server.lua',
 
     -- INVENTORIES
     'links/inventories/ak47_inventory/server.lua',
@@ -45,6 +46,7 @@ shared_scripts {
     'config.lua',
     'resource/shared.lua',
     'links/frameworks/shared.lua',
+    'links/inventories/shared.lua',
 
     '@ox_lib/init.lua',
     '@ox_core/lib/init.lua',

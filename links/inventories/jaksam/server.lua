@@ -2,6 +2,10 @@ if Link.inventory ~= 'jaksam_inventory' and Link.inventory ~= 'jaksam' then
     return
 end
 
+function GetPlayerInventory(player)
+    return NormalizeInventoryOutput(exports['jaksam_inventory']:getInventory(player))
+end
+
 function GetPlayerItemData(player, item, meta)
     local data, slotId = exports['jaksam_inventory']:getItemByName(player, item, meta)
     return data or {}

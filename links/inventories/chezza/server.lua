@@ -4,6 +4,16 @@ end
 
 stashes = {}
 
+function GetPlayerInventory(player)
+    local xPlayer = ESX.GetPlayerFromId(player)
+    local inv = {
+        type = 'player',
+        id = xPlayer.identifier -- assuming that's how the inventory system works
+    }
+
+    return NormalizeInventoryOutput(exports.inventory:getInventory(xPlayer, inv) or {})
+end
+
 function GetPlayerItemData(player, item)
     local xPlayer = ESX.GetPlayerFromId(player)
 
