@@ -7,10 +7,8 @@ if Link.inventory ~= 'tgiann-inventory' and Link.inventory ~= 'tgiann' then
     return
 end
 
-function GetItemCount(item_name)
-    local count = exports["tgiann-inventory"]:GetItemCount(item_name)
-
-    return count
+function GetItemCount(item)
+    return exports["tgiann-inventory"]:GetItemCount(item) or 0
 end
 
 function GetPlayerInventory()

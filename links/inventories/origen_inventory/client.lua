@@ -2,9 +2,8 @@ if Link.inventory ~= 'origen_inventory' and Link.inventory ~= 'origen' then
     return
 end
 
-function GetItemCount(item_name)
-    local count = exports.origen_inventory:GetItemCount(item_name)
-    return count
+function GetItemCount(item)
+    return exports.origen_inventory:GetItemCount(item) or 0
 end
 
 function GetPlayerInventory()

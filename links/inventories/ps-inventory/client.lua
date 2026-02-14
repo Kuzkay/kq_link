@@ -2,8 +2,8 @@ if Link.inventory ~= 'ps-inventory' and Link.inventory ~= 'ps' then
     return
 end
 
-function GetItemCount(item_name)
-    return TriggerServerCallback('kq_link:callback:getItemCount', item_name)
+function GetItemCount(item)
+    return TriggerServerCallback('kq_link:callback:getItemCount', item)
 end
 
 function GetPlayerInventory()
