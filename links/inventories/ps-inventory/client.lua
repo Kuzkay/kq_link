@@ -3,8 +3,7 @@ if Link.inventory ~= 'ps-inventory' and Link.inventory ~= 'ps' then
 end
 
 function GetItemCount(item_name)
-    local hasItem = exports['ps-inventory']:HasItem(item_name)
-    return hasItem == true
+    return TriggerServerCallback('kq_link:callback:getItemCount', item_name)
 end
 
 function GetPlayerInventory()

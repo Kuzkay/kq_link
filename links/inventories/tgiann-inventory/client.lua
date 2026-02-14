@@ -10,7 +10,7 @@ end
 function GetItemCount(item_name)
     local count = exports["tgiann-inventory"]:GetItemCount(item_name)
 
-    return count and count > 0
+    return count
 end
 
 function GetPlayerInventory()

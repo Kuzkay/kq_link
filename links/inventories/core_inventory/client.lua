@@ -5,7 +5,7 @@ end
 function GetItemCount(item_name)
    local count = exports.core_inventory:getItemCount(item_name)
 
-   return count and count > 0
+   return count
 end
 
 function GetPlayerInventory()
