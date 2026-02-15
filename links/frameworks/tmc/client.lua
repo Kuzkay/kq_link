@@ -11,7 +11,7 @@ end
 RegisterNetEvent('TMC:Client:OnPlayerLoaded')
 AddEventHandler('TMC:Client:OnPlayerLoaded', function()
     PLAYER_DATA = TMC.Functions.GetPlayerData()
-    TriggerEvent('kq_link:jobUpdated', PLAYER_DATA.job.name)
+    TriggerEvent('kq_link:jobUpdated', PLAYER_DATA.job[1].name)
 end)
 
 RegisterNetEvent('TMC:Client:OnJobUpdate')
