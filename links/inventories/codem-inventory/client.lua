@@ -5,3 +5,15 @@ AddEventHandler('kq_link:client:codem-inventory:openStash', function(stashId, we
         slots = slots
     })
 end)
+
+if Link.inventory ~= 'codem-inventory' and Link.inventory ~= 'codem' then
+    return
+end
+
+function GetItemCount(item)
+    return TriggerServerCallback('kq_link:callback:getItemCount', item)
+end
+
+function GetPlayerInventory()
+    return NormalizeInventoryOutput(exports['codem-inventory']:getUserInventory())
+end

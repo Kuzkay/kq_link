@@ -20,3 +20,8 @@ exports('AddEntityToTargeting', InputUtils.AddEntityToTargeting)
 exports('AddZoneToTargeting', InputUtils.AddZoneToTargeting)
 exports('RemoveTargetEntity', InputUtils.RemoveTargetEntity)
 exports('RemoveTargetZone', InputUtils.RemoveTargetZone)
+
+-- INVENTORY
+
+exports('GetPlayerInventory', GetPlayerInventory)
+exports('GetItemCount', GetItemCount)

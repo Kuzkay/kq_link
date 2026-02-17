@@ -88,6 +88,10 @@ if Link.inventory == 'framework' or Link.inventory == 'tmc-inventory' then
         if not data then
             return 0
         end
+        if type(data) == 'table' then
+            data = data[1]
+        end
+        
         return data.amount or data.count or 0
     end
 

@@ -2,6 +2,10 @@ if Link.inventory ~= 'origen_inventory' and Link.inventory ~= 'origen' then
     return
 end
 
+function GetPlayerInventory(player)
+    return NormalizeInventoryOutput(exports['origen_inventory']:getInventory(player))
+end
+
 function RegisterUsableItem(...)
     exports['origen_inventory']:CreateUseableItem(...)
 end

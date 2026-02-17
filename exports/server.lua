@@ -26,8 +26,8 @@ exports('GetStashItems', GetStashItems)
 exports('GiveVehicleKeys', GiveVehicleKeys)
 exports('RemoveVehicleKeys', RemoveVehicleKeys)
 
+exports('GetPlayerInventory', GetPlayerInventory)
 -- RESOURCE
 exports('AddPlayerItemToFit', AddPlayerItemToFit)
-
 exports('RegisterServerCallback', RegisterServerCallback)
 

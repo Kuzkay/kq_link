@@ -12,12 +12,14 @@ server_scripts {
     'resource/callbacks/server.lua',
 
     -- FRAMEWORKS
+    'links/frameworks/ox/server.lua',
     'links/frameworks/esx/server.lua',
     'links/frameworks/qbcore/server.lua',
     'links/frameworks/qbox/server.lua',
     'links/frameworks/vrp/server.lua',
     'links/frameworks/tmc/server.lua',
     'links/frameworks/standalone/server.lua',
+    'links/frameworks/server.lua',
 
     -- INVENTORIES
     'links/inventories/ak47_inventory/server.lua',
@@ -44,9 +46,10 @@ shared_scripts {
     'config.lua',
     'resource/shared.lua',
     'links/frameworks/shared.lua',
+    'links/inventories/shared.lua',
 
     '@ox_lib/init.lua',
-    -- '@ox_core/lib/init.lua',
+    '@ox_core/lib/init.lua',
 }
 
 client_scripts {
@@ -76,6 +79,7 @@ client_scripts {
     -- FRAMEWORKS
     'links/frameworks/client.lua',
 
+    'links/frameworks/ox/client.lua',
     'links/frameworks/esx/client.lua',
     'links/frameworks/qbcore/client.lua',
     'links/frameworks/qbox/client.lua',
