@@ -107,6 +107,7 @@ Link.input = {
 --- 'qs' -- Dispatch system made by Quasar
 --- 'rcore' -- Dispatch system made by Rcore
 --- 'p_mdt' -- Dispatch system made by pScripts
+--- 'tk' -- Dispatch system made by TK Scripts
 ---
 --- 'standalone' -- Built in dispatch system
 Link.dispatch = {
