@@ -70,6 +70,7 @@ ___
 - Quasar - qs-dispatch
 - Rcore dispatch
 - pScripts - p_mdt (v2)
+- TK Scripts - tk_dispatch
 - Custom built-in solution
 
 ___
