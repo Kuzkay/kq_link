@@ -134,6 +134,11 @@ end
 
 function GetPlayerCharacterId(player)
     local xPlayer = TMC.Functions.GetPlayer(tonumber(player))
+
+    if not xPlayer or not xPlayer.PlayerData then
+        return nil
+    end
+
     return xPlayer.PlayerData.citizenid
 end
 

@@ -26,6 +26,18 @@ function RemovePlayerItem(player, item, amount, meta)
     return success
 end
 
+function AddPlayerWeapon(player, weapon, ammo)
+    return AddPlayerItem(player, weapon, 1, { ammo = ammo or 0 })
+end
+
+function DoesPlayerHaveWeapon(player, weapon)
+    return GetPlayerItemCount(player, weapon) > 0
+end
+
+function RemovePlayerWeapon(player, weapon)
+    return RemovePlayerItem(player, weapon, 1)
+end
+
 -- Stashes
 local stashes = {}
 function OpenCustomStash(player, stashId, label, slots, weight)

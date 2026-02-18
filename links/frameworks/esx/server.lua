@@ -177,6 +177,10 @@ end
 function GetPlayerCharacterId(player)
     local xPlayer = ESX.GetPlayerFromId(player)
 
+    if not xPlayer then
+        return nil
+    end
+
     return xPlayer.identifier
 end
 

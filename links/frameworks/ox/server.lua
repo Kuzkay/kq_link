@@ -83,6 +83,10 @@ end
 function GetPlayerCharacterId(player)
     local xPlayer = Ox.GetPlayer(tonumber(player))
 
+    if not xPlayer then
+        return nil
+    end
+
     return xPlayer.charId
 end
 

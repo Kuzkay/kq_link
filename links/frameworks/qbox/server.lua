@@ -85,6 +85,10 @@ end
 function GetPlayerCharacterId(player)
     local xPlayer = exports.qbx_core:GetPlayer(tonumber(player))
 
+    if not xPlayer or not xPlayer.PlayerData then
+        return nil
+    end
+
     return xPlayer.PlayerData.citizenid
 end
 
