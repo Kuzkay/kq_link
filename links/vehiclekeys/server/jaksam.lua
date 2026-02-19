@@ -6,12 +6,12 @@ end
 
 function GiveVehicleKeys(player, vehicle)
     local plate = GetVehicleNumberPlateText(vehicle)
-    TriggerClientEvent('vehicles_keys:selfGiveVehicleKeys', player, strTrim(plate))
+    exports["vehicles_keys"]:giveVehicleKeysToPlayerId(player, strTrim(plate), 'temporary')
     return true
 end
 
 function RemoveVehicleKeys(player, vehicle)
     local plate = GetVehicleNumberPlateText(vehicle)
-    TriggerClientEvent('vehicles_keys:selfRemoveVehicleKeys', player, strTrim(plate))
+    exports["vehicles_keys"]:removeKeysFromPlayerId(player, strTrim(plate))
     return true
 end
