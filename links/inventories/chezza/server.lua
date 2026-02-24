@@ -2,8 +2,6 @@ if Link.inventory ~= 'chezza' then
     return
 end
 
-stashes = {}
-
 function GetPlayerInventory(player)
     local xPlayer = ESX.GetPlayerFromId(player)
     local inv = {
@@ -43,51 +41,51 @@ function RemovePlayerItem(player, item, amount)
     if GetPlayerItemCount(player, item) < amount then
         return false
     end
-    
+
     local xPlayer = ESX.GetPlayerFromId(player)
     xPlayer.removeInventoryItem(item, amount or 1)
-    
+
     return true
 end
 
 function OpenCustomStash(player, stashId, label, slots, weight)
-
-if not stashes[stashId] then
-
-    -- statshes dont work for some reason it wont open twice
-    -- TriggerClientEvent('inventory:openInventory', player, {
-    --     type = "stash",
-    --     id = stashId,
-    --     title = label,
-    --     weight = weight or 3000,
-    --     delay = 100,
-    --     save = true
-    -- })
-    -- stashes[stashId] = true
     xPlayer = ESX.GetPlayerFromId(player)
     TriggerClientEvent('inventory:openHouse', xPlayer.source, xPlayer.identifier, stashId, label, weight)
-    end
+    
+    return true
 end
 
 function GetStashItems(stashId)
-    if not stashes[stashId] then
-        return {}
-    end
-    local xPlayer = ESX.GetPlayerFromId(src)
-    local inventory = exports.inventory:getInventory(xPlayer, inv)
-
+    -- not possible with this system
     return {}
 end
 
 function AddPlayerWeapon(player, weapon, ammo)
-    return AddPlayerItem(player, weapon, 1, { ammo = ammo or 0 })
+    local xPlayer = ESX.GetPlayerFromId(player)
+    if not xPlayer then
+        return false
+    end
+
+    xPlayer.addWeapon(weapon, ammo or 0)
+    return true
 end
 
 function DoesPlayerHaveWeapon(player, weapon)
-    return GetPlayerItemCount(player, weapon) > 0
+    local xPlayer = ESX.GetPlayerFromId(player)
+    if not xPlayer then
+        return false
+    end
+
+    return xPlayer.hasWeapon(weapon)
 end
 
 function RemovePlayerWeapon(player, weapon)
-    return RemovePlayerItem(player, weapon, 1)
+    local xPlayer = ESX.GetPlayerFromId(player)
+    if not xPlayer then
+        return false
+    end
+
+    xPlayer.removeWeapon(weapon)
+    return true
 end
 --
