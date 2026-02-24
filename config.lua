@@ -108,6 +108,7 @@ Link.input = {
 --- 'rcore' -- Dispatch system made by Rcore
 --- 'p_mdt' -- Dispatch system made by pScripts
 --- 'tk' -- Dispatch system made by TK Scripts
+--- 'origen' -- Dispatch system made by Origen (Origen-police)
 ---
 --- 'standalone' -- Built in dispatch system
 Link.dispatch = {
