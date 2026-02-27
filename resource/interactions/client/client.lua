@@ -17,6 +17,10 @@ local function GetNearbyPlayerInteractions()
 
         local nearbyInteractions = {}
         for k, playerInteraction in pairs(PLAYER_INTERACTIONS) do
+            if not playerInteraction then
+                return
+            end
+
             local coords = playerInteraction.GetCoords()
 
             local dx = playerCoords.x - coords.x
@@ -357,6 +361,10 @@ local function RegisterInteraction(data)
     }
 
     self.SafeCanInteract = function(real)
+        if not self or not self.canInteract then
+            return false
+        end
+
         if not real and (self.cachedCanInteractTime or 0) > GetGameTimer() - 500 then
             return self.cachedCanInteract
         end
@@ -500,7 +508,7 @@ local function RegisterInteraction(data)
         if not self then
             return
         end
-        
+
         if self.eventHandler then
             RemoveEventHandler(self.eventHandler)
         end
