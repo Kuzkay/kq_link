@@ -74,6 +74,53 @@ local function DetectAndSetVehicleKeys()
     Link.vehiclekeys = 'standalone'
 end
 
+local function DetectAndSetNotifications()
+    if Link.notifications ~= 'auto' then
+        return
+    end
+
+    -- Prioritize dedicated notification resources
+    if GetResourceState('gs-notify') == 'started' then
+        Link.notifications = 'gs-notify'
+        Debug('set notifications', 'gs-notify')
+        return
+    end
+
+    if GetResourceState('okokNotify') == 'started' then
+        Link.notifications = 'okokNotify'
+        Debug('set notifications', 'okokNotify')
+        return
+    end
+
+    if GetResourceState('codem-notification') == 'started' then
+        Link.notifications = 'codem-notification'
+        Debug('set notifications', 'codem-notification')
+        return
+    end
+
+    if GetResourceState('mythic_notify') == 'started' then
+        Link.notifications = 'mythic'
+        Debug('set notifications', 'mythic')
+        return
+    end
+
+    if GetResourceState('17mov_Hud') == 'started' then
+        Link.notifications = '17mov'
+        Debug('set notifications', '17mov')
+        return
+    end
+
+    -- Fallback to libraries/frameworks
+    if GetResourceState('ox_lib') == 'started' then
+        Link.notifications = 'ox'
+        Debug('set notifications', 'ox')
+        return
+    end
+
+    Link.notifications = 'standalone'
+end
+
 DetectAndSetFramework()
 DetectAndSetInventory()
 DetectAndSetVehicleKeys()
+DetectAndSetNotifications()
