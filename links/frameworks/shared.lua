@@ -79,45 +79,24 @@ local function DetectAndSetNotifications()
         return
     end
 
-    -- Prioritize dedicated notification resources
-    if GetResourceState('gs-notify') == 'started' then
-        Link.notifications = 'gs-notify'
-        Debug('set notifications', 'gs-notify')
-        return
-    end
+    local notifications = {
+        ['gs-notify'] = 'gs-notify',
+        ['okokNotify'] = 'okokNotify',
+        ['codem-notification'] = 'codem-notification',
+        ['mythic_notify'] = 'mythic',
+        ['17mov_Hud'] = '17mov',
+        ['ox_lib'] = 'ox',
+    }
 
-    if GetResourceState('okokNotify') == 'started' then
-        Link.notifications = 'okokNotify'
-        Debug('set notifications', 'okokNotify')
-        return
-    end
+    for resource, config in pairs(notifications) do
+        if GetResourceState(resource) == 'started' then
+            Link.notifications = config
+            Debug('set notifications', config)
+            return
+        end
 
-    if GetResourceState('codem-notification') == 'started' then
-        Link.notifications = 'codem-notification'
-        Debug('set notifications', 'codem-notification')
-        return
+        Link.notifications = 'standalone'
     end
-
-    if GetResourceState('mythic_notify') == 'started' then
-        Link.notifications = 'mythic'
-        Debug('set notifications', 'mythic')
-        return
-    end
-
-    if GetResourceState('17mov_Hud') == 'started' then
-        Link.notifications = '17mov'
-        Debug('set notifications', '17mov')
-        return
-    end
-
-    -- Fallback to libraries/frameworks
-    if GetResourceState('ox_lib') == 'started' then
-        Link.notifications = 'ox'
-        Debug('set notifications', 'ox')
-        return
-    end
-
-    Link.notifications = 'standalone'
 end
 
 DetectAndSetFramework()
