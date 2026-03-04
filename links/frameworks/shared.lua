@@ -74,6 +74,32 @@ local function DetectAndSetVehicleKeys()
     Link.vehiclekeys = 'standalone'
 end
 
+local function DetectAndSetNotifications()
+    if Link.notifications ~= 'auto' then
+        return
+    end
+
+    local notifications = {
+        ['gs-notify'] = 'gs-notify',
+        ['okokNotify'] = 'okokNotify',
+        ['codem-notification'] = 'codem-notification',
+        ['mythic_notify'] = 'mythic',
+        ['17mov_Hud'] = '17mov',
+        ['ox_lib'] = 'ox',
+    }
+
+    for resource, config in pairs(notifications) do
+        if GetResourceState(resource) == 'started' then
+            Link.notifications = config
+            Debug('set notifications', config)
+            return
+        end
+
+        Link.notifications = 'standalone'
+    end
+end
+
 DetectAndSetFramework()
 DetectAndSetInventory()
 DetectAndSetVehicleKeys()
+DetectAndSetNotifications()

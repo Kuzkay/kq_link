@@ -51,8 +51,10 @@ Link.inventory = 'auto'
 
 --- NOTIFICATION OPTIONS
 ------------------------
+--- 'auto' -- The script will automatically find the notification system
 --- 'framework' -- The native framework notification system will be used
 --- 'ox' -- Notification system made by OX
+--- 'gs-notify' -- Notification system made by GS
 --- 'codem-notification' -- Notifications system made by CodeM
 --- 'okokNotify' -- Notifications system made by okok
 --- 'mythic' -- Notifications system made by mythic
