@@ -21,6 +21,13 @@ function Notify(message, type)
             duration = 4000,
         })
         return
+    elseif Link.notifications == 'gs-notify' then
+        exports['gs-notify']:Notify(source, {
+            type = type,
+            message = message,
+            duration = 5000
+        })
+        return
     end
     
     
