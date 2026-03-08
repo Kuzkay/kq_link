@@ -59,6 +59,7 @@ ___
 - okokNotify
 - mythic
 - 17mov
+- gs-notify
 
 > All framework integrated notification systems also are supported. esx notifications, qb-notify etc.
 > When no system is selected and no framework system is available, The script will use native GTA V notifications
