@@ -137,7 +137,7 @@ function HoldSequenceMinigame(coords, sequenceCount, length, timePerInput, allow
 
         local boostPos
         if sequenceCount == 1 and allowSkips then
-            math.randomseed(seed .. currentStep[1])
+            math.randomseed(seed + currentStep[1])
             boostPos = math.random(5, 8) / 10
         end
 
