@@ -18,7 +18,7 @@ local function GetNearbyPlayerInteractions()
         local nearbyInteractions = {}
         for k, playerInteraction in pairs(PLAYER_INTERACTIONS) do
             if not playerInteraction then
-                return
+                goto continue
             end
 
             local coords = playerInteraction.GetCoords()
@@ -41,6 +41,7 @@ local function GetNearbyPlayerInteractions()
                     })
                 end
             end
+            ::continue::
         end
 
         table.sort(nearbyInteractions, function(a, b)
