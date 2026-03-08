@@ -510,7 +510,6 @@ local function RegisterInteraction(data)
         if self.eventHandler then
             RemoveEventHandler(self.eventHandler)
         end
-
         -- Targeting cleanup
         if self.targetEntity then
             InputUtils.RemoveTargetEntity(self.targetEntity)

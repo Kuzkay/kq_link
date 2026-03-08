@@ -48,10 +48,12 @@ function InputUtils.AddEntityToTargeting(entity, message, event, canInteract, me
     if SYSTEM == 'ox-target' or SYSTEM == 'ox_target' then
         if IsEntityAPed(entity) and IsPedAPlayer(entity) then
             local net = NetworkGetNetworkIdFromEntity(entity)
-            return exports[SYSTEM]:addEntity(net, options)
+            exports[SYSTEM]:addEntity(net, options)
+            return entity
         end
 
-        return exports[SYSTEM]:addLocalEntity(entity, options)
+        exports[SYSTEM]:addLocalEntity(entity, options)
+        return entity
     elseif SYSTEM == 'qb-target' then
         if not _qbEntityCache[entity] then
             _qbEntityCache[entity] = { maxDist = maxDist, options = {} }
@@ -241,8 +243,10 @@ function InputUtils.RemoveTargetEntity(identifier)
     end
 
     if SYSTEM == 'ox-target' or SYSTEM == 'ox_target' then
+        if IsEntityAPed(identifier) and IsPedAPlayer(identifier) then
+            exports[SYSTEM]:removeEntity(identifier)
+        end
         exports[SYSTEM]:removeLocalEntity(identifier)
-        exports[SYSTEM]:removeEntity(identifier)
     elseif SYSTEM == 'interact' then
         exports[SYSTEM]:RemoveLocalEntityInteraction(identifier, identifier)
     else
