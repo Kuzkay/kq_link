@@ -43,6 +43,10 @@ end
 function CanPlayerAfford(player, amount)
     local xPlayer = QBCore.Functions.GetPlayer(player)
 
+    if not xPlayer then
+        return false
+    end
+
     if xPlayer.Functions.GetMoney('cash') >= amount then
         return true
     end
