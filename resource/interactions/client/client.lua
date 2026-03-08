@@ -382,7 +382,6 @@ local function RegisterInteraction(data)
 
         return response
     end
-
     -- Booting / Setup
     self.Boot = function()
         if Link.input.target.enabled then
@@ -417,7 +416,6 @@ local function RegisterInteraction(data)
                 end, self.meta, self.interactDist, self.icon)
         end
     end
-
     -- Displaying and handling of the input options
     self.Handle = function(allNearbyInteractions, selectedIndex)
         if not self then
