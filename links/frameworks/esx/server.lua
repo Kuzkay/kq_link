@@ -70,26 +70,30 @@ function AddPlayerMoney(player, amount, account)
     return xPlayer.addAccountMoney(account or 'money', amount)
 end
 
-function RemovePlayerMoney(player, amount)
+function RemovePlayerMoney(player, amount, account)
     local xPlayer = ESX.GetPlayerFromId(player)
     if not xPlayer then
         return false
     end
-
+    if account then
+        local acc = xPlayer.getAccount(account)
+        if acc and acc.money >= amount then
+            xPlayer.removeAccountMoney(account, amount)
+            return true
+        end
+        return false
+    end
     if not CanPlayerAfford(player, amount) then
         return false
     end
-
     if xPlayer.getAccount('money').money >= amount then
         xPlayer.removeAccountMoney('money', amount)
         return true
     end
-
     if xPlayer.getAccount('bank').money >= amount then
         xPlayer.removeAccountMoney('bank', amount)
         return true
     end
-
     return false
 end
 
@@ -182,6 +186,19 @@ function GetPlayerCharacterId(player)
     end
 
     return xPlayer.identifier
+end
+
+function GetPlayerMoney(player, account)
+    local xPlayer = ESX.GetPlayerFromId(player)
+    if not xPlayer then return 0 end
+    local acc = xPlayer.getAccount(account or 'money')
+    return acc and acc.money or 0
+end
+
+function GetSourceFromCharacterId(identifier)
+    if not identifier then return nil end
+    local xPlayer = ESX.GetPlayerFromIdentifier(identifier)
+    return xPlayer and xPlayer.source
 end
 
 function GetPlayerCharacterName(player)
