@@ -4,7 +4,7 @@ lua54 'yes'
 
 author 'KuzQuality.com | Kuzkay'
 description 'KuzQuality Link | Made to link existing frameworks and dependencies'
-version '1.21.3'
+version '1.21.4'
 
 server_scripts {
     -- RESOURCE BASE
@@ -53,7 +53,7 @@ shared_scripts {
 }
 
 client_scripts {
-    '@qbx_core/modules/playerdata.lua',
+    -- '@qbx_core/modules/playerdata.lua', -- Commented out because it's not needed for other frameworks
 
     -- RESOURCE BASE
     'resource/client.lua',
