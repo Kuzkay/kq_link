@@ -18,7 +18,7 @@ local function GetNearbyPlayerInteractions()
         local nearbyInteractions = {}
         for k, playerInteraction in pairs(PLAYER_INTERACTIONS) do
             if not playerInteraction then
-                goto continue
+                return
             end
 
             local coords = playerInteraction.GetCoords()
@@ -41,7 +41,6 @@ local function GetNearbyPlayerInteractions()
                     })
                 end
             end
-            ::continue::
         end
 
         table.sort(nearbyInteractions, function(a, b)
@@ -383,7 +382,6 @@ local function RegisterInteraction(data)
 
         return response
     end
-
     -- Booting / Setup
     self.Boot = function()
         if Link.input.target.enabled then
@@ -418,7 +416,6 @@ local function RegisterInteraction(data)
                 end, self.meta, self.interactDist, self.icon)
         end
     end
-
     -- Displaying and handling of the input options
     self.Handle = function(allNearbyInteractions, selectedIndex)
         if not self then
@@ -513,7 +510,6 @@ local function RegisterInteraction(data)
         if self.eventHandler then
             RemoveEventHandler(self.eventHandler)
         end
-
         -- Targeting cleanup
         if self.targetEntity then
             InputUtils.RemoveTargetEntity(self.targetEntity)
