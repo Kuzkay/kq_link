@@ -34,7 +34,7 @@ function TriggerServerCallback(name, ...)
     local ret = { coroutine.yield() }
     local ok = ret[1]
     if not ok then
-        print('^1' .. ret[2], 2)
+        print('^1[kq_link] Callback error: ' .. tostring(ret[2] or 'unknown'))
         return nil
     end
 

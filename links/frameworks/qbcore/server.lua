@@ -43,6 +43,10 @@ end
 function CanPlayerAfford(player, amount)
     local xPlayer = QBCore.Functions.GetPlayer(player)
 
+    if not xPlayer then
+        return false
+    end
+
     if xPlayer.Functions.GetMoney('cash') >= amount then
         return true
     end
@@ -64,23 +68,27 @@ function AddPlayerMoney(player, amount, account)
     return xPlayer.Functions.AddMoney(account or 'cash', amount)
 end
 
-function RemovePlayerMoney(player, amount)
+function RemovePlayerMoney(player, amount, account)
     local xPlayer = QBCore.Functions.GetPlayer(player)
-
+    if not xPlayer then return false end
+    if account then
+        local have = xPlayer.Functions.GetMoney(account)
+        if have and have >= amount then
+            return xPlayer.Functions.RemoveMoney(account, amount)
+        end
+        return false
+    end
     if not CanPlayerAfford(player, amount) then
         return false
     end
-
     if xPlayer.Functions.GetMoney('cash') >= amount then
         xPlayer.Functions.RemoveMoney('cash', amount)
         return true
     end
-
     if xPlayer.Functions.GetMoney('bank') >= amount then
         xPlayer.Functions.RemoveMoney('bank', amount)
         return true
     end
-
     return false
 end
 
@@ -166,4 +174,16 @@ function GetPlayerCharacterName(player)
     end
 
     return GetPlayerName(player) or 'Unknown'
+end
+
+function GetPlayerMoney(player, account)
+    local xPlayer = QBCore.Functions.GetPlayer(tonumber(player))
+    if not xPlayer then return 0 end
+    return xPlayer.Functions.GetMoney(account or 'cash') or 0
+end
+
+function GetSourceFromCharacterId(identifier)
+    if not identifier then return nil end
+    local p = QBCore.Functions.GetPlayerByCitizenId(identifier)
+    return p and (p.PlayerData and p.PlayerData.source or p.source)
 end

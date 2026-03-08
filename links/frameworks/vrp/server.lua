@@ -62,13 +62,14 @@ function AddPlayerMoney(player, amount, account)
     return false
 end
 
-function RemovePlayerMoney(player, amount)
+function RemovePlayerMoney(player, amount, account)
     local user_id = vRP.getUserId({player})
-    if user_id then
-        if CanPlayerAfford(player, amount) then
-            vRP.tryPayment({user_id, amount})
-            return true
-        end
+    if not user_id then return false end
+    if account == 'bank' and vRP.tryBankPayment then
+        return vRP.tryBankPayment({user_id, amount}) or false
+    end
+    if CanPlayerAfford(player, amount) then
+        return vRP.tryPayment({user_id, amount}) or false
     end
     return false
 end
@@ -135,6 +136,20 @@ end
 function GetPlayerCharacterId(player)
     local userId = vRP.getUserId({player})
     return userId
+end
+
+function GetPlayerMoney(player, account)
+    local userId = vRP.getUserId({player})
+    if not userId then return 0 end
+    if account == 'bank' then
+        return vRP.getBankMoney and vRP.getBankMoney({userId}) or 0
+    end
+    return vRP.getMoney({userId}) or 0
+end
+
+function GetSourceFromCharacterId(identifier)
+    if not identifier then return nil end
+    return vRP.getUserSource and vRP.getUserSource(identifier) or nil
 end
 
 function GetPlayerCharacterName(player)

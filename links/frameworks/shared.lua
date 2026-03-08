@@ -38,6 +38,9 @@ local function DetectAndSetInventory()
         ['core_inventory'] = 'core_inventory',
         ['minventory'] = 'codem-inventory',
         ['inventory'] = 'chezza',
+        ['tgiann-inventory'] = 'tgiann-inventory',
+        ['origen_inventory'] = 'origen_inventory',
+        ['jaksam_inventory'] = 'jaksam_inventory',
     }
     
     for resource, config in pairs(inventories) do
@@ -94,9 +97,9 @@ local function DetectAndSetNotifications()
             Debug('set notifications', config)
             return
         end
-
-        Link.notifications = 'standalone'
     end
+
+    Link.notifications = 'standalone'
 end
 
 DetectAndSetFramework()

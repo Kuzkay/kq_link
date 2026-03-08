@@ -54,26 +54,18 @@ function AddPlayerMoney(player, amount, account)
     return false
 end
 
-function RemovePlayerMoney(player, cashAmount)
-    if Link.inventory == "ox_inventory" then
+function RemovePlayerMoney(player, cashAmount, account)
+    if Link.inventory == "ox_inventory" and (not account or account == "cash") then
         local success, _ = exports.ox_inventory:RemoveItem(player, "cash", cashAmount)
-
-        if success then
-            return true
-        end
+        if success then return true end
     end
 
     local OxPlayer = Ox.GetPlayer(player)
-
-    if OxPlayer then
-        local OxAccount = OxPlayer.getAccount()
-
-        if OxAccount then
-            return account.removeBalance({ amount = cashAmount, overdraw = false }).success
-        end
-    end
-
-    return false
+    if not OxPlayer then return false end
+    local OxAccount = OxPlayer.getAccount()
+    if not OxAccount or not OxAccount.removeBalance then return false end
+    local result = OxAccount.removeBalance({ amount = cashAmount, overdraw = false })
+    return result and result.success
 end
 
 if Link.inventory == 'framework' then
@@ -104,6 +96,26 @@ function GetPlayerCharacterName(player)
     end
 
     return GetPlayerName(player) or 'Unknown'
+end
+
+function GetPlayerMoney(player, account)
+    local OxPlayer = Ox.GetPlayer(tonumber(player))
+    if not OxPlayer then return 0 end
+    local OxAccount = OxPlayer.getAccount()
+    if not OxAccount then return 0 end
+    local balance = OxAccount.get and OxAccount.get("balance")
+    return type(balance) == 'number' and balance or 0
+end
+
+function GetSourceFromCharacterId(identifier)
+    if not identifier then return nil end
+    for _, id in ipairs(GetPlayers()) do
+        local src = tonumber(id)
+        if src and GetPlayerCharacterId(src) == identifier then
+            return src
+        end
+    end
+    return nil
 end
 
 -- OX uses ox_inventory by default, weapon functions defined in inventory file

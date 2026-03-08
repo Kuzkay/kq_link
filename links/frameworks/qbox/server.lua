@@ -60,21 +60,25 @@ function AddPlayerMoney(player, amount, account)
     return xPlayer.Functions.AddMoney(account or 'cash', amount)
 end
 
-function RemovePlayerMoney(player, amount)
+function RemovePlayerMoney(player, amount, account)
+    if account then
+        local have = exports.qbx_core:GetMoney(player, account)
+        if have and have >= amount then
+            return exports.qbx_core:RemoveMoney(player, account, amount)
+        end
+        return false
+    end
     if not CanPlayerAfford(player, amount) then
         return false
     end
-
     if exports.qbx_core:GetMoney(player, 'cash') >= amount then
         exports.qbx_core:RemoveMoney(player, 'cash', amount)
         return true
     end
-
     if exports.qbx_core:GetMoney(player, 'bank') >= amount then
         exports.qbx_core:RemoveMoney(player, 'bank', amount)
         return true
     end
-
     return false
 end
 
@@ -90,6 +94,16 @@ function GetPlayerCharacterId(player)
     end
 
     return xPlayer.PlayerData.citizenid
+end
+
+function GetPlayerMoney(player, account)
+    return exports.qbx_core:GetMoney(player, account or 'cash') or 0
+end
+
+function GetSourceFromCharacterId(identifier)
+    if not identifier then return nil end
+    local p = exports.qbx_core:GetPlayerByCitizenId(identifier)
+    return p and (p.PlayerData and p.PlayerData.source or p.source)
 end
 
 function GetPlayerCharacterName(player)

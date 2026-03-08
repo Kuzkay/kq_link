@@ -1,21 +1,23 @@
 if Link.dispatch.system ~= 'standalone' then return end
 
 function SendDispatchMessage(data)
+    data = data or {}
+    local blip = data.blip or {}
     local dispatchData = {
         coords = data.coords or GetEntityCoords(PlayerPedId()),
         jobs = data.jobs or {'police', 'lspd', 'bcso'},
-    
+
         title = data.message or '',
         subtitle = data.description or '',
-        
+
         duration = 120000,
-        
+
         blip = {
-            sprite = (data.blip.sprite or 58),
-            color = (data.blip.color or 1),
-            scale = (data.blip.scale or 1.0),
-            text = (data.blip.text or 'Dispatch Alert'),
-            flash = (data.blip.flash or false),
+            sprite = blip.sprite or 58,
+            color = blip.color or 1,
+            scale = blip.scale or 1.0,
+            text = blip.text or 'Dispatch Alert',
+            flash = blip.flash or false,
         }
     }
     

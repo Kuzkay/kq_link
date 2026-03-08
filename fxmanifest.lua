@@ -53,7 +53,7 @@ shared_scripts {
 }
 
 client_scripts {
-    '@qbx_core/modules/playerdata.lua',
+    -- '@qbx_core/modules/playerdata.lua', -- Commented out because it's not needed for other frameworks
 
     -- RESOURCE BASE
     'resource/client.lua',

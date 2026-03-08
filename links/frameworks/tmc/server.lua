@@ -56,8 +56,16 @@ function AddPlayerMoney(player, amount, account)
     return xPlayer.Functions.AddMoney(account or 'cash', amount)
 end
 
-function RemovePlayerMoney(player, amount)
+function RemovePlayerMoney(player, amount, account)
     local xPlayer = TMC.Functions.GetPlayer(player)
+    if not xPlayer then return false end
+    if account then
+        local have = xPlayer.Functions.GetMoney(account)
+        if have and have >= amount then
+            return xPlayer.Functions.RemoveMoney(account, amount)
+        end
+        return false
+    end
     if not CanPlayerAfford(player, amount) then
         return false
     end
@@ -140,6 +148,19 @@ function GetPlayerCharacterId(player)
     end
 
     return xPlayer.PlayerData.citizenid
+end
+
+function GetPlayerMoney(player, account)
+    local xPlayer = TMC.Functions.GetPlayer(tonumber(player))
+    if not xPlayer then return 0 end
+    return xPlayer.Functions.GetMoney(account or 'cash') or 0
+end
+
+function GetSourceFromCharacterId(identifier)
+    if not identifier then return nil end
+    local p = TMC.Functions.GetPlayerByCitizenId and TMC.Functions.GetPlayerByCitizenId(identifier)
+    if not p then return nil end
+    return p.PlayerData and p.PlayerData.source or p.source
 end
 
 function GetPlayerCharacterName(player)
