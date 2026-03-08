@@ -245,8 +245,9 @@ function InputUtils.RemoveTargetEntity(identifier)
     if SYSTEM == 'ox-target' or SYSTEM == 'ox_target' then
         if IsEntityAPed(identifier) and IsPedAPlayer(identifier) then
             exports[SYSTEM]:removeEntity(identifier)
+        else
+            exports[SYSTEM]:removeLocalEntity(identifier)
         end
-        exports[SYSTEM]:removeLocalEntity(identifier)
     elseif SYSTEM == 'interact' then
         exports[SYSTEM]:RemoveLocalEntityInteraction(identifier, identifier)
     else
