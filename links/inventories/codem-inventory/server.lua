@@ -2,10 +2,9 @@ if Link.inventory ~= 'codem-inventory' and Link.inventory ~= 'codem' then
     return
 end
 
---Unsure if this implementation is correct
 function GetPlayerInventory(player)
     local identifier = GetPlayerIdentifierByType(player, 'license')
-    return NormalizeInventoryOutput(exports['codem-inventory']:GetInventory(identifier, source))
+    return NormalizeInventoryOutput(exports['codem-inventory']:GetInventory(identifier, player) or {})
 end
 
 function GetPlayerItemData(player, item)
@@ -46,4 +45,36 @@ end
 function RemovePlayerWeapon(player, weapon)
     return RemovePlayerItem(player, weapon, 1)
 end
---
+
+-- Slot-level API: use native CodeM exports (GetItemBySlot, SetItemMetadata) per codem.gitbook.io
+function GetInventoryItems(player)
+    return GetPlayerInventory(player) or {}
+end
+
+function GetItemSlots(player, itemName)
+    local inv = GetPlayerInventory(player) or {}
+    local slots = {}
+    local total = 0
+    for slot, item in pairs(inv) do
+        if item and item.name == itemName and (item.count or 0) > 0 then
+            local s = item.slot or slot
+            slots[s] = item.count or 1
+            total = total + (item.count or 1)
+        end
+    end
+    return slots, total
+end
+
+function GetSlot(player, slotId)
+    local item = exports['codem-inventory']:GetItemBySlot(player, slotId)
+    if not item or not item.name then return nil end
+    item.slot = item.slot or slotId
+    item.count = item.count or item.amount
+    item.metadata = item.metadata or item.info or item.meta
+    return item
+end
+
+function SetMetadata(player, slotId, metadata)
+    exports['codem-inventory']:SetItemMetadata(player, slotId, metadata or {})
+    return true
+end

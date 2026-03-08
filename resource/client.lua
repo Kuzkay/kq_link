@@ -1,0 +1,2 @@
+-- Placeholder client script for kq_link base resource.
+-- Framework- and link-specific client logic lives in links/* and resource/interactions, etc.

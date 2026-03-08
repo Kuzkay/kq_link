@@ -5,7 +5,9 @@ function NormalizeInventoryOutput(inventory_output)
         item.label = item.label or item.name
         item.count = item.count or item.amount
         item.meta = item.meta or item.metadata
-        
+        item.metadata = item.metadata or item.meta
+        item.slot = item.slot or pos
+
         normalized_output[pos] = item
     end
 

@@ -48,8 +48,8 @@ shared_scripts {
     'links/frameworks/shared.lua',
     'links/inventories/shared.lua',
 
-    '@ox_lib/init.lua',
-    '@ox_core/lib/init.lua',
+    -- '@ox_lib/init.lua',
+    -- '@ox_core/lib/init.lua',
 }
 
 client_scripts {

@@ -1,6 +1,3 @@
-Link = {}
-
-
 ----------------------------------
 --- BASE SETTINGS
 ----------------------------------
@@ -35,6 +32,7 @@ Link = {
 ------------------------
 --- 'auto' -- The script will automatically find the inventory system
 --- 'framework' -- The native framework inventory system will be used
+--- 'qb-inventory' -- QBCore default inventory (when using qb-core)
 ---
 --- 'ox_inventory' -- Ox inventory system
 --- 'qs-inventory' -- Quasar inventory system
@@ -61,7 +59,7 @@ Link.inventory = 'auto'
 --- '17mov' -- Notifications system made by 17Movement
 ---
 --- 'standalone' -- A standalone solution will be used for notifications (top left display)
-Link.notifications = 'standalone'
+Link.notifications = 'auto'
 
 
 ------------------------
@@ -70,7 +68,7 @@ Link.notifications = 'standalone'
 Link.input = {
     target = {
         -- Whether to use a targeting system
-        enabled = false,
+        enabled = true,
         --- 'ox_target' -- ox targeting system
         --- 'qb-target' -- QBCore targeting system
         --- 'qtarget' -- The classic qtarget system commonly used in esx

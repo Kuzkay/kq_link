@@ -2,8 +2,18 @@ if Link.inventory ~= 'jaksam_inventory' and Link.inventory ~= 'jaksam' then
     return
 end
 
+-- jaksam getInventory returns { id, label, items = { ["SLOT-1"] = { name, amount, metadata }, ... } }; we need items keyed by numeric slot
 function GetPlayerInventory(player)
-    return NormalizeInventoryOutput(exports['jaksam_inventory']:getInventory(player))
+    local inv = exports['jaksam_inventory']:getInventory(player)
+    if not inv or not inv.items then return {} end
+    local bySlot = {}
+    for slotKey, item in pairs(inv.items) do
+        local num = tonumber((tostring(slotKey):match('(%d+)')) or slotKey)
+        if num and item and item.name then
+            bySlot[num] = item
+        end
+    end
+    return NormalizeInventoryOutput(bySlot)
 end
 
 function GetPlayerItemData(player, item, meta)
@@ -63,4 +73,36 @@ function GetStashItems(stashId)
     local inventory = exports['jaksam_inventory']:getInventory(stashId)
     return inventory and inventory.items or {}
 end
---
+
+-- Slot-level API: use native jaksam exports where documented (getItemFromSlot, setItemMetadataInSlot)
+function GetInventoryItems(player)
+    return GetPlayerInventory(player) or {}
+end
+
+function GetItemSlots(player, itemName)
+    local inv = GetPlayerInventory(player) or {}
+    local slots = {}
+    local total = 0
+    for slot, item in pairs(inv) do
+        if item and item.name == itemName and (item.count or item.amount or 0) > 0 then
+            local s = item.slot or slot
+            slots[s] = item.count or item.amount or 1
+            total = total + (item.count or item.amount or 1)
+        end
+    end
+    return slots, total
+end
+
+function GetSlot(player, slotId)
+    local item = exports['jaksam_inventory']:getItemFromSlot(player, slotId)
+    if not item or not item.name then return nil end
+    item.slot = slotId
+    item.count = item.count or item.amount
+    item.metadata = item.metadata or item.meta
+    return item
+end
+
+function SetMetadata(player, slotId, metadata)
+    local success = exports['jaksam_inventory']:setItemMetadataInSlot(player, slotId, metadata or {})
+    return success
+end

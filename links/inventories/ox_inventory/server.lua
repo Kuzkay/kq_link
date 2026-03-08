@@ -83,4 +83,30 @@ end
 function RemovePlayerWeapon(player, weapon)
     return RemovePlayerItem(player, weapon, 1)
 end
---
+
+-- Slot-level API (replicates ox_inventory for scripts that need slots/metadata)
+function GetItemSlots(player, itemName)
+    return exports['ox_inventory']:GetItemSlots(player, itemName)
+end
+
+function GetSlot(player, slotId)
+    return exports['ox_inventory']:GetSlot(player, slotId)
+end
+
+function SetMetadata(player, slotId, metadata)
+    return exports['ox_inventory']:SetMetadata(player, slotId, metadata)
+end
+
+function GetInventoryItems(player)
+    return exports['ox_inventory']:GetInventoryItems(player) or {}
+end
+
+-- createItem hook: callback(payload) returns metadata table for the new item
+function RegisterCreateItemHook(itemName, callback, options)
+    if not itemName or type(callback) ~= 'function' then return end
+    exports['ox_inventory']:registerHook('createItem', function(payload)
+        if payload and payload.item and payload.item.name == itemName then
+            return callback(payload)
+        end
+    end, options or { itemFilter = { [itemName] = true } })
+end

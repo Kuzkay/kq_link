@@ -65,4 +65,31 @@ end
 function RemovePlayerWeapon(player, weapon)
     return RemovePlayerItem(player, weapon, 1)
 end
---
+
+-- Slot-level API (compatibility for scripts like gs-phone)
+function GetInventoryItems(player)
+    return GetPlayerInventory(player) or {}
+end
+
+function GetItemSlots(player, itemName)
+    local inv = GetPlayerInventory(player) or {}
+    local slots = {}
+    local total = 0
+    for slot, item in pairs(inv) do
+        if item and item.name == itemName and (item.count or 0) > 0 then
+            local s = item.slot or slot
+            slots[s] = item.count or 1
+            total = total + (item.count or 1)
+        end
+    end
+    return slots, total
+end
+
+function GetSlot(player, slotId)
+    local inv = GetPlayerInventory(player) or {}
+    if inv[slotId] and inv[slotId].name then return inv[slotId] end
+    for _, item in pairs(inv) do
+        if item and (item.slot or nil) == slotId then return item end
+    end
+    return nil
+end

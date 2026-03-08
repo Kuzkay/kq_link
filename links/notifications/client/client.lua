@@ -22,7 +22,7 @@ function Notify(message, type)
         })
         return
     elseif Link.notifications == 'gs-notify' then
-        exports['gs-notify']:Notify(GetPlayerServerId(PlayerId()), {
+        exports['gs-notify']:Notify({
             type = type,
             message = message,
             duration = 5000
