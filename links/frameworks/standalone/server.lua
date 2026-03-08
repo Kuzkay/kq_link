@@ -27,7 +27,7 @@ function GetPlayerItemData(player, item)
 end
 
 function GetPlayerItemCount(player, item)
-    return 1000
+    return 0
 end
 
 function AddPlayerItem(player, item, amount, meta)
@@ -44,6 +44,21 @@ end
 
 function GetPlayerCharacterName(player)
     return GetPlayerName(player) or 'Unknown'
+end
+
+function GetPlayerMoney(player, account)
+    return 0
+end
+
+function GetSourceFromCharacterId(identifier)
+    if not identifier then return nil end
+    for _, id in ipairs(GetPlayers()) do
+        local src = tonumber(id)
+        if src and GetPlayerCharacterId(src) == identifier then
+            return src
+        end
+    end
+    return nil
 end
 
 function AddPlayerWeapon(player, weapon, ammo)
