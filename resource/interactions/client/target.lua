@@ -175,8 +175,8 @@ function InputUtils.AddZoneToTargeting(coords, rotation, scale, message, event, 
             name = identifier,
             debugPoly = Link.debugMode or false,
             useZ = true,
-            minZ = coords - (scale.z / 2),
-            maxZ = coords + (scale.z / 2),
+            minZ = coords.z - (scale.z / 2),
+            maxZ = coords.z + (scale.z / 2),
         }, {
             options = options,
             distance = maxDist
