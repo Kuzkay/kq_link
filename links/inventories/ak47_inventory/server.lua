@@ -62,4 +62,23 @@ end
 function RemovePlayerWeapon(player, weapon)
     return RemovePlayerItem(player, weapon, 1)
 end
+
+function GetInventoryItems()
+    return UseCache('kq_link:ak47_inventory:items', function()
+        local raw
+        local ok = pcall(function() raw = exports['ak47_inventory']:Items() end)
+        if not ok or type(raw) ~= 'table' then return {} end
+
+        local items = {}
+        for name, def in pairs(raw) do
+            local key = def.name or name
+            items[key] = NormalizeItemDefinition(key, def)
+        end
+        return items
+    end, 60000)
+end
+
+function GetInventoryImagePath()
+    return 'nui://ak47_inventory/html/img/'
+end
 --

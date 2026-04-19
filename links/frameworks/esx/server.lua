@@ -172,6 +172,26 @@ if Link.inventory == 'framework' then
         xPlayer.removeWeapon(weapon)
         return true
     end
+
+    function GetInventoryItems()
+        return UseCache('kq_link:esx-framework:items', function()
+            if type(ESX.GetItems) ~= 'function' then return {} end
+
+            local raw = ESX.GetItems()
+            if type(raw) ~= 'table' then return {} end
+
+            local items = {}
+            for name, def in pairs(raw) do
+                local key = def.name or name
+                items[key] = NormalizeItemDefinition(key, def)
+            end
+            return items
+        end, 60000)
+    end
+
+    function GetInventoryImagePath()
+        return ''
+    end
 end
 
 function GetPlayerCharacterId(player)

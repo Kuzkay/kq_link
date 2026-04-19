@@ -139,6 +139,24 @@ if Link.inventory == 'framework' or Link.inventory == 'qb-inventory' then
     function RemovePlayerWeapon(player, weapon)
         return RemovePlayerItem(player, weapon, 1)
     end
+
+    function GetInventoryItems()
+        return UseCache('kq_link:qb-inventory:items', function()
+            if not QBCore.Shared or type(QBCore.Shared.Items) ~= 'table' then
+                return {}
+            end
+
+            local items = {}
+            for name, def in pairs(QBCore.Shared.Items) do
+                items[name] = NormalizeItemDefinition(name, def)
+            end
+            return items
+        end, 60000)
+    end
+
+    function GetInventoryImagePath()
+        return 'nui://qb-inventory/html/images/'
+    end
 end
 
 function GetPlayerCharacterId(player)

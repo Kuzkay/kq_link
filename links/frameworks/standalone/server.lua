@@ -73,3 +73,11 @@ function GetStashItems()
     -- Not available in standalone
     return {}
 end
+
+function GetInventoryItems()
+    return {}
+end
+
+function GetInventoryImagePath()
+    return ''
+end

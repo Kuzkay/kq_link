@@ -27,6 +27,10 @@ exports('GiveVehicleKeys', GiveVehicleKeys)
 exports('RemoveVehicleKeys', RemoveVehicleKeys)
 
 exports('GetPlayerInventory', GetPlayerInventory)
+
+exports('GetInventoryItems', GetInventoryItems)
+exports('GetInventoryImagePath', GetInventoryImagePath)
+
 -- RESOURCE
 exports('AddPlayerItemToFit', AddPlayerItemToFit)
 exports('RegisterServerCallback', RegisterServerCallback)

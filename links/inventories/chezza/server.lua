@@ -88,4 +88,24 @@ function RemovePlayerWeapon(player, weapon)
     xPlayer.removeWeapon(weapon)
     return true
 end
+
+function GetInventoryItems()
+    return UseCache('kq_link:chezza:items', function()
+        if not ESX or type(ESX.GetItems) ~= 'function' then return {} end
+
+        local raw = ESX.GetItems()
+        if type(raw) ~= 'table' then return {} end
+
+        local items = {}
+        for name, def in pairs(raw) do
+            local key = def.name or name
+            items[key] = NormalizeItemDefinition(key, def)
+        end
+        return items
+    end, 60000)
+end
+
+function GetInventoryImagePath()
+    return 'nui://inventory/html/img/items/'
+end
 --

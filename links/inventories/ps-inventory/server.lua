@@ -53,4 +53,22 @@ end
 function RemovePlayerWeapon(player, weapon)
     return RemovePlayerItem(player, weapon, 1)
 end
+
+function GetInventoryItems()
+    return UseCache('kq_link:ps-inventory:items', function()
+        if not QBCore or not QBCore.Shared or type(QBCore.Shared.Items) ~= 'table' then
+            return {}
+        end
+
+        local items = {}
+        for name, def in pairs(QBCore.Shared.Items) do
+            items[name] = NormalizeItemDefinition(name, def)
+        end
+        return items
+    end, 60000)
+end
+
+function GetInventoryImagePath()
+    return 'nui://ps-inventory/html/images/'
+end
 --
