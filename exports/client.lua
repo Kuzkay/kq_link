@@ -25,3 +25,6 @@ exports('RemoveTargetZone', InputUtils.RemoveTargetZone)
 
 exports('GetPlayerInventory', GetPlayerInventory)
 exports('GetItemCount', GetItemCount)
+
+exports('GetInventoryItems', GetInventoryItems)
+exports('GetInventoryImagePath', GetInventoryImagePath)

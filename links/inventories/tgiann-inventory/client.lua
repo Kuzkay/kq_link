@@ -14,3 +14,17 @@ end
 function GetPlayerInventory()
     return NormalizeInventoryOutput(exports["tgiann-inventory"]:Items())
 end
+
+local itemsCache
+function GetInventoryItems()
+    if itemsCache then return itemsCache end
+    local ok, raw = pcall(function() return exports['tgiann-inventory']:GetItemList() end)
+    if not ok then return {} end
+    local items = NormalizeItems(raw)
+    if next(items) then itemsCache = items end
+    return items
+end
+
+function GetInventoryImagePath()
+    return 'nui://tgiann-inventory/inventory_images/images/', 'webp'
+end

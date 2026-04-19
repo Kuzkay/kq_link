@@ -9,3 +9,15 @@ end
 function GetPlayerInventory()
     return NormalizeInventoryOutput(TriggerServerCallback('kq_link:callback:getPlayerInventory'))
 end
+
+local itemsCache
+function GetInventoryItems()
+    if itemsCache then return itemsCache end
+    local items = TriggerServerCallback('kq_link:getInventoryItems') or {}
+    if next(items) then itemsCache = items end
+    return items
+end
+
+function GetInventoryImagePath()
+    return 'nui://inventory/html/img/items/', 'png'
+end

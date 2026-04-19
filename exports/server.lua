@@ -27,6 +27,14 @@ exports('GiveVehicleKeys', GiveVehicleKeys)
 exports('RemoveVehicleKeys', RemoveVehicleKeys)
 
 exports('GetPlayerInventory', GetPlayerInventory)
+
+RegisterServerCallback('kq_link:getInventoryItems', function(source, cb)
+    if type(GetInventoryItems) ~= 'function' then
+        return cb({})
+    end
+    cb(GetInventoryItems())
+end)
+
 -- RESOURCE
 exports('AddPlayerItemToFit', AddPlayerItemToFit)
 exports('RegisterServerCallback', RegisterServerCallback)

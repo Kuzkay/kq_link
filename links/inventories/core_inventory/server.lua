@@ -46,4 +46,10 @@ end
 function RemovePlayerWeapon(player, weapon)
     return RemovePlayerItem(player, weapon, 1)
 end
+
+function GetInventoryItems()
+    local ok, raw = pcall(function() return exports.core_inventory:getItemsList() end)
+    if not ok then return {} end
+    return NormalizeItems(raw)
+end
 --

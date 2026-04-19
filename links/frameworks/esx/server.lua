@@ -172,6 +172,12 @@ if Link.inventory == 'framework' then
         xPlayer.removeWeapon(weapon)
         return true
     end
+
+    function GetInventoryItems()
+        if type(ESX.GetItems) ~= 'function' then return {} end
+        local raw = ESX.GetItems()
+        return NormalizeItems(raw)
+    end
 end
 
 function GetPlayerCharacterId(player)
