@@ -29,15 +29,13 @@ function NotifyViaFramework(message, type)
 end
 
 if Link.inventory == 'framework' or Link.inventory == 'qb-inventory' then
-    local itemsCache
     function GetInventoryItems()
-        if itemsCache then return itemsCache end
-        if not QBCore or not QBCore.Shared or type(QBCore.Shared.Items) ~= 'table' then
-            return {}
-        end
-        local items = NormalizeItems(QBCore.Shared.Items)
-        if next(items) then itemsCache = items end
-        return items
+        return UseCache('kq_link:qb-inventory:items', function()
+            if not QBCore or not QBCore.Shared or type(QBCore.Shared.Items) ~= 'table' then
+                return {}
+            end
+            return NormalizeItems(QBCore.Shared.Items)
+        end, 60000)
     end
 
     function GetInventoryImagePath()

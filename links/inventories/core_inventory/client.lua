@@ -10,12 +10,10 @@ function GetPlayerInventory()
     return NormalizeInventoryOutput(exports.core_inventory:getInventory())
 end
 
-local itemsCache
 function GetInventoryItems()
-    if itemsCache then return itemsCache end
-    local items = TriggerServerCallback('kq_link:getInventoryItems') or {}
-    if next(items) then itemsCache = items end
-    return items
+    return UseCache('kq_link:core_inventory:items:client', function()
+        return TriggerServerCallback('kq_link:getInventoryItems') or {}
+    end, 60000)
 end
 
 function GetInventoryImagePath()

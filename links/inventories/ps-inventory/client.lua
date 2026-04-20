@@ -10,15 +10,13 @@ function GetPlayerInventory()
     return NormalizeInventoryOutput(TriggerServerCallback('kq_link:callback:getPlayerInventory'))
 end
 
-local itemsCache
 function GetInventoryItems()
-    if itemsCache then return itemsCache end
-    if not QBCore or not QBCore.Shared or type(QBCore.Shared.Items) ~= 'table' then
-        return {}
-    end
-    local items = NormalizeItems(QBCore.Shared.Items)
-    if next(items) then itemsCache = items end
-    return items
+    return UseCache('kq_link:ps-inventory:items', function()
+        if not QBCore or not QBCore.Shared or type(QBCore.Shared.Items) ~= 'table' then
+            return {}
+        end
+        return NormalizeItems(QBCore.Shared.Items)
+    end, 60000)
 end
 
 function GetInventoryImagePath()

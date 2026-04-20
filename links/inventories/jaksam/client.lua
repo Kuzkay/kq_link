@@ -10,12 +10,10 @@ function GetPlayerInventory()
     return NormalizeInventoryOutput(exports['jaksam_inventory']:getInventory())
 end
 
-local itemsCache
 function GetInventoryItems()
-    if itemsCache then return itemsCache end
-    local items = NormalizeItems(exports['jaksam_inventory']:getStaticItemsList())
-    if next(items) then itemsCache = items end
-    return items
+    return UseCache('kq_link:jaksam_inventory:items', function()
+        return NormalizeItems(exports['jaksam_inventory']:getStaticItemsList())
+    end, 60000)
 end
 
 function GetInventoryImagePath()

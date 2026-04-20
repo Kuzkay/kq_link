@@ -18,12 +18,10 @@ function GetPlayerInventory()
     return NormalizeInventoryOutput(exports['codem-inventory']:getUserInventory())
 end
 
-local itemsCache
 function GetInventoryItems()
-    if itemsCache then return itemsCache end
-    local items = NormalizeItems(exports['codem-inventory']:GetItemList())
-    if next(items) then itemsCache = items end
-    return items
+    return UseCache('kq_link:codem-inventory:items', function()
+        return NormalizeItems(exports['codem-inventory']:GetItemList())
+    end, 60000)
 end
 
 function GetInventoryImagePath()

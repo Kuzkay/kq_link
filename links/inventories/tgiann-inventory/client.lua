@@ -15,12 +15,10 @@ function GetPlayerInventory()
     return NormalizeInventoryOutput(exports["tgiann-inventory"]:Items())
 end
 
-local itemsCache
 function GetInventoryItems()
-    if itemsCache then return itemsCache end
-    local items = NormalizeItems(exports['tgiann-inventory']:GetItemList())
-    if next(items) then itemsCache = items end
-    return items
+    return UseCache('kq_link:tgiann-inventory:items', function()
+        return NormalizeItems(exports['tgiann-inventory']:GetItemList())
+    end, 60000)
 end
 
 function GetInventoryImagePath()

@@ -8,12 +8,10 @@ if Link.inventory ~= 'qs-inventory' and Link.inventory ~= 'qs' then
     return
 end
 
-local itemsCache
 function GetInventoryItems()
-    if itemsCache then return itemsCache end
-    local items = NormalizeItems(exports['qs-inventory']:GetItemList())
-    if next(items) then itemsCache = items end
-    return items
+    return UseCache('kq_link:qs-inventory:items', function()
+        return NormalizeItems(exports['qs-inventory']:GetItemList())
+    end, 60000)
 end
 
 function GetInventoryImagePath()

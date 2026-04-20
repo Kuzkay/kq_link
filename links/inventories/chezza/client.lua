@@ -10,12 +10,10 @@ function GetPlayerInventory()
     return NormalizeInventoryOutput(TriggerServerCallback('kq_link:callback:getPlayerInventory'))
 end
 
-local itemsCache
 function GetInventoryItems()
-    if itemsCache then return itemsCache end
-    local items = TriggerServerCallback('kq_link:getInventoryItems') or {}
-    if next(items) then itemsCache = items end
-    return items
+    return UseCache('kq_link:chezza:items', function()
+        return TriggerServerCallback('kq_link:getInventoryItems') or {}
+    end, 60000)
 end
 
 function GetInventoryImagePath()

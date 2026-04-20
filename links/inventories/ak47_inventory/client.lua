@@ -12,12 +12,10 @@ function GetPlayerInventory()
     return NormalizeInventoryOutput(exports['ak47_inventory']:Items())
 end
 
-local itemsCache
 function GetInventoryItems()
-    if itemsCache then return itemsCache end
-    local items = NormalizeItems(exports['ak47_inventory']:Items())
-    if next(items) then itemsCache = items end
-    return items
+    return UseCache('kq_link:ak47_inventory:items', function()
+        return NormalizeItems(exports['ak47_inventory']:Items())
+    end, 60000)
 end
 
 function GetInventoryImagePath()

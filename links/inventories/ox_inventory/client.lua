@@ -15,12 +15,10 @@ function GetPlayerInventory()
     return NormalizeInventoryOutput(exports.ox_inventory:GetPlayerItems())
 end
 
-local itemsCache
 function GetInventoryItems()
-    if itemsCache then return itemsCache end
-    local items = NormalizeItems(exports.ox_inventory:Items())
-    if next(items) then itemsCache = items end
-    return items
+    return UseCache('kq_link:ox_inventory:items', function()
+        return NormalizeItems(exports.ox_inventory:Items())
+    end, 60000)
 end
 
 function GetInventoryImagePath()
