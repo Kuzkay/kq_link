@@ -13,9 +13,7 @@ end
 local itemsCache
 function GetInventoryItems()
     if itemsCache then return itemsCache end
-    local ok, raw = pcall(function() return exports['jaksam_inventory']:getStaticItemsList() end)
-    if not ok then return {} end
-    local items = NormalizeItems(raw)
+    local items = NormalizeItems(exports['jaksam_inventory']:getStaticItemsList())
     if next(items) then itemsCache = items end
     return items
 end

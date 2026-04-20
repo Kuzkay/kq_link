@@ -11,9 +11,7 @@ end
 local itemsCache
 function GetInventoryItems()
     if itemsCache then return itemsCache end
-    local ok, raw = pcall(function() return exports['qs-inventory']:GetItemList() end)
-    if not ok then return {} end
-    local items = NormalizeItems(raw)
+    local items = NormalizeItems(exports['qs-inventory']:GetItemList())
     if next(items) then itemsCache = items end
     return items
 end

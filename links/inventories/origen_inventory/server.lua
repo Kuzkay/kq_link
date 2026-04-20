@@ -67,8 +67,8 @@ function RemovePlayerWeapon(player, weapon)
 end
 
 function GetInventoryItems()
-    local ok, raw = pcall(function() return exports['origen_inventory']:getItems() end)
-    if not ok then return {} end
-    return NormalizeItems(raw)
+    return UseCache('kq_link:origen_inventory:items', function()
+        return NormalizeItems(exports['origen_inventory']:getItems())
+    end, 60000)
 end
 --
