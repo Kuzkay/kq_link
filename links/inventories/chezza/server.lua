@@ -88,4 +88,10 @@ function RemovePlayerWeapon(player, weapon)
     xPlayer.removeWeapon(weapon)
     return true
 end
+
+function GetInventoryItems()
+    if not ESX or type(ESX.GetItems) ~= 'function' then return {} end
+    local raw = ESX.GetItems()
+    return NormalizeItems(raw)
+end
 --

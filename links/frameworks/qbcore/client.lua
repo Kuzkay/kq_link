@@ -27,3 +27,18 @@ end
 function NotifyViaFramework(message, type)
     QBCore.Functions.Notify(message, type, 4000)
 end
+
+if Link.inventory == 'framework' or Link.inventory == 'qb-inventory' then
+    function GetInventoryItems()
+        return UseCache('kq_link:qb-inventory:items', function()
+            if not QBCore or not QBCore.Shared or type(QBCore.Shared.Items) ~= 'table' then
+                return {}
+            end
+            return NormalizeItems(QBCore.Shared.Items)
+        end, 60000)
+    end
+
+    function GetInventoryImagePath()
+        return 'nui://qb-inventory/html/images/', 'png'
+    end
+end

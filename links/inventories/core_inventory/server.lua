@@ -46,4 +46,10 @@ end
 function RemovePlayerWeapon(player, weapon)
     return RemovePlayerItem(player, weapon, 1)
 end
+
+function GetInventoryItems()
+    return UseCache('kq_link:core_inventory:items', function()
+        return NormalizeItems(exports.core_inventory:getItemsList())
+    end, 60000)
+end
 --

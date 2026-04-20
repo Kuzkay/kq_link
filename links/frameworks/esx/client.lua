@@ -46,3 +46,15 @@ function NotifyViaFramework(message, type)
 
     ESX.ShowNotification(message, type, 4000)
 end
+
+if Link.inventory == 'framework' then
+    function GetInventoryItems()
+        return UseCache('kq_link:esx-framework:items', function()
+            return TriggerServerCallback('kq_link:getInventoryItems') or {}
+        end, 60000)
+    end
+
+    function GetInventoryImagePath()
+        return '', 'png'
+    end
+end

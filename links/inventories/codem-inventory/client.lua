@@ -17,3 +17,13 @@ end
 function GetPlayerInventory()
     return NormalizeInventoryOutput(exports['codem-inventory']:getUserInventory())
 end
+
+function GetInventoryItems()
+    return UseCache('kq_link:codem-inventory:items', function()
+        return NormalizeItems(exports['codem-inventory']:GetItemList())
+    end, 60000)
+end
+
+function GetInventoryImagePath()
+    return 'nui://codem-inventory/html/itemimages/', 'png'
+end

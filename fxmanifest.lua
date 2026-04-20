@@ -88,9 +88,15 @@ client_scripts {
 
 
     -- INVENTORIES
-    'links/inventories/ox_inventory/client.lua',
-    'links/inventories/qs-inventory/client.lua',
+    'links/inventories/ak47_inventory/client.lua',
+    'links/inventories/chezza/client.lua',
     'links/inventories/codem-inventory/client.lua',
+    'links/inventories/core_inventory/client.lua',
+    'links/inventories/jaksam/client.lua',
+    'links/inventories/origen_inventory/client.lua',
+    'links/inventories/ox_inventory/client.lua',
+    'links/inventories/ps-inventory/client.lua',
+    'links/inventories/qs-inventory/client.lua',
     'links/inventories/tgiann-inventory/client.lua',
 
     -- VEHICLE KEYS

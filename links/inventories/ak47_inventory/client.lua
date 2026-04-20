@@ -11,3 +11,13 @@ end
 function GetPlayerInventory()
     return NormalizeInventoryOutput(exports['ak47_inventory']:Items())
 end
+
+function GetInventoryItems()
+    return UseCache('kq_link:ak47_inventory:items', function()
+        return NormalizeItems(exports['ak47_inventory']:Items())
+    end, 60000)
+end
+
+function GetInventoryImagePath()
+    return '', 'png'
+end

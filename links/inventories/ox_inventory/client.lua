@@ -14,3 +14,13 @@ end
 function GetPlayerInventory()
     return NormalizeInventoryOutput(exports.ox_inventory:GetPlayerItems())
 end
+
+function GetInventoryItems()
+    return UseCache('kq_link:ox_inventory:items', function()
+        return NormalizeItems(exports.ox_inventory:Items())
+    end, 60000)
+end
+
+function GetInventoryImagePath()
+    return 'nui://ox_inventory/web/images/', 'png'
+end

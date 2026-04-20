@@ -9,3 +9,13 @@ end
 function GetPlayerInventory()
     return NormalizeInventoryOutput(exports.core_inventory:getInventory())
 end
+
+function GetInventoryItems()
+    return UseCache('kq_link:core_inventory:items:client', function()
+        return TriggerServerCallback('kq_link:getInventoryItems') or {}
+    end, 60000)
+end
+
+function GetInventoryImagePath()
+    return '', 'png'
+end

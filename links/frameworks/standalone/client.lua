@@ -5,3 +5,11 @@ end
 function GetPlayerJob()
     return nil
 end
+
+function GetInventoryItems()
+    return {}
+end
+
+function GetInventoryImagePath()
+    return '', 'png'
+end

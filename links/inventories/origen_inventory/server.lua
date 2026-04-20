@@ -65,4 +65,10 @@ end
 function RemovePlayerWeapon(player, weapon)
     return RemovePlayerItem(player, weapon, 1)
 end
+
+function GetInventoryItems()
+    return UseCache('kq_link:origen_inventory:items', function()
+        return NormalizeItems(exports['origen_inventory']:getItems())
+    end, 60000)
+end
 --
