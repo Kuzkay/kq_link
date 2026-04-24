@@ -77,5 +77,16 @@ ___
 
 ___
 
+## Vehicle Keys systems
+- qb-vehiclekeys
+- qbx_vehiclekeys
+- wasabi_carlock
+- jaksam
+- mrnewb
+- renewed
+- cd_garage
+
+___
+
 # Pull requests
 If you're a developer and wish to improve upon kq_link or add an integration to your own custom framework, inventory, or another kind of resource. Feel free to commit pull requests. We will review them and merge if we deem the changes as valuable. Our goal is to have kq_link have as many integrations as possible.

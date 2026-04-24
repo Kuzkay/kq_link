@@ -61,6 +61,7 @@ local function DetectAndSetVehicleKeys()
         ['vehicles_keys'] = 'jaksam',
         ['MrNewbVehicleKeys'] = 'mrnewb',
         ['Renewed-Vehiclekeys'] = 'renewed',
+        ['cd_garage'] = 'cd_garage',
     }
 
     for resource, config in pairs(vehiclekeys) do
