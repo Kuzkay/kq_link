@@ -1,4 +1,5 @@
 local SYSTEM = Link.input.target.system
+if SYSTEM == 'tmc' or SYSTEM == 'tmc-core' then return end
 
 local _qbZoneCache = {}
 local _qbEntityCache = {}
