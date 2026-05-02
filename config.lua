@@ -130,6 +130,7 @@ Link.dispatch = {
 --- 'mrnewb' -- MrNewbScripts vehicle keys system
 --- 'renewed' -- Renewed vehicle keys system
 --- 'cd_garage' -- Codesign's cd_garage vehicle keys system
+--- 'tmc' -- TMC vehicle keys system
 ---
 --- 'standalone' -- Set to this option if you are not using any vehicle keys systems
 Link.vehiclekeys = 'auto'
