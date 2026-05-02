@@ -11,15 +11,13 @@ local _activeGroupId = nil
 local _lastPromptIds = {}
 
 CreateThread(function()
-    Debug('[TMC] Waiting for TMC core...')
-    Wait(1000)
+    Citizen.Wait(1000)
     TMC = exports.core:getCoreObject()
     _tmcReady = true
-    Debug('[TMC] Core ready')
 end)
 
 local function WaitForTMC()
-    while not _tmcReady do Wait(100) end
+    while not _tmcReady do Citizen.Wait(100) end
 end
 
 local function GetZoneKey(coords)
@@ -93,15 +91,12 @@ end
 function InputUtils.AddEntityToTargeting(entity, message, event, canInteract, meta, maxDist, icon)
     if not Link.input.target.enabled or not SYSTEM then return end
 
-    Debug('[TMC] AddEntityToTargeting:', entity, message)
-
     if not _entityInteractions[entity] then
         _entityInteractions[entity] = {}
     end
 
     for _, interaction in ipairs(_entityInteractions[entity]) do
         if interaction.event == event then
-            Debug('[TMC] Duplicate event, skipping:', event)
             return entity
         end
     end
@@ -121,7 +116,6 @@ function InputUtils.AddZoneToTargeting(coords, rotation, scale, message, event, 
     if not Link.input.target.enabled or not SYSTEM then return end
 
     local key = GetZoneKey(coords)
-    Debug('[TMC] AddZoneToTargeting:', key, message)
 
     if not _zoneInteractions[key] then
         _zoneInteractions[key] = {
@@ -133,7 +127,6 @@ function InputUtils.AddZoneToTargeting(coords, rotation, scale, message, event, 
 
     for _, interaction in ipairs(_zoneInteractions[key].interactions) do
         if interaction.event == event then
-            Debug('[TMC] Duplicate event, skipping:', event)
             return key
         end
     end
@@ -155,13 +148,11 @@ end
 
 function InputUtils.RemoveTargetEntity(entity)
     if not Link.input.target.enabled or not SYSTEM then return end
-    Debug('[TMC] RemoveTargetEntity:', entity)
     _entityInteractions[entity] = nil
 end
 
 function InputUtils.RemoveTargetZone(identifier)
     if not Link.input.target.enabled or not SYSTEM then return end
-    Debug('[TMC] RemoveTargetZone:', identifier)
     _zoneInteractions[identifier] = nil
 end
 
@@ -174,7 +165,6 @@ function InputUtils.RemoveTargetEntityOption(entity, event)
     for i, interaction in ipairs(interactions) do
         if interaction.event == event then
             table.remove(interactions, i)
-            Debug('[TMC] Removed entity option:', event)
             break
         end
     end
@@ -194,7 +184,6 @@ function InputUtils.RemoveTargetZoneOption(coords, event)
     for i, interaction in ipairs(zoneData.interactions) do
         if interaction.event == event then
             table.remove(zoneData.interactions, i)
-            Debug('[TMC] Removed zone option:', event)
             break
         end
     end
@@ -206,10 +195,9 @@ end
 
 CreateThread(function()
     WaitForTMC()
-    Debug('[TMC] Visibility thread started')
 
     while true do
-        Wait(250)
+        Citizen.Wait(250)
 
         local playerCoords = GetEntityCoords(PlayerPedId())
         local prompts, promptIds = GetValidPrompts(playerCoords)
@@ -224,21 +212,18 @@ CreateThread(function()
                     TMC.Functions.ShowPromptGroup(_activeGroupId)
                 end
                 _lastPromptIds = promptIds
-                Debug('[TMC] Recreated prompt group, count:', #prompts)
             end
         else
             if _activeGroupId then
                 TMC.Functions.DeletePromptGroup(_activeGroupId)
                 _activeGroupId = nil
                 _lastPromptIds = {}
-                Debug('[TMC] Deleted prompt group')
             end
         end
 
         for entity in pairs(_entityInteractions) do
             if not DoesEntityExist(entity) then
                 _entityInteractions[entity] = nil
-                Debug('[TMC] Cleaned up dead entity:', entity)
             end
         end
     end
@@ -247,7 +232,6 @@ end)
 AddEventHandler('onResourceStop', function(resource)
     if resource ~= GetCurrentResourceName() or not _tmcReady then return end
 
-    Debug('[TMC] Resource stopping')
     if _activeGroupId then
         TMC.Functions.DeletePromptGroup(_activeGroupId)
     end
