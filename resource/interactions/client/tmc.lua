@@ -57,7 +57,15 @@ local function RebuildEntityPromptGroup(entity)
     if cache.groupId then
         TMC.Functions.DeletePromptGroup(cache.groupId)
     end
-    cache.groupId = TMC.Functions.CreatePromptGroup(cache.prompts)
+    local newGroupId = TMC.Functions.CreatePromptGroup(cache.prompts)
+    if not newGroupId then
+        Debug('[TMC] Failed to rebuild prompt group for entity:', entity)
+        cache.groupId = nil
+        return
+    end
+    cache.groupId = newGroupId
+    _tmcVisibleGroups[entity] = nil
+    Debug('[TMC] Rebuilt entity prompt group:', entity, 'new groupId:', cache.groupId)
 end
 
 local function RebuildZonePromptGroup(identifier)
@@ -67,7 +75,15 @@ local function RebuildZonePromptGroup(identifier)
     if cache.groupId then
         TMC.Functions.DeletePromptGroup(cache.groupId)
     end
-    cache.groupId = TMC.Functions.CreatePromptGroup(cache.prompts)
+    local newGroupId = TMC.Functions.CreatePromptGroup(cache.prompts)
+    if not newGroupId then
+        Debug('[TMC] Failed to rebuild prompt group for zone:', identifier)
+        cache.groupId = nil
+        return
+    end
+    cache.groupId = newGroupId
+    _tmcVisibleGroups[identifier] = nil
+    Debug('[TMC] Rebuilt zone prompt group:', identifier, 'new groupId:', cache.groupId)
 end
 
 function InputUtils.AddEntityToTargeting(entity, message, event, canInteract, meta, maxDist, icon)
@@ -93,6 +109,10 @@ function InputUtils.AddEntityToTargeting(entity, message, event, canInteract, me
             Debug('[TMC] Added prompt to existing entity cache:', entity, 'total prompts:', #_tmcEntityCache[entity].prompts)
         else
             local groupId = TMC.Functions.CreatePromptGroup({ prompt })
+            if not groupId then
+                Debug('[TMC] Failed to create prompt group for entity:', entity)
+                return
+            end
             Debug('[TMC] Entity prompt group created:', groupId, 'for entity:', entity)
 
             _tmcEntityCache[entity] = {
@@ -131,6 +151,10 @@ function InputUtils.AddZoneToTargeting(coords, rotation, scale, message, event, 
             Debug('[TMC] Added prompt to existing zone cache:', identifier, 'total prompts:', #_tmcZoneCache[identifier].prompts)
         else
             local groupId = TMC.Functions.CreatePromptGroup({ prompt })
+            if not groupId then
+                Debug('[TMC] Failed to create prompt group for zone:', identifier)
+                return
+            end
             Debug('[TMC] Zone prompt group created:', groupId, 'identifier:', identifier, 'maxDist:', maxDist)
 
             _tmcZoneCache[identifier] = {
@@ -151,7 +175,7 @@ function InputUtils.RemoveTargetEntity(entity)
     Debug('[TMC] RemoveTargetEntity:', entity)
 
     local cache = _tmcEntityCache[entity]
-    if cache and _tmcReady then
+    if cache and _tmcReady and cache.groupId then
         TMC.Functions.DeletePromptGroup(cache.groupId)
     end
     _tmcEntityCache[entity] = nil
@@ -164,7 +188,7 @@ function InputUtils.RemoveTargetZone(identifier)
     Debug('[TMC] RemoveTargetZone:', identifier)
 
     local cache = _tmcZoneCache[identifier]
-    if cache and _tmcReady then
+    if cache and _tmcReady and cache.groupId then
         TMC.Functions.DeletePromptGroup(cache.groupId)
     end
     _tmcZoneCache[identifier] = nil
@@ -188,7 +212,9 @@ function InputUtils.RemoveTargetEntityOption(entity, event)
     if #cache.prompts > 0 then
         RebuildEntityPromptGroup(entity)
     else
-        TMC.Functions.DeletePromptGroup(cache.groupId)
+        if cache.groupId then
+            TMC.Functions.DeletePromptGroup(cache.groupId)
+        end
         _tmcEntityCache[entity] = nil
         _tmcVisibleGroups[entity] = nil
     end
@@ -212,7 +238,9 @@ function InputUtils.RemoveTargetZoneOption(coords, event)
     if #cache.prompts > 0 then
         RebuildZonePromptGroup(key)
     else
-        TMC.Functions.DeletePromptGroup(cache.groupId)
+        if cache.groupId then
+            TMC.Functions.DeletePromptGroup(cache.groupId)
+        end
         _tmcZoneCache[key] = nil
         _tmcVisibleGroups[key] = nil
     end
@@ -231,7 +259,9 @@ CreateThread(function()
         local entitiesToRemove = {}
 
         for entity, cache in pairs(_tmcEntityCache) do
-            if DoesEntityExist(entity) then
+            if not cache.groupId then
+                table.insert(entitiesToRemove, entity)
+            elseif DoesEntityExist(entity) then
                 local entityCoords = GetEntityCoords(entity)
                 local dist = #(playerCoords - entityCoords)
                 local inRange = dist <= cache.maxDist
@@ -259,31 +289,37 @@ CreateThread(function()
             local cache = _tmcEntityCache[entity]
             if cache then
                 Debug('[TMC] Entity no longer exists, cleaning up:', entity)
-                if _tmcVisibleGroups[entity] then
-                    TMC.Functions.HidePromptGroup(cache.groupId)
+                if cache.groupId then
+                    if _tmcVisibleGroups[entity] then
+                        TMC.Functions.HidePromptGroup(cache.groupId)
+                    end
+                    TMC.Functions.DeletePromptGroup(cache.groupId)
                 end
-                TMC.Functions.DeletePromptGroup(cache.groupId)
                 _tmcEntityCache[entity] = nil
                 _tmcVisibleGroups[entity] = nil
             end
         end
 
         for key, cache in pairs(_tmcZoneCache) do
-            local dist = #(playerCoords - cache.coords)
-            local inRange = dist <= cache.maxDist
-            local canShow = inRange and CanShowAnyPrompt(cache.prompts)
-
-            if canShow then
-                if not _tmcVisibleGroups[key] then
-                    Debug('[TMC] Show zone prompt:', key, 'dist:', dist, 'maxDist:', cache.maxDist, 'prompts:', #cache.prompts)
-                    TMC.Functions.ShowPromptGroup(cache.groupId)
-                    _tmcVisibleGroups[key] = true
-                end
+            if not cache.groupId then
+                Debug('[TMC] Zone has no groupId, skipping:', key)
             else
-                if _tmcVisibleGroups[key] then
-                    Debug('[TMC] Hide zone prompt:', key, 'dist:', dist, 'inRange:', inRange)
-                    TMC.Functions.HidePromptGroup(cache.groupId)
-                    _tmcVisibleGroups[key] = nil
+                local dist = #(playerCoords - cache.coords)
+                local inRange = dist <= cache.maxDist
+                local canShow = inRange and CanShowAnyPrompt(cache.prompts)
+
+                if canShow then
+                    if not _tmcVisibleGroups[key] then
+                        Debug('[TMC] Show zone prompt:', key, 'dist:', dist, 'maxDist:', cache.maxDist, 'prompts:', #cache.prompts)
+                        TMC.Functions.ShowPromptGroup(cache.groupId)
+                        _tmcVisibleGroups[key] = true
+                    end
+                else
+                    if _tmcVisibleGroups[key] then
+                        Debug('[TMC] Hide zone prompt:', key, 'dist:', dist, 'inRange:', inRange)
+                        TMC.Functions.HidePromptGroup(cache.groupId)
+                        _tmcVisibleGroups[key] = nil
+                    end
                 end
             end
         end
@@ -296,9 +332,13 @@ AddEventHandler('onResourceStop', function(resource)
     Debug('[TMC] Resource stopping, cleaning up prompts')
 
     for entity, cache in pairs(_tmcEntityCache) do
-        TMC.Functions.DeletePromptGroup(cache.groupId)
+        if cache.groupId then
+            TMC.Functions.DeletePromptGroup(cache.groupId)
+        end
     end
     for key, cache in pairs(_tmcZoneCache) do
-        TMC.Functions.DeletePromptGroup(cache.groupId)
+        if cache.groupId then
+            TMC.Functions.DeletePromptGroup(cache.groupId)
+        end
     end
 end)
