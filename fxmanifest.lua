@@ -62,6 +62,7 @@ client_scripts {
     -- INTERACTIONS
     'resource/interactions/client/utils.lua',
     'resource/interactions/client/target.lua',
+    'resource/interactions/client/tmc.lua',
     'resource/interactions/client/client.lua',
 
     -- MINIGAMES

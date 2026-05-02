@@ -75,6 +75,7 @@ Link.input = {
         --- 'qb-target' -- QBCore targeting system
         --- 'qtarget' -- The classic qtarget system commonly used in esx
         --- 'interact' -- Interact system by darktrovx
+        --- 'tmc' -- TMC Core interaction prompts
         ---
         --- You may also try entering the name of other targeting systems, as they often use very similar exports.
         system = 'ox_target'
