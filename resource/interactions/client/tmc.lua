@@ -8,8 +8,15 @@ local _tmcEntityCache = {}
 local _tmcZoneCache = {}
 local _tmcVisibleGroups = {}
 
-local _pendingEntities = {}
-local _pendingZones = {}
+CreateThread(function()
+    Wait(1000)
+    TMC = exports.core:getCoreObject()
+    _tmcReady = true
+end)
+
+local function WaitForTMC()
+    while not _tmcReady do Wait(100) end
+end
 
 local function GetUniqueZoneKeyFromCoords(coords)
     return string.format('%.2f_%.2f_%.2f', coords.x, coords.y, coords.z)
@@ -27,41 +34,23 @@ local function CreateTMCPrompt(message, event, canInteract, icon)
     }
 end
 
-local function RegisterEntityPrompt(entity, message, event, canInteract, meta, maxDist, icon)
-    local prompt = CreateTMCPrompt(message, event, canInteract, icon)
-    local groupId = TMC.Functions.CreatePromptGroup({ prompt })
-
-    _tmcEntityCache[entity] = {
-        groupId = groupId,
-        maxDist = maxDist or 2.0,
-        canInteract = canInteract,
-        prompts = { prompt }
-    }
-end
-
-local function RegisterZonePrompt(identifier, coords, scale, message, event, canInteract, meta, maxDist, icon)
-    local prompt = CreateTMCPrompt(message, event, canInteract, icon)
-    local groupId = TMC.Functions.CreatePromptGroup({ prompt })
-
-    _tmcZoneCache[identifier] = {
-        groupId = groupId,
-        coords = coords,
-        scale = scale or vector3(2.0, 2.0, 2.0),
-        maxDist = maxDist or 2.0,
-        canInteract = canInteract,
-        prompts = { prompt }
-    }
-end
-
 function InputUtils.AddEntityToTargeting(entity, message, event, canInteract, meta, maxDist, icon)
     if not Link.input.target.enabled or not SYSTEM then return end
 
-    if not _tmcReady then
-        table.insert(_pendingEntities, {entity, message, event, canInteract, meta, maxDist, icon})
-        return entity
-    end
+    CreateThread(function()
+        WaitForTMC()
 
-    RegisterEntityPrompt(entity, message, event, canInteract, meta, maxDist, icon)
+        local prompt = CreateTMCPrompt(message, event, canInteract, icon)
+        local groupId = TMC.Functions.CreatePromptGroup({ prompt })
+
+        _tmcEntityCache[entity] = {
+            groupId = groupId,
+            maxDist = maxDist or 2.0,
+            canInteract = canInteract,
+            prompts = { prompt }
+        }
+    end)
+
     return entity
 end
 
@@ -70,12 +59,22 @@ function InputUtils.AddZoneToTargeting(coords, rotation, scale, message, event, 
 
     local identifier = GetUniqueZoneKeyFromCoords(coords)
 
-    if not _tmcReady then
-        table.insert(_pendingZones, {identifier, coords, scale, message, event, canInteract, meta, maxDist, icon})
-        return identifier
-    end
+    CreateThread(function()
+        WaitForTMC()
 
-    RegisterZonePrompt(identifier, coords, scale, message, event, canInteract, meta, maxDist, icon)
+        local prompt = CreateTMCPrompt(message, event, canInteract, icon)
+        local groupId = TMC.Functions.CreatePromptGroup({ prompt })
+
+        _tmcZoneCache[identifier] = {
+            groupId = groupId,
+            coords = coords,
+            scale = scale or vector3(2.0, 2.0, 2.0),
+            maxDist = maxDist or 2.0,
+            canInteract = canInteract,
+            prompts = { prompt }
+        }
+    end)
+
     return identifier
 end
 
@@ -157,19 +156,7 @@ local function IsPointInBox(point, center, scale)
 end
 
 CreateThread(function()
-    Wait(1000)
-    TMC = exports.core:getCoreObject()
-    _tmcReady = true
-
-    for _, pending in ipairs(_pendingEntities) do
-        RegisterEntityPrompt(pending[1], pending[2], pending[3], pending[4], pending[5], pending[6], pending[7])
-    end
-    _pendingEntities = {}
-
-    for _, pending in ipairs(_pendingZones) do
-        RegisterZonePrompt(pending[1], pending[2], pending[3], pending[4], pending[5], pending[6], pending[7], pending[8], pending[9])
-    end
-    _pendingZones = {}
+    WaitForTMC()
 
     while true do
         Wait(250)
