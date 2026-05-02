@@ -4,7 +4,7 @@ lua54 'yes'
 
 author 'KuzQuality.com | Kuzkay'
 description 'KuzQuality Link | Made to link existing frameworks and dependencies'
-version '1.22.2'
+version '1.23.0'
 
 server_scripts {
     -- RESOURCE BASE
@@ -62,6 +62,7 @@ client_scripts {
     -- INTERACTIONS
     'resource/interactions/client/utils.lua',
     'resource/interactions/client/target.lua',
+    'resource/interactions/client/tmc.lua',
     'resource/interactions/client/client.lua',
 
     -- MINIGAMES

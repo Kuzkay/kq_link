@@ -75,6 +75,7 @@ Link.input = {
         --- 'qb-target' -- QBCore targeting system
         --- 'qtarget' -- The classic qtarget system commonly used in esx
         --- 'interact' -- Interact system by darktrovx
+        --- 'tmc' -- TMC Core interaction prompts
         ---
         --- You may also try entering the name of other targeting systems, as they often use very similar exports.
         system = 'ox_target'
@@ -129,6 +130,7 @@ Link.dispatch = {
 --- 'mrnewb' -- MrNewbScripts vehicle keys system
 --- 'renewed' -- Renewed vehicle keys system
 --- 'cd_garage' -- Codesign's cd_garage vehicle keys system
+--- 'tmc' -- TMC vehicle keys system
 ---
 --- 'standalone' -- Set to this option if you are not using any vehicle keys systems
 Link.vehiclekeys = 'auto'

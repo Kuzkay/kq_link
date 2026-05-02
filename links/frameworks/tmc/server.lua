@@ -53,7 +53,7 @@ function AddPlayerMoney(player, amount, account)
     if not xPlayer then
         return false
     end
-    return xPlayer.Functions.AddMoney(account or 'cash', amount)
+    return xPlayer.Functions.AddMoney(account or 'cash', amount, '+')
 end
 
 function RemovePlayerMoney(player, amount)
@@ -62,11 +62,11 @@ function RemovePlayerMoney(player, amount)
         return false
     end
     if xPlayer.Functions.GetMoney('cash') >= amount then
-        xPlayer.Functions.RemoveMoney('cash', amount)
+        xPlayer.Functions.RemoveMoney('cash', amount, '-')
         return true
     end
     if xPlayer.Functions.GetMoney('bank') >= amount then
-        xPlayer.Functions.RemoveMoney('bank', amount)
+        xPlayer.Functions.RemoveMoney('bank', amount, '-')
         return true
     end
     return false
@@ -91,7 +91,7 @@ if Link.inventory == 'framework' or Link.inventory == 'tmc-inventory' then
         if type(data) == 'table' then
             data = data[1]
         end
-        
+
         return data.amount or data.count or 0
     end
 
