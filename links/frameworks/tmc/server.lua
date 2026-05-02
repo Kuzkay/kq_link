@@ -84,15 +84,9 @@ if Link.inventory == 'framework' or Link.inventory == 'tmc-inventory' then
     end
 
     function GetPlayerItemCount(player, item)
-        local data = GetPlayerItemData(player, item)
-        if not data then
-            return 0
-        end
-        if type(data) == 'table' then
-            data = data[1]
-        end
+        local xPlayer = TMC.Functions.GetPlayer(player)
 
-        return data.amount or data.count or 0
+        return xPlayer.Functions.GetItemAmountByName(item)
     end
 
     function AddPlayerItem(player, item, amount, meta)
