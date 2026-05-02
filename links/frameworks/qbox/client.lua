@@ -19,6 +19,10 @@ AddEventHandler('QBCore:Client:OnJobUpdate', function(jobData)
 end)
 
 function GetPlayerJob()
+    if not PLAYER_DATA or not PLAYER_DATA.job then
+        return nil
+    end
+    
     return PLAYER_DATA.job.name
 end
 
