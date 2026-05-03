@@ -78,7 +78,9 @@ Link.input = {
         --- 'tmc' -- TMC Core interaction prompts
         ---
         --- You may also try entering the name of other targeting systems, as they often use very similar exports.
-        system = 'ox_target'
+        system = 'ox_target',
+
+        tmcDistance = 2.0 -- This is the extra distance for TMC core interaction prompts, only applicable if you are using TMC's interaction system
     },
 
     -- Only applicable when target is disabled
@@ -112,6 +114,7 @@ Link.input = {
 --- 'p_mdt' -- Dispatch system made by pScripts
 --- 'tk' -- Dispatch system made by TK Scripts
 --- 'origen' -- Dispatch system made by Origen (Origen-police)
+--- 'tmc' -- Dispatch system made by TMC
 ---
 --- 'standalone' -- Built in dispatch system
 Link.dispatch = {

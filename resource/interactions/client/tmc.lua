@@ -34,7 +34,7 @@ local function GetValidPrompts(playerCoords)
             local dist = #(playerCoords - entityCoords)
 
             for _, interaction in ipairs(interactions) do
-                local maxDist = (interaction.maxDist or 2.0) + 2.0
+                local maxDist = (interaction.maxDist or 2.0) + Link.input.target.tmcDistance
                 if dist <= maxDist then
                     if not interaction.canInteract or interaction.canInteract() then
                         table.insert(prompts, {
