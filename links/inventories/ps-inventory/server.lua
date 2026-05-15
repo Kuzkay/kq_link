@@ -6,26 +6,106 @@ function GetPlayerInventory(player)
     return NormalizeInventoryOutput(exports['ps-inventory']:GetInventory(player))
 end
 
-function GetPlayerItemData(player, item)
-    local data = exports['ps-inventory']:GetItemByName(player, item)
-    return data
+function GetPlayerItemData(player, item, meta)
+    local items = exports['ps-inventory']:GetItemsByName(player, item)
+    if not items or #items == 0 then
+        return nil
+    end
+
+    if not meta then
+        return items[1]
+    end
+
+    for _, itemData in ipairs(items) do
+        local match = true
+        for k, v in pairs(meta) do
+            if not itemData.info or itemData.info[k] ~= v then
+                match = false
+                break
+            end
+        end
+        if match then return itemData end
+    end
+    return nil
 end
 
-function GetPlayerItemCount(player, item)
-  local itemData = GetPlayerItemData(player, item)
-  if not itemData then
-    return 0
-  end 
+function GetPlayerItemCount(player, item, meta)
+    local items = exports['ps-inventory']:GetItemsByName(player, item)
+    if not items or #items == 0 then
+        return 0
+    end
 
-  return itemData.amount or 0
+    if not meta then
+        local total = 0
+        for _, itemData in ipairs(items) do
+            total = total + (itemData.amount or 1)
+        end
+        return total
+    end
+
+    local count = 0
+    for _, itemData in ipairs(items) do
+        local match = true
+        for k, v in pairs(meta) do
+            if not itemData.info or itemData.info[k] ~= v then
+                match = false
+                break
+            end
+        end
+        if match then count = count + (itemData.amount or 1) end
+    end
+    return count
 end
 
 function AddPlayerItem(player, item, amount, meta)
     return exports['ps-inventory']:AddItem(player, item, amount, nil, meta)
 end
 
-function RemovePlayerItem(player, item, amount)
-    return exports['ps-inventory']:RemoveItem(player, item, amount, nil)
+function RemovePlayerItem(player, item, amount, meta)
+    amount = amount or 1
+
+    local items = exports['ps-inventory']:GetItemsByName(player, item)
+    if not items or #items == 0 then
+        return false
+    end
+
+    local slots = {}
+    local total = 0
+
+    for _, itemData in ipairs(items) do
+        local match = true
+        if meta then
+            for k, v in pairs(meta) do
+                if not itemData.info or itemData.info[k] ~= v then
+                    match = false
+                    break
+                end
+            end
+        end
+        if match then
+            table.insert(slots, itemData)
+            total = total + (itemData.amount or 1)
+        end
+    end
+
+    if total < amount then return false end
+
+    local metadata = {}
+    local remaining = amount
+
+    for _, itemData in ipairs(slots) do
+        if remaining <= 0 then break end
+        local remove = math.min(itemData.amount or 1, remaining)
+
+        if exports['ps-inventory']:RemoveItem(player, item, remove, itemData.slot) then
+            for i = 1, remove do
+                table.insert(metadata, itemData.info or {})
+            end
+            remaining = remaining - remove
+        end
+    end
+
+    return remaining == 0, metadata
 end
 
 -- Stashes

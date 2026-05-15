@@ -25,16 +25,25 @@ KuzQuality link not only links resources with other resources and frameworks. It
 ___
 
 ## Supported Inventories
-- ox_inventory
-- ak47_inventory (menan)
-- codem-inventory
-- core_inventory (c8re)
-- ps-inventory
-- qs-inventory *(discontinued support)*
-- origen_inventory
-- chezza
-- tgiann-inventory
-- jaksam_inventory
+
+| Inventory | Metadata Support | Notes |
+|-----------|:----------------:|-------|
+| ox_inventory | Full | Reference implementation |
+| tgiann-inventory | Full | Native metadata filtering |
+| jaksam_inventory | Full | Native metadata filtering |
+| ak47_inventory | Full | Uses Search export |
+| qs-inventory | Full | *Discontinued support* |
+| ps-inventory | Full | Uses GetItemsByName |
+| codem-inventory | Full | Uses GetItemsByName |
+| core_inventory | Full | Via inventory iteration |
+| origen_inventory | Full | Via inventory iteration |
+| chezza | Partial | ESX-based, limited by framework |
+
+**Metadata functions:**
+- `GetPlayerItemData(player, item, meta)` - Get item data, filter by metadata
+- `GetPlayerItemCount(player, item, meta)` - Count items matching metadata
+- `AddPlayerItem(player, item, amount, meta)` - Add item with metadata
+- `RemovePlayerItem(player, item, amount, meta)` - Remove items matching metadata, returns removed metadata
 
 > All framework integrated inventories also are supported. esx_inventory, qb-inventory etc.
 
