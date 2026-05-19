@@ -34,6 +34,10 @@ AddEventHandler('esx:setJob', function(jobData)
     TriggerEvent('kq_link:jobUpdated', PLAYER_DATA.job.name)
 end)
 
+AddEventHandler('esx:onPlayerSpawn', function ()
+    TriggerEvent('kq_link:playerLoaded')
+end)
+
 function GetPlayerJob()
     return PLAYER_DATA.job.name
 end
