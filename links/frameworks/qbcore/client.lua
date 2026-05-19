@@ -20,6 +20,10 @@ AddEventHandler('QBCore:Client:OnJobUpdate', function(jobData)
     TriggerEvent('kq_link:jobUpdated', PLAYER_DATA.job.name)
 end)
 
+RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
+    TriggerEvent('kq_link:playerLoaded')
+end)
+
 function GetPlayerJob()
     return PLAYER_DATA.job.name
 end

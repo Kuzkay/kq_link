@@ -18,6 +18,11 @@ AddEventHandler('QBCore:Client:OnJobUpdate', function(jobData)
     TriggerEvent('kq_link:jobUpdated', PLAYER_DATA.job.name)
 end)
 
+-- Already defined in `links/frameworks/qbcore/client.lua`
+-- AddEventHandler('QBCore:Client:OnPlayerLoaded', function()
+--    TriggerEvent('kq_link:playerLoaded')
+-- end)
+
 function GetPlayerJob()
     if not PLAYER_DATA or not PLAYER_DATA.job then
         return nil
