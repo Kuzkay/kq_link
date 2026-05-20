@@ -26,24 +26,18 @@ ___
 
 ## Supported Inventories
 
-| Inventory | Metadata Support | Notes |
-|-----------|:----------------:|-------|
-| ox_inventory | Full | Reference implementation |
-| tgiann-inventory | Full | Native metadata filtering |
-| jaksam_inventory | Full | Native metadata filtering |
-| ak47_inventory | Full | Uses Search export |
-| qs-inventory | Full | *Discontinued support* |
-| ps-inventory | Full | Uses GetItemsByName |
-| codem-inventory | Full | Uses GetItemsByName |
-| core_inventory | Full | Via inventory iteration |
-| origen_inventory | Full | Via inventory iteration |
-| chezza | Partial | ESX-based, limited by framework |
-
-**Metadata functions:**
-- `GetPlayerItemData(player, item, meta)` - Get item data, filter by metadata
-- `GetPlayerItemCount(player, item, meta)` - Count items matching metadata
-- `AddPlayerItem(player, item, amount, meta)` - Add item with metadata
-- `RemovePlayerItem(player, item, amount, meta)` - Remove items matching metadata, returns removed metadata
+| Inventory | Metadata Support |
+|-----------|:----------------:|
+| ox_inventory | Full |
+| tgiann-inventory | Full |
+| jaksam_inventory | Full |
+| ak47_inventory | Full |
+| qs-inventory | Full |
+| ps-inventory | Full |
+| codem-inventory | Full |
+| core_inventory | Full |
+| origen_inventory | Full |
+| chezza | Partial |
 
 > All framework integrated inventories also are supported. esx_inventory, qb-inventory etc.
 
