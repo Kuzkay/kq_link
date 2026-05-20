@@ -87,6 +87,9 @@ ___
 - renewed
 - cd_garage
 
+## Premium Assets
+Find FiveM scripts which utlize `kq_link` over on our webstore: https://kuzquality.com/
+
 ___
 
 # Pull requests
