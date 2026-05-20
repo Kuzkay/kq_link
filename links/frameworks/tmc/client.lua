@@ -9,6 +9,7 @@ RegisterNetEvent('TMC:Client:OnPlayerSpawned', function()
     PLAYER_DATA = TMC.Functions.GetPlayerData()
     local job = GetPlayerJob()
     TriggerEvent('kq_link:jobUpdated', job)
+    TriggerEvent('kq_link:playerLoaded')
 end)
 
 AddStateBagChangeHandler("JobTracking", nil, function(_, key, value)
