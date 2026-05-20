@@ -108,6 +108,9 @@ function RemovePlayerItem(player, item, amount, meta)
     return remaining == 0, metadata
 end
 
+function SetItemDurability(player, slot, durability)
+    return exports['codem-inventory']:SetItemMetadata(player, slot, { durability = durability })
+end
 
 -- Stashes
 function OpenCustomStash(player, stashId, label, slots, weight)

@@ -86,6 +86,11 @@ function RemovePlayerWeapon(player, weapon)
     return RemovePlayerItem(player, string.lower(weapon), 1)
 end
 
+function SetItemDurability(player, slot, durability)
+    local success, response = exports['jaksam_inventory']:setDurability(player, slot, durability)
+    return success
+end
+
 -- Stashes
 local stashes = {}
 function OpenCustomStash(player, stashId, label, slots, weight)

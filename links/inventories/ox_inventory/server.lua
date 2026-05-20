@@ -23,6 +23,11 @@ function AddPlayerItem(player, item, amount, meta)
     return success
 end
 
+function SetItemDurability(player, slot, durability)
+    local success, response = exports['ox_inventory']:SetDurability(player, slot, durability)
+    return success
+end
+
 function RemovePlayerItem(player, item, amount)
     amount = amount or 1
     

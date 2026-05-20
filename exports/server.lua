@@ -11,6 +11,7 @@ exports('RemovePlayerMoney', RemovePlayerMoney)
 exports('GetPlayerItemData', GetPlayerItemData)
 exports('GetPlayerItemCount', GetPlayerItemCount)
 exports('AddPlayerItem', AddPlayerItem)
+exports('SetItemDurability', SetItemDurability)
 
 exports('AddPlayerWeapon', AddPlayerWeapon)
 exports('RemovePlayerWeapon', RemovePlayerWeapon)

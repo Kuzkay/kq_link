@@ -115,6 +115,11 @@ function RemovePlayerItem(player, item, amount, meta)
     return remaining == 0, metadata
 end
 
+function SetItemDurability(player, slot, durability)
+    local success, response = exports['core_inventory']:setDurability(player, slot, durability)
+    return success
+end
+
 -- Stashes
 function OpenCustomStash(player, stashId, label, slots, weight)
     exports['core_inventory']:openInventory(player, ('stash-' .. stashId):gsub(' ', ''), 'stash', 300, 300, true, nil, false)

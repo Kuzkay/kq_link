@@ -108,6 +108,11 @@ function RemovePlayerItem(player, item, amount, meta)
     return remaining == 0, metadata
 end
 
+function SetItemDurability(player, slot, durability)
+    -- Not available for this inventory
+    return nil
+end
+
 -- Stashes
 function OpenCustomStash(player, stashId, label, slots, weight)
     stashId = ('stash_' .. stashId):gsub('-', '_')
