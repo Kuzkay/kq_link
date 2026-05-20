@@ -31,4 +31,3 @@ exports('GetInventoryImagePath', GetInventoryImagePath)
 
 -- ROUTING BUCKET
 exports('GetRoutingBucket', GetRoutingBucket)
-exports('OnRoutingBucketChange', OnRoutingBucketChange)

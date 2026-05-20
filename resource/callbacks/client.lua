@@ -34,7 +34,7 @@ function TriggerServerCallback(name, ...)
     local ret = { coroutine.yield() }
     local ok = ret[1]
     if not ok then
-        print('^1' .. ret[2], 2)
+        Debug('^1' .. ret[2], 2)
         return nil
     end
 
@@ -51,6 +51,6 @@ AddEventHandler('kq_link:client:callback-response', function(name, id, ok, ...)
     if cb then
         cb(ok, ...)
     else
-        print('^1Callback not found', id, name)
+        Debug('^1Callback not found', id, name)
     end
 end)

@@ -55,6 +55,14 @@ AddEventHandler('playerDropped', function()
     playerBucketRequestCooldown[source] = nil
 end)
 
+local function SyncPlayerBucket(player)
+    local bucket = GetPlayerRoutingBucket(player) or 0
+    if playerBuckets[player] ~= bucket then
+        playerBuckets[player] = bucket
+        Player(player).state:set('kq_link:routingBucket', bucket, true)
+    end
+end
+
 RegisterNetEvent('kq_link:server:requestBucketCheck', function()
     local player = source
     local now = GetGameTimer()
@@ -64,9 +72,12 @@ RegisterNetEvent('kq_link:server:requestBucketCheck', function()
     end
     playerBucketRequestCooldown[player] = now
 
-    local bucket = GetPlayerRoutingBucket(player) or 0
-    if playerBuckets[player] ~= bucket then
-        playerBuckets[player] = bucket
-        Player(player).state:set('kq_link:routingBucket', bucket, true)
+    SyncPlayerBucket(player)
+end)
+
+Citizen.CreateThread(function()
+    Citizen.Wait(500)
+    for _, playerId in ipairs(GetPlayers()) do
+        SyncPlayerBucket(tonumber(playerId))
     end
 end)
