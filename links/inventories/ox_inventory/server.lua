@@ -7,12 +7,14 @@ function GetPlayerInventory(player)
 end
 
 function GetPlayerItemData(player, item, meta)
-    local data = exports['ox_inventory']:GetItem(player, item, meta)
-    return data or {}
+    return exports['ox_inventory']:GetItem(player, item, meta)
 end
 
 function GetPlayerItemCount(player, item, meta)
-    local data = GetPlayerItemData(player, item)
+    local data = GetPlayerItemData(player, item, meta)
+    if not data then
+        return 0
+    end
     return data.count or data.amount or 0
 end
 

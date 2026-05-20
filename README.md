@@ -25,16 +25,19 @@ KuzQuality link not only links resources with other resources and frameworks. It
 ___
 
 ## Supported Inventories
-- ox_inventory
-- ak47_inventory (menan)
-- codem-inventory
-- core_inventory (c8re)
-- ps-inventory
-- qs-inventory *(discontinued support)*
-- origen_inventory
-- chezza
-- tgiann-inventory
-- jaksam_inventory
+
+| Inventory | Metadata Support |
+|-----------|:----------------:|
+| ox_inventory | Full |
+| tgiann-inventory | Full |
+| jaksam_inventory | Full |
+| ak47_inventory | Full |
+| qs-inventory | Full |
+| ps-inventory | Full |
+| codem-inventory | Full |
+| core_inventory | Full |
+| origen_inventory | Full |
+| chezza | Partial |
 
 > All framework integrated inventories also are supported. esx_inventory, qb-inventory etc.
 

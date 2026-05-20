@@ -3,8 +3,8 @@ local TMC = exports.core:getCoreObject()
 
 function SendDispatchMessage(data)
     TMC.Functions.TriggerServerEvent('dispatch:server:addCall', {
-        title = "Incoming Call",
-        description = data.message,
+        title = data.message,
+        description = data.description,
         jobType = data.jobs,
         position = data.coords or GetEntityCoords(PlayerPedId()),
         urgency = 1,

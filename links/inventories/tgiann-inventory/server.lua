@@ -7,8 +7,7 @@ function GetPlayerInventory(player)
 end
 
 function GetPlayerItemData(player, item, meta)
-    local data = exports['tgiann-inventory']:GetItem(player, item, meta, false)
-    return data or {}
+    return exports['tgiann-inventory']:GetItem(player, item, meta, false)
 end
 
 function GetPlayerItemCount(player, item, meta)
@@ -20,26 +19,26 @@ function AddPlayerItem(player, item, amount, meta)
     return success
 end
 
-function RemovePlayerItem(player, item, amount)
+function RemovePlayerItem(player, item, amount, meta)
     amount = amount or 1
 
-    local slots = exports['tgiann-inventory']:Search(player, 'slots', item)
+    local slots = exports['tgiann-inventory']:Search(player, 'slots', item, meta)
     if not slots or #slots == 0 then
         return false
     end
 
     local itemDataList = {}
     local total = 0
-    
+
     for _, slot in ipairs(slots) do
         local itemData = exports['tgiann-inventory']:GetItemBySlot(player, slot)
-        
+
         if itemData and itemData.name == item then
             table.insert(itemDataList, itemData)
             total = total + itemData.amount
         end
     end
-    
+
     if total < amount then return false end
 
     local metadata = {}
@@ -49,9 +48,8 @@ function RemovePlayerItem(player, item, amount)
         if remaining <= 0 then break end
 
         local remove = math.min(itemData.amount, remaining)
-       
+
         if exports['tgiann-inventory']:RemoveItem(player, item, remove, itemData.slot, itemData.metadata) then
-            -- Collect metadata for each individual item removed
             for i = 1, remove do
                 table.insert(metadata, itemData.metadata or {})
             end
