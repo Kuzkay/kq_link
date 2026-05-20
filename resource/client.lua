@@ -1,13 +1,10 @@
 
 local cachedRoutingBucket = LocalPlayer.state['kq_link:routingBucket'] or 0
-local cacheTimestamp = GetGameTimer()
-local CACHE_MAX_AGE = 90000
 
 AddStateBagChangeHandler('kq_link:routingBucket', ('player:%s'):format(GetPlayerServerId(PlayerId())), function(_, _, value)
     local newBucket = value or 0
     local oldBucket = cachedRoutingBucket
     cachedRoutingBucket = newBucket
-    cacheTimestamp = GetGameTimer()
 
     if oldBucket ~= newBucket then
         TriggerEvent('kq_link:routingBucketChanged', newBucket, oldBucket)
@@ -15,11 +12,6 @@ AddStateBagChangeHandler('kq_link:routingBucket', ('player:%s'):format(GetPlayer
 end)
 
 function GetRoutingBucket()
-    local now = GetGameTimer()
-    if now - cacheTimestamp > CACHE_MAX_AGE then
-        cacheTimestamp = now
-        TriggerServerEvent('kq_link:server:requestBucketCheck')
-    end
     return cachedRoutingBucket
 end
 
