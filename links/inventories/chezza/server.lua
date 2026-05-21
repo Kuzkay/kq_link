@@ -146,6 +146,11 @@ function SetItemDurability(player, slot, durability)
     return nil
 end
 
+function GetItemBySlot(player, slot)
+    -- Not available for this inventory
+    return nil
+end
+
 function OpenCustomStash(player, stashId, label, slots, weight)
     xPlayer = ESX.GetPlayerFromId(player)
     TriggerClientEvent('inventory:openHouse', xPlayer.source, xPlayer.identifier, stashId, label, weight)

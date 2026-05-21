@@ -57,6 +57,12 @@ function SetItemDurability(player, slot, durability)
     return success
 end
 
+function GetItemBySlot(player, slot)
+    local item = exports['ak47_inventory']:GetSlot(player, slot)
+
+    return item
+end
+
 -- Stashes
 local stashes = {}
 function OpenCustomStash(player, stashId, label, slots, weight)

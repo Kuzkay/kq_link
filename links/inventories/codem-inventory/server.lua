@@ -112,6 +112,11 @@ function SetItemDurability(player, slot, durability)
     return exports['codem-inventory']:SetItemMetadata(player, slot, { durability = durability })
 end
 
+function GetItemBySlot(player, slot)
+    local item = exports['codem-inventory']:GetItemBySlot(player, slot)
+    return item
+end
+
 -- Stashes
 function OpenCustomStash(player, stashId, label, slots, weight)
     TriggerClientEvent('kq_link:client:codem-inventory:openStash', player, stashId, weight, slots)

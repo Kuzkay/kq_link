@@ -65,6 +65,11 @@ function SetItemDurability(player, slot, durability)
     return exports["tgiann-inventory"]:UpdateItemMetadata(player, item, slot, { durability = durability })
 end
 
+function GetItemBySlot(player, slot)
+    local item = exports["tgiann-inventory"]:GetItemBySlot(player, slot)
+    return item
+end
+
 -- Stashes
 local stashes = {}
 function OpenCustomStash(player, stashId, label, slots, weight)

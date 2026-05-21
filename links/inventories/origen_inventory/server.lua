@@ -104,6 +104,11 @@ function SetItemDurability(player, slot, durability)
     return success
 end
 
+function GetItemBySlot(player, slot)
+    local item = exports['origen_inventory']:getSlot(player, slot)
+    return item
+end
+
 -- Stashes
 local stashes = {}
 function OpenCustomStash(player, stashId, label, slots, weight)

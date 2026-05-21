@@ -113,6 +113,11 @@ function SetItemDurability(player, slot, durability)
     return nil
 end
 
+function GetItemBySlot(player, slot)
+    local item = exports['ps-inventory']:GetItemBySlot(player, slot)
+    return item
+end
+
 -- Stashes
 function OpenCustomStash(player, stashId, label, slots, weight)
     stashId = ('stash_' .. stashId):gsub('-', '_')

@@ -28,9 +28,15 @@ function SetItemDurability(player, slot, durability)
     return success
 end
 
+function GetItemBySlot(player, slot)
+    local item = exports['ox_inventory']:GetSlot(player, slot)
+
+    return item
+end
+
 function RemovePlayerItem(player, item, amount)
     amount = amount or 1
-    
+
     local items = exports['ox_inventory']:Search(player, 'slots', item)
     if not items or #items == 0 then
         return false
@@ -90,4 +96,5 @@ end
 function RemovePlayerWeapon(player, weapon)
     return RemovePlayerItem(player, weapon, 1)
 end
+
 --
