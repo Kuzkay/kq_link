@@ -99,6 +99,15 @@ function RemovePlayerItem(player, item, amount, meta)
     return remaining == 0, metadata
 end
 
+function SetItemDurability(player, slot, durability)
+    local success, response = exports['origen_inventory']:setMetadata(player, slot, { durability = durability })
+    return success
+end
+
+function GetItemBySlot(player, slot)
+    return exports['origen_inventory']:getSlot(player, slot)
+end
+
 -- Stashes
 local stashes = {}
 function OpenCustomStash(player, stashId, label, slots, weight)

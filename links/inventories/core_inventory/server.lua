@@ -59,8 +59,7 @@ function GetPlayerItemCount(player, item, meta)
 end
 
 function AddPlayerItem(player, item, amount, meta)
-    local success, response = exports['core_inventory']:addItem(player, item, amount or 1, meta)
-    return success
+    return exports['core_inventory']:addItem(player, item, amount or 1, meta)
 end
 
 function RemovePlayerItem(player, item, amount, meta)
@@ -113,6 +112,14 @@ function RemovePlayerItem(player, item, amount, meta)
     end
 
     return remaining == 0, metadata
+end
+
+function SetItemDurability(player, slot, durability)
+    return exports['core_inventory']:setDurability(player, slot, durability)
+end
+
+function GetItemBySlot(player, slot)
+    return exports['core_inventory']:getItemBySlot(player, slot)
 end
 
 -- Stashes

@@ -31,6 +31,15 @@ function RemovePlayerItem(player, item, amount)
     return exports['qs-inventory']:RemoveItem(player, item, amount, nil, meta)
 end
 
+function SetItemDurability(player, slot, durability)
+    return exports['qs-inventory']:SetItemMetadata(player, slot, { durability = durability })
+end
+
+function GetItemBySlot(player, slot)
+    -- not supported by this inventory
+    return false
+end
+
 -- Stashes
 local stashes = {}
 function OpenCustomStash(player, stashId, label, slots, weight)
