@@ -92,8 +92,7 @@ function SetItemDurability(player, slot, durability)
 end
 
 function GetItemBySlot(player, slot)
-    local item = exports['jaksam_inventory']:getItemFromSlot(player, slot)
-    return item
+    return exports['jaksam_inventory']:getItemFromSlot(player, slot)
 end
 
 -- Stashes

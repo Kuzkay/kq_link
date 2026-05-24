@@ -58,9 +58,7 @@ function SetItemDurability(player, slot, durability)
 end
 
 function GetItemBySlot(player, slot)
-    local item = exports['ak47_inventory']:GetSlot(player, slot)
-
-    return item
+    return exports['ak47_inventory']:GetSlot(player, slot)
 end
 
 -- Stashes

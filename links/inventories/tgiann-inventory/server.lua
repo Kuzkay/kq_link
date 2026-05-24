@@ -66,8 +66,7 @@ function SetItemDurability(player, slot, durability)
 end
 
 function GetItemBySlot(player, slot)
-    local item = exports["tgiann-inventory"]:GetItemBySlot(player, slot)
-    return item
+    return exports["tgiann-inventory"]:GetItemBySlot(player, slot)
 end
 
 -- Stashes

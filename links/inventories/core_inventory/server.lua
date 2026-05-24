@@ -119,8 +119,7 @@ function SetItemDurability(player, slot, durability)
 end
 
 function GetItemBySlot(player, slot)
-    local item = exports['core_inventory']:getItemBySlot(player, slot)
-    return item
+    return exports['core_inventory']:getItemBySlot(player, slot)
 end
 
 -- Stashes

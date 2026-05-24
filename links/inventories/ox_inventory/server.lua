@@ -29,9 +29,7 @@ function SetItemDurability(player, slot, durability)
 end
 
 function GetItemBySlot(player, slot)
-    local item = exports['ox_inventory']:GetSlot(player, slot)
-
-    return item
+    return exports['ox_inventory']:GetSlot(player, slot)
 end
 
 function RemovePlayerItem(player, item, amount)

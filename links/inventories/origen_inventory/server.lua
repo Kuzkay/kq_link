@@ -105,8 +105,7 @@ function SetItemDurability(player, slot, durability)
 end
 
 function GetItemBySlot(player, slot)
-    local item = exports['origen_inventory']:getSlot(player, slot)
-    return item
+    return exports['origen_inventory']:getSlot(player, slot)
 end
 
 -- Stashes

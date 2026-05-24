@@ -114,8 +114,7 @@ function SetItemDurability(player, slot, durability)
 end
 
 function GetItemBySlot(player, slot)
-    local item = exports['ps-inventory']:GetItemBySlot(player, slot)
-    return item
+    return exports['ps-inventory']:GetItemBySlot(player, slot)
 end
 
 -- Stashes

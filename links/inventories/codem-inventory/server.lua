@@ -113,8 +113,7 @@ function SetItemDurability(player, slot, durability)
 end
 
 function GetItemBySlot(player, slot)
-    local item = exports['codem-inventory']:GetItemBySlot(player, slot)
-    return item
+    return exports['codem-inventory']:GetItemBySlot(player, slot)
 end
 
 -- Stashes
