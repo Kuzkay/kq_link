@@ -6,12 +6,12 @@ end
 
 function GiveVehicleKeys(player, vehicle)
     local plate = GetVehicleNumberPlateText(vehicle)
-    TriggerClientEvent('kq_link:vehiclekeys:mrnewb:give', player, strTrim(plate))
+    exports.MrNewbVehicleKeys:GiveKeysByPlate(player, strTrim(plate))
     return true
 end
 
 function RemoveVehicleKeys(player, vehicle)
     local plate = GetVehicleNumberPlateText(vehicle)
-    TriggerClientEvent('kq_link:vehiclekeys:mrnewb:remove', player, strTrim(plate))
+    exports.MrNewbVehicleKeys:RemoveKeysByPlate(player, strTrim(plate))
     return true
 end
