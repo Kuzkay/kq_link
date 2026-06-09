@@ -3,11 +3,18 @@ if Link.inventory ~= 'origen_inventory' and Link.inventory ~= 'origen' then
 end
 
 function GetPlayerInventory(player)
-    return NormalizeInventoryOutput(exports['origen_inventory']:getInventory(player))
+    local inventory = exports['origen_inventory']:getInventory(player)
+    
+    if not inventory then
+        return {}
+    end
+    
+    return NormalizeInventoryOutput(inventory.inventory)
 end
 
 function RegisterUsableItem(...)
-    exports['origen_inventory']:CreateUseableItem(...)
+    -- Inventory does not have a native method for registering usable items
+    return
 end
 
 function GetPlayerItemData(player, item, meta)
@@ -26,7 +33,7 @@ function GetPlayerItemCount(player, item, meta)
     end
 
     local count = 0
-    for _, itemData in pairs(inventory) do
+    for _, itemData in pairs(inventory.inventory) do
         if itemData.name == item then
             local match = true
             local itemMeta = itemData.metadata or itemData.info or {}
@@ -58,7 +65,7 @@ function RemovePlayerItem(player, item, amount, meta)
     local slots = {}
     local total = 0
 
-    for slot, itemData in pairs(inventory) do
+    for slot, itemData in pairs(inventory.inventory) do
         if itemData.name == item then
             local match = true
             if meta then
@@ -77,7 +84,9 @@ function RemovePlayerItem(player, item, amount, meta)
         end
     end
 
-    if total < amount then return false end
+    if total < amount then 
+        return false
+    end
 
     local metadata = {}
     local remaining = amount
@@ -87,7 +96,7 @@ function RemovePlayerItem(player, item, amount, meta)
         local itemData = slotInfo.data
         local remove = math.min(itemData.count or itemData.amount or 1, remaining)
 
-        local success = exports['origen_inventory']:RemoveItem(player, item, remove, slotInfo.slot)
+        local success = exports['origen_inventory']:removeItem(player, item, remove, slotInfo.slot)
         if success then
             for i = 1, remove do
                 table.insert(metadata, itemData.metadata or itemData.info or {})
@@ -117,10 +126,10 @@ function OpenCustomStash(player, stashId, label, slots, weight)
             slots = slots or 50,
             weight = weight or 100000
         })
-        
+
         stashes[stashId] = true
     end
-    
+
     exports['origen_inventory']:OpenInventory(player, 'stash', stashId)
 end
 
