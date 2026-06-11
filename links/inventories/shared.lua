@@ -1,4 +1,8 @@
 function NormalizeInventoryOutput(inventory_output)
+    if not inventory_output then
+        return
+    end
+    
     local normalized_output = {}
 
     for pos, item in pairs(inventory_output) do

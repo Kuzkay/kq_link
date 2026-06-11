@@ -42,4 +42,17 @@ if Link.inventory == 'framework' or Link.inventory == 'qb-inventory' then
     function GetInventoryImagePath()
         return 'nui://qb-inventory/html/images/', 'png'
     end
+
+    function GetItemCount(itemName)
+        return TriggerServerCallback('kq_link:qb-inventory:GetItemCount', itemName)
+    end
+
+    function GetPlayerInventory()
+        local playerData = QBCore.Functions.GetPlayerData()
+        if not playerData or not playerData.items then
+            return {}
+        end
+
+        return NormalizeInventoryOutput(playerData.items)
+    end
 end

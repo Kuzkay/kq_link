@@ -89,6 +89,15 @@ function RegisterUsableItem(...)
 end
 
 if Link.inventory == 'framework' or Link.inventory == 'qb-inventory' then
+    function GetPlayerInventory(player)
+        local xPlayer = QBCore.Functions.GetPlayer(tonumber(player))
+        if not xPlayer or not xPlayer.PlayerData then
+            return {}
+        end
+
+        return NormalizeInventoryOutput(xPlayer.PlayerData.items)
+    end
+
     function GetPlayerItemData(player, item)
         local xPlayer = QBCore.Functions.GetPlayer(player)
 
@@ -112,6 +121,22 @@ if Link.inventory == 'framework' or Link.inventory == 'qb-inventory' then
     function RemovePlayerItem(player, item, amount)
         local xPlayer = QBCore.Functions.GetPlayer(tonumber(player))
         return xPlayer.Functions.RemoveItem(item, amount or 1)
+    end
+
+    function SetItemDurability(player, slot, durability)
+        local item = exports['qb-inventory']:GetItemBySlot(player, slot)
+        if not item then
+            return false
+        end
+
+        local info = item.info or {}
+        info.durability = durability
+
+        return exports['qb-inventory']:SetItemData(player, item.name, 'info', info, slot)
+    end
+
+    function GetItemBySlot(player, slot)
+        return exports['qb-inventory']:GetItemBySlot(player, slot)
     end
 
     -- Stash
@@ -139,6 +164,10 @@ if Link.inventory == 'framework' or Link.inventory == 'qb-inventory' then
     function RemovePlayerWeapon(player, weapon)
         return RemovePlayerItem(player, weapon, 1)
     end
+
+    RegisterServerCallback('kq_link:qb-inventory:GetItemCount', function(itemName)
+        return exports['qb-inventory']:GetItemCount(itemName)
+    end)
 end
 
 function GetPlayerCharacterId(player)
