@@ -37,7 +37,8 @@ Link = {
 --- 'framework' -- The native framework inventory system will be used
 ---
 --- 'ox_inventory' -- Ox inventory system
---- 'qs-inventory' -- Quasar inventory system
+--- 'one_inventory' -- One Studios inventory system
+--- 'qs-inventory' -- Quasar inventory system (deprecated)
 --- 'ps-inventory' -- Project Sloth inventory system
 --- 'codem-inventory' -- CodeM inventory system
 --- 'core_inventory' -- Core inventory system (c8re)
@@ -115,6 +116,7 @@ Link.input = {
 --- 'tk' -- Dispatch system made by TK Scripts
 --- 'origen' -- Dispatch system made by Origen (Origen-police)
 --- 'tmc' -- Dispatch system made by TMC
+--- 'lb' -- Dispatch system made by LB Scripts (lb-tablet)
 ---
 --- 'standalone' -- Built in dispatch system
 Link.dispatch = {
