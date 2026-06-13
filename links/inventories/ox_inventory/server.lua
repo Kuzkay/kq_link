@@ -19,8 +19,13 @@ function GetPlayerItemCount(player, item, meta)
 end
 
 function AddPlayerItem(player, item, amount, meta)
-    local success, response = exports['ox_inventory']:AddItem(player, item, amount or 1, meta)
-    return success
+    amount = amount or 1
+
+    if not exports['ox_inventory']:CanCarryItem(player, item, amount, meta) then
+        return false
+    end
+
+    return exports['ox_inventory']:AddItem(player, item, amount, meta)
 end
 
 function SetItemDurability(player, slot, durability)
