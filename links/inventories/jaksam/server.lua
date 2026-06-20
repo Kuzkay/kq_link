@@ -75,15 +75,15 @@ function RemovePlayerItem(player, item, amount, meta)
 end
 
 function AddPlayerWeapon(player, weapon, ammo)
-    return AddPlayerItem(player, string.lower(weapon), 1, { ammo = ammo or 0 })
+    return AddPlayerItem(player, string.upper(weapon), 1, { ammo = ammo or 0 })
 end
 
 function DoesPlayerHaveWeapon(player, weapon)
-    return GetPlayerItemCount(player, string.lower(weapon)) > 0
+    return GetPlayerItemCount(player, string.upper(weapon)) > 0
 end
 
 function RemovePlayerWeapon(player, weapon)
-    return RemovePlayerItem(player, string.lower(weapon), 1)
+    return RemovePlayerItem(player, string.upper(weapon), 1)
 end
 
 function SetItemDurability(player, slot, durability)
