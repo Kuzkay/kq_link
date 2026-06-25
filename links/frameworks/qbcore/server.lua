@@ -165,8 +165,8 @@ if Link.inventory == 'framework' or Link.inventory == 'qb-inventory' then
         return RemovePlayerItem(player, weapon, 1)
     end
 
-    RegisterServerCallback('kq_link:qb-inventory:GetItemCount', function(itemName)
-        return exports['qb-inventory']:GetItemCount(itemName)
+    RegisterServerCallback('kq_link:qb-inventory:GetItemCount', function(source, itemName)
+        return exports['qb-inventory']:GetItemCount(source, itemName) or 0
     end)
 end
 
