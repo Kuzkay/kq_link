@@ -86,6 +86,7 @@ client_scripts {
     'links/frameworks/qbcore/client.lua',
     'links/frameworks/qbox/client.lua',
     'links/frameworks/tmc/client.lua',
+    'links/frameworks/vrp/client.lua',
     'links/frameworks/standalone/client.lua',
 
 

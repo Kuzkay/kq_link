@@ -125,6 +125,25 @@ if Link.inventory == 'framework' or Link.inventory == 'tmc-inventory' then
     function RemovePlayerWeapon(player, weapon)
         return RemovePlayerItem(player, weapon, 1)
     end
+
+    function GetPlayerInventory(player)
+        local xPlayer = TMC.Functions.GetPlayer(player)
+        if not xPlayer or not xPlayer.PlayerData then
+            return {}
+        end
+
+        return NormalizeInventoryOutput(xPlayer.PlayerData.items or {})
+    end
+
+    function GetItemBySlot(player, slot)
+        -- Not available in base framework inv
+        return nil
+    end
+
+    function SetItemDurability(player, slot, durability)
+        -- Not available in base framework inv
+        return true
+    end
 end
 
 function GetPlayerCharacterId(player)
