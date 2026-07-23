@@ -49,16 +49,21 @@ function RemovePlayerItem(player, item, amount)
     for _, itemData in ipairs(items) do
         total = total + itemData.count
     end
-    if total < amount then return false end
+
+    if total < amount then
+        return false
+    end
 
     local metadata = {}
     local remaining = amount
 
     for _, itemData in ipairs(items) do
-        if remaining <= 0 then break end
+        if remaining <= 0 then
+            break
+        end
 
         local remove = math.min(itemData.count, remaining)
-        if exports['ox_inventory']:RemoveItem(player, item, remove, itemData.metadata, itemData.slot) then
+        if exports['ox_inventory']:RemoveItem(player, item, remove, itemData.metadata, itemData.slot, false, false) then
             for i = 1, remove do
                 table.insert(metadata, itemData.metadata or {})
             end
