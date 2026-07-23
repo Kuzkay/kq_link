@@ -4,7 +4,7 @@ lua54 'yes'
 
 author 'KuzQuality.com | Kuzkay'
 description 'KuzQuality Link | Made to link existing frameworks and dependencies'
-version '1.26.0'
+version '1.27.0'
 
 server_scripts {
     -- RESOURCE BASE
@@ -86,6 +86,7 @@ client_scripts {
     'links/frameworks/qbcore/client.lua',
     'links/frameworks/qbox/client.lua',
     'links/frameworks/tmc/client.lua',
+    'links/frameworks/vrp/client.lua',
     'links/frameworks/standalone/client.lua',
 
 

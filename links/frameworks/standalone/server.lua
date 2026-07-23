@@ -73,3 +73,18 @@ function GetStashItems()
     -- Not available in standalone
     return {}
 end
+
+function GetPlayerInventory()
+    -- Not available in standalone
+    return {}
+end
+
+function GetItemBySlot(player, slot)
+    -- Not available in standalone
+    return nil
+end
+
+function SetItemDurability(player, slot, durability)
+    -- Not available in standalone
+    return true
+end
