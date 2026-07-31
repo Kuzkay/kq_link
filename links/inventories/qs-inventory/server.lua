@@ -23,11 +23,11 @@ function AddPlayerItem(player, item, amount, meta)
     return exports['qs-inventory']:AddItem(player, item, amount, nil, meta)
 end
 
-function RemovePlayerItem(player, item, amount)
+function RemovePlayerItem(player, item, amount, meta)
     if GetPlayerItemCount(player, item) < amount then
         return false
     end
-    
+
     return exports['qs-inventory']:RemoveItem(player, item, amount, nil, meta)
 end
 

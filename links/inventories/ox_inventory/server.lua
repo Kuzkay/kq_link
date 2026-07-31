@@ -37,10 +37,10 @@ function GetItemBySlot(player, slot)
     return exports['ox_inventory']:GetSlot(player, slot)
 end
 
-function RemovePlayerItem(player, item, amount)
+function RemovePlayerItem(player, item, amount, meta)
     amount = amount or 1
 
-    local items = exports['ox_inventory']:Search(player, 'slots', item)
+    local items = exports['ox_inventory']:Search(player, 'slots', item, meta)
     if not items or #items == 0 then
         return false
     end
