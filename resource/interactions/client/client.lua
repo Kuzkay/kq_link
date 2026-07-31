@@ -260,18 +260,17 @@ end
 
 --- MAIN
 local function TriggerInteractionThread()
+    if INTERACTION_THREAD_RUNNING or Link.input.target.enabled then
+        return
+    end
+
+    INTERACTION_THREAD_RUNNING = true
+
     Citizen.CreateThread(function()
         Citizen.Wait(500)
         Debug('triggering interaction thread')
-        -- Only needs to run once for non-target systems
-        if INTERACTION_THREAD_RUNNING or Link.input.target.enabled then
-            Debug('aborted', Count(PLAYER_INTERACTIONS))
-            return
-        end
 
-        INTERACTION_THREAD_RUNNING = true
-
-        while Count(PLAYER_INTERACTIONS) > 0 do
+        while next(PLAYER_INTERACTIONS) ~= nil do
             local sleep = 1000
 
             -- Get all nearby interactions
@@ -530,7 +529,9 @@ local function RegisterInteraction(data)
     -- Add the interaction to the list
     PLAYER_INTERACTIONS[self.key] = self
 
-    Debug('Registered new interactable', json.encode(self.meta), self.GetCoords(), DoesEntityExist(self.entity))
+    if Link.debugMode then
+        Debug('Registered new interactable', json.encode(self.meta), self.GetCoords(), DoesEntityExist(self.entity))
+    end
 
     self.clientReturnData = {
         GetMeta = self.GetMeta,

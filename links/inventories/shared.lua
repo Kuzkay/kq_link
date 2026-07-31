@@ -1,12 +1,22 @@
 function NormalizeInventoryOutput(inventory_output)
     local normalized_output = {}
 
-    for pos, item in pairs(inventory_output) do
-        item.label = item.label or item.name
-        item.count = item.count or item.amount
-        item.meta = item.meta or item.metadata
+    if type(inventory_output) ~= 'table' then
+        return normalized_output
+    end
 
-        normalized_output[pos] = item
+    if type(inventory_output.items) == 'table' then
+        inventory_output = inventory_output.items
+    end
+
+    for pos, item in pairs(inventory_output) do
+        if type(item) == 'table' then
+            item.label = item.label or item.name
+            item.count = item.count or item.amount
+            item.meta = item.meta or item.metadata or item.info
+
+            normalized_output[pos] = item
+        end
     end
 
     return normalized_output
