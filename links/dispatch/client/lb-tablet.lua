@@ -19,7 +19,7 @@ function SendDispatchMessage(data)
             label = data.locationLabel or GetStreetLabel(coords),
             coords = coords,
         },
-        time = os.time(),
+        time = 600,
         job = data.jobs or { 'police' },
         blip = {
             type = 'default',
