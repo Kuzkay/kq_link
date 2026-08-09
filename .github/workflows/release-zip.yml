@@ -1,4 +1,3 @@
-# .github/workflows/release-zip.yml
 name: Release ZIP
 
 on:
