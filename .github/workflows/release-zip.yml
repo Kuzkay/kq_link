@@ -18,6 +18,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Resolve tag
+        id: t
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="${{ github.event.release.tag_name }}"
+          [ -z "$TAG" ] && TAG="${{ github.event.inputs.tag }}"
+          [ -z "$TAG" ] && TAG="$(gh release list --limit 1 --json tagName --jq '.[0].tagName')"
+          if [ -z "$TAG" ]; then echo "No tag found"; exit 1; fi
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+
       - name: Create ZIP
         run: |
           NAME="${{ github.event.repository.name }}"
@@ -28,4 +39,4 @@ jobs:
       - name: Upload to release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release upload "${{ github.event.release.tag_name }}" "${{ github.event.repository.name }}.zip" --clobber
+        run: gh release upload "${{ steps.t.outputs.tag }}" "${{ github.event.repository.name }}.zip" --clobber
