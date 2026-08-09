@@ -32,6 +32,7 @@ local function DetectAndSetInventory()
     
     local inventories = {
         ['ox_inventory'] = 'ox_inventory',
+        ['one_inventory'] = 'one_inventory',
         ['qs-inventory'] = 'qs-inventory',
         ['ps-inventory'] = 'ps-inventory',
         ['ak47_inventory'] = 'ak47_inventory',

@@ -95,7 +95,7 @@ if Link.inventory == 'framework' or Link.inventory == 'qb-inventory' then
             return {}
         end
 
-        return NormalizeInventoryOutput(xPlayer.PlayerData.items)
+        return NormalizeInventoryOutput(xPlayer.PlayerData.items or {})
     end
 
     function GetPlayerItemData(player, item)

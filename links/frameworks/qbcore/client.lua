@@ -30,6 +30,25 @@ function NotifyViaFramework(message, type)
 end
 
 if Link.inventory == 'framework' or Link.inventory == 'qb-inventory' then
+    function GetItemCount(item)
+        local data = QBCore.Functions.GetPlayerData()
+        local items = data and data.items or {}
+        local count = 0
+
+        for _, v in pairs(items) do
+            if v and v.name == item then
+                count = count + (v.amount or v.count or 0)
+            end
+        end
+
+        return count
+    end
+
+    function GetPlayerInventory()
+        local data = QBCore.Functions.GetPlayerData()
+        return NormalizeInventoryOutput(data and data.items or {})
+    end
+
     function GetInventoryItems()
         return UseCache('kq_link:qb-inventory:items', function()
             if not QBCore or not QBCore.Shared or type(QBCore.Shared.Items) ~= 'table' then

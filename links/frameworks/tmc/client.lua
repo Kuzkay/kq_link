@@ -44,3 +44,38 @@ end
 function NotifyViaFramework(message, type)
     TMC.Functions.SimpleNotify(message, type)
 end
+
+if Link.inventory == 'framework' or Link.inventory == 'tmc-inventory' then
+    function GetItemCount(item)
+        local count = 0
+
+        for _, v in pairs(GetPlayerInventory()) do
+            if v.name == item then
+                count = count + (v.count or 0)
+            end
+        end
+
+        return count
+    end
+
+    function GetPlayerInventory()
+        local data = TMC.Functions.GetPlayerData()
+        local items = {}
+
+        for _, slot in pairs(data and data.items or {}) do
+            for _, entry in ipairs(slot) do
+                items[#items + 1] = entry
+            end
+        end
+
+        return NormalizeInventoryOutput(items)
+    end
+
+    function GetInventoryItems()
+        return {}
+    end
+
+    function GetInventoryImagePath()
+        return '', 'png'
+    end
+end

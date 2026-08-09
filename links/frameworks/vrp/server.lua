@@ -172,3 +172,18 @@ end
 function RemovePlayerWeapon(player, weapon)
     return RemovePlayerItem(player, weapon, 1)
 end
+
+function GetPlayerInventory(player)
+    -- Not available in vrp
+    return {}
+end
+
+function GetItemBySlot(player, slot)
+    -- Not available in vrp
+    return nil
+end
+
+function SetItemDurability(player, slot, durability)
+    -- Not available in vrp
+    return true
+end

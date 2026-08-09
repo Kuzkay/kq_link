@@ -1,53 +1,48 @@
-if Link.inventory ~= 'ox_inventory' and Link.inventory ~= 'ox' then
+if Link.inventory ~= 'one_inventory' and Link.inventory ~= 'one' then
     return
 end
 
 function GetPlayerInventory(player)
-    return NormalizeInventoryOutput(exports['ox_inventory']:GetInventory(player))
+    return NormalizeInventoryOutput(exports.one_inventory:GetInventoryItems(player) or {})
 end
 
 function GetPlayerItemData(player, item, meta)
-    return exports['ox_inventory']:GetItem(player, item, meta)
+    return exports.one_inventory:GetItem(player, item, meta)
 end
 
 function GetPlayerItemCount(player, item, meta)
-    local data = GetPlayerItemData(player, item, meta)
-    if not data then
-        return 0
-    end
-    return data.count or data.amount or 0
+    return exports.one_inventory:GetItemCount(player, item, meta) or 0
 end
 
 function AddPlayerItem(player, item, amount, meta)
     amount = amount or 1
 
-    if not exports['ox_inventory']:CanCarryItem(player, item, amount, meta) then
+    if not exports.one_inventory:CanCarryItem(player, item, amount) then
         return false
     end
 
-    return exports['ox_inventory']:AddItem(player, item, amount, meta)
+    return exports.one_inventory:AddItem(player, item, amount, meta)
 end
 
 function SetItemDurability(player, slot, durability)
-    local success, response = exports['ox_inventory']:SetDurability(player, slot, durability)
-    return success
+    return exports.one_inventory:SetItemDurability(player, slot, durability)
 end
 
 function GetItemBySlot(player, slot)
-    return exports['ox_inventory']:GetSlot(player, slot)
+    return exports.one_inventory:GetSlot(player, slot)
 end
 
 function RemovePlayerItem(player, item, amount, meta)
     amount = amount or 1
 
-    local items = exports['ox_inventory']:Search(player, 'slots', item, meta)
+    local items = exports.one_inventory:SearchInventory(player, item, meta)
     if not items or #items == 0 then
         return false
     end
 
     local total = 0
     for _, itemData in ipairs(items) do
-        total = total + itemData.count
+        total = total + (itemData.count or 1)
     end
 
     if total < amount then
@@ -62,8 +57,8 @@ function RemovePlayerItem(player, item, amount, meta)
             break
         end
 
-        local remove = math.min(itemData.count, remaining)
-        if exports['ox_inventory']:RemoveItem(player, item, remove, itemData.metadata, itemData.slot, false, false) then
+        local remove = math.min(itemData.count or 1, remaining)
+        if exports.one_inventory:RemoveItem(player, item, remove, itemData.metadata, itemData.slot) then
             for i = 1, remove do
                 table.insert(metadata, itemData.metadata or {})
             end
@@ -71,26 +66,21 @@ function RemovePlayerItem(player, item, amount, meta)
         end
     end
 
-    return remaining == 0, metadata or {}
+    return remaining == 0, metadata
 end
 
 -- Stashes
-local stashes = {}
 function OpenCustomStash(player, stashId, label, slots, weight)
-    if not stashes[stashId] then
-        exports.ox_inventory:RegisterStash(stashId, label, slots or 50, weight or 100000)
-        stashes[stashId] = true
-    end
-
-    TriggerClientEvent('kq_link:client:ox_inventory:openStash', player, stashId)
+    exports.one_inventory:OpenInventory(player, 'stash', {
+        id = stashId,
+        label = label,
+        slots = slots,
+        maxWeight = weight,
+    })
 end
 
 function GetStashItems(stashId)
-    if not stashes[stashId] then
-        return {}
-    end
-
-    return exports.ox_inventory:GetInventoryItems(stashId)
+    return exports.one_inventory:GetInventoryItems('stash:' .. stashId)
 end
 
 function AddPlayerWeapon(player, weapon, ammo)

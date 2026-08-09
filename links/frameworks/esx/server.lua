@@ -178,6 +178,26 @@ if Link.inventory == 'framework' then
         local raw = ESX.GetItems()
         return NormalizeItems(raw)
     end
+
+    function GetPlayerInventory(player)
+        local xPlayer = ESX.GetPlayerFromId(player)
+        if not xPlayer then
+            return {}
+        end
+
+        local inventory = xPlayer.getInventory and xPlayer.getInventory() or xPlayer.inventory
+        return NormalizeInventoryOutput(inventory or {})
+    end
+
+    function GetItemBySlot(player, slot)
+        -- Not available in base framework inv
+        return nil
+    end
+
+    function SetItemDurability(player, slot, durability)
+        -- Not available in base framework inv
+        return true
+    end
 end
 
 function GetPlayerCharacterId(player)

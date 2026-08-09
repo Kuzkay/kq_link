@@ -52,6 +52,27 @@ function NotifyViaFramework(message, type)
 end
 
 if Link.inventory == 'framework' then
+    function GetItemCount(item)
+        local data = ESX.GetPlayerData()
+        local inventory = data and data.inventory
+        if not inventory then
+            return 0
+        end
+
+        for _, v in pairs(inventory) do
+            if v.name == item then
+                return v.count or v.amount or 0
+            end
+        end
+
+        return 0
+    end
+
+    function GetPlayerInventory()
+        local data = ESX.GetPlayerData()
+        return NormalizeInventoryOutput(data and data.inventory or {})
+    end
+
     function GetInventoryItems()
         return UseCache('kq_link:esx-framework:items', function()
             return TriggerServerCallback('kq_link:getInventoryItems') or {}
