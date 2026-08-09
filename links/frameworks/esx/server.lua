@@ -47,8 +47,32 @@ function GetPlayersWithJob(jobs, minGrade)
     return matchingPlayers
 end
 
-function CanPlayerAfford(player, amount)
+local ACCOUNT_ALIASES = {
+    cash = 'money',
+    wallet = 'money',
+    dirty_money = 'black_money',
+    dirty = 'black_money',
+    black = 'black_money',
+    marked_bills = 'black_money',
+    markedbills = 'black_money',
+}
+
+local function ParseAccount(account)
+    if not account then
+        return nil
+    end
+
+    return ACCOUNT_ALIASES[account] or account
+end
+
+function CanPlayerAfford(player, amount, account)
     local xPlayer = ESX.GetPlayerFromId(player)
+    account = ParseAccount(account)
+
+    if account then
+        local data = xPlayer.getAccount(account)
+        return data ~= nil and data.money >= amount
+    end
 
     if xPlayer.getAccount('money').money >= amount then
         return true
@@ -67,17 +91,24 @@ function AddPlayerMoney(player, amount, account)
         return false
     end
 
-    return xPlayer.addAccountMoney(account or 'money', amount)
+    return xPlayer.addAccountMoney(ParseAccount(account) or 'money', amount)
 end
 
-function RemovePlayerMoney(player, amount)
+function RemovePlayerMoney(player, amount, account)
     local xPlayer = ESX.GetPlayerFromId(player)
+    account = ParseAccount(account)
+
     if not xPlayer then
         return false
     end
 
-    if not CanPlayerAfford(player, amount) then
+    if not CanPlayerAfford(player, amount, account) then
         return false
+    end
+
+    if account then
+        xPlayer.removeAccountMoney(account, amount)
+        return true
     end
 
     if xPlayer.getAccount('money').money >= amount then

@@ -12,10 +12,35 @@ function GetPlayersWithJob(jobs)
     return {}
 end
 
-function CanPlayerAfford(player, amount)
-    if Link.inventory == "ox_inventory" then
-        if exports.ox_inventory:GetItemCount(player, "cash", amount) >= amount then
+local ACCOUNT_ALIASES = {
+    money = 'cash',
+    wallet = 'cash',
+    dirty_money = 'cash',
+    black_money = 'cash',
+    dirty = 'cash',
+    black = 'cash',
+    marked_bills = 'cash',
+    markedbills = 'cash',
+}
+
+local function ParseAccount(account)
+    if not account then
+        return nil
+    end
+
+    return ACCOUNT_ALIASES[account] or account
+end
+
+function CanPlayerAfford(player, amount, account)
+    account = ParseAccount(account)
+
+    if Link.inventory == "ox_inventory" and account ~= "bank" then
+        if exports.ox_inventory:GetItemCount(player, "cash") >= amount then
             return true
+        end
+
+        if account == "cash" then
+            return false
         end
     end
 
@@ -33,8 +58,10 @@ function CanPlayerAfford(player, amount)
 end
 
 function AddPlayerMoney(player, amount, account)
+    account = ParseAccount(account)
+
     if Link.inventory == "ox_inventory" and account == "cash" then
-        local success, _ = exports.ox_inventory:AddItem(player, "cash", cashAmount)
+        local success, _ = exports.ox_inventory:AddItem(player, "cash", amount)
 
         if success then
             return true
@@ -47,19 +74,25 @@ function AddPlayerMoney(player, amount, account)
         local OxAccount = OxPlayer.getAccount()
 
         if OxAccount then
-            return account.addBalance({ amount = cashAmount }).success
+            return OxAccount.addBalance({ amount = amount }).success
         end
     end
 
     return false
 end
 
-function RemovePlayerMoney(player, cashAmount)
-    if Link.inventory == "ox_inventory" then
-        local success, _ = exports.ox_inventory:RemoveItem(player, "cash", cashAmount)
+function RemovePlayerMoney(player, amount, account)
+    account = ParseAccount(account)
+
+    if Link.inventory == "ox_inventory" and account ~= "bank" then
+        local success, _ = exports.ox_inventory:RemoveItem(player, "cash", amount)
 
         if success then
             return true
+        end
+
+        if account == "cash" then
+            return false
         end
     end
 
@@ -69,7 +102,7 @@ function RemovePlayerMoney(player, cashAmount)
         local OxAccount = OxPlayer.getAccount()
 
         if OxAccount then
-            return account.removeBalance({ amount = cashAmount, overdraw = false }).success
+            return OxAccount.removeBalance({ amount = amount, overdraw = false }).success
         end
     end
 
