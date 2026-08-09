@@ -2,7 +2,12 @@ name: Release ZIP
 
 on:
   release:
-    types: [published]
+    types: [published, edited, released]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Release tag to upload to
+        required: true
 
 permissions:
   contents: write
