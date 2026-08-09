@@ -40,9 +40,20 @@ function GetPlayersWithJob(jobs)
 end
 
 
-function CanPlayerAfford(player, amount)
+local function ParseAccount(account)
+    if account == "bank" then
+        return "bank"
+    end
+    return account and "wallet" or nil
+end
+
+function CanPlayerAfford(player, amount, account)
     local user_id = vRP.getUserId({player})
+    account = ParseAccount(account)
     if user_id then
+        if account == "bank" then
+            return vRP.getBankMoney({user_id}) >= amount
+        end
         local player_money = vRP.getMoney({user_id})
         return player_money >= amount
     end
@@ -62,10 +73,19 @@ function AddPlayerMoney(player, amount, account)
     return false
 end
 
-function RemovePlayerMoney(player, amount)
+function RemovePlayerMoney(player, amount, account)
     local user_id = vRP.getUserId({player})
+    account = ParseAccount(account)
     if user_id then
-        if CanPlayerAfford(player, amount) then
+        if account == "bank" then
+            local bank = vRP.getBankMoney({user_id})
+            if bank >= amount then
+                vRP.setBankMoney({user_id, bank - amount})
+                return true
+            end
+            return false
+        end
+        if CanPlayerAfford(player, amount, account) then
             vRP.tryPayment({user_id, amount})
             return true
         end

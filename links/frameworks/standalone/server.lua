@@ -10,7 +10,7 @@ function GetPlayersWithJob(jobs)
     return {}
 end
 
-function CanPlayerAfford(player, amount)
+function CanPlayerAfford(player, amount, account)
     return true
 end
 
@@ -18,7 +18,7 @@ function AddPlayerMoney(player, amount, account)
     return true
 end
 
-function RemovePlayerMoney(player, amount)
+function RemovePlayerMoney(player, amount, account)
     return true
 end
 
@@ -60,8 +60,15 @@ function RemovePlayerWeapon(player, weapon)
     return true
 end
 
-function RegisterUsableItem(...)
-    return true -- This system doesn't have it
+-- no inventory to use items from: the item name becomes a command
+function RegisterUsableItem(item, cb)
+    RegisterCommand(item, function(source)
+        if source > 0 then
+            cb(source)
+        end
+    end, false)
+
+    return true
 end
 
 function OpenCustomStash()

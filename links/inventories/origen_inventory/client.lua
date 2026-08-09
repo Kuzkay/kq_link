@@ -3,7 +3,9 @@ if Link.inventory ~= 'origen_inventory' and Link.inventory ~= 'origen' then
 end
 
 function GetItemCount(item)
-    return exports.origen_inventory:GetItemCount(item) or 0
+    return UseCache('kq_link:origen_inventory:items:client', function()
+        return TriggerServerCallback('kq_link:callback:getItemCount', item) or 0
+    end, 60000)
 end
 
 function GetPlayerInventory()

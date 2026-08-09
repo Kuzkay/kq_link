@@ -4,11 +4,11 @@ end
 
 function GetPlayerInventory(player)
     local inventory = exports['origen_inventory']:getInventory(player)
-    
+
     if not inventory then
         return {}
     end
-    
+
     return NormalizeInventoryOutput(inventory.inventory)
 end
 
@@ -84,7 +84,7 @@ function RemovePlayerItem(player, item, amount, meta)
         end
     end
 
-    if total < amount then 
+    if total < amount then
         return false
     end
 
@@ -96,7 +96,7 @@ function RemovePlayerItem(player, item, amount, meta)
         local itemData = slotInfo.data
         local remove = math.min(itemData.count or itemData.amount or 1, remaining)
 
-        local success = exports['origen_inventory']:removeItem(player, item, remove, slotInfo.slot)
+        local success = exports['origen_inventory']:removeItem(player, item, remove, nil, slotInfo.slot)
         if success then
             for i = 1, remove do
                 table.insert(metadata, itemData.metadata or itemData.info or {})

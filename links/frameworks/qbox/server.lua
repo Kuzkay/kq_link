@@ -38,7 +38,32 @@ function GetPlayersWithJob(jobs, minGrade)
     return matchingPlayers
 end
 
-function CanPlayerAfford(player, amount)
+local ACCOUNT_ALIASES = {
+    money = 'cash',
+    wallet = 'cash',
+    dirty_money = 'cash',
+    black_money = 'cash',
+    dirty = 'cash',
+    black = 'cash',
+    marked_bills = 'cash',
+    markedbills = 'cash',
+}
+
+local function ParseAccount(account)
+    if not account then
+        return nil
+    end
+
+    return ACCOUNT_ALIASES[account] or account
+end
+
+function CanPlayerAfford(player, amount, account)
+    account = ParseAccount(account)
+
+    if account then
+        return exports.qbx_core:GetMoney(player, account) >= amount
+    end
+
     if exports.qbx_core:GetMoney(player, 'cash') >= amount then
         return true
     end
@@ -57,12 +82,19 @@ function AddPlayerMoney(player, amount, account)
         return false
     end
 
-    return xPlayer.Functions.AddMoney(account or 'cash', amount)
+    return xPlayer.Functions.AddMoney(ParseAccount(account) or 'cash', amount)
 end
 
-function RemovePlayerMoney(player, amount)
-    if not CanPlayerAfford(player, amount) then
+function RemovePlayerMoney(player, amount, account)
+    account = ParseAccount(account)
+
+    if not CanPlayerAfford(player, amount, account) then
         return false
+    end
+
+    if account then
+        exports.qbx_core:RemoveMoney(player, account, amount)
+        return true
     end
 
     if exports.qbx_core:GetMoney(player, 'cash') >= amount then

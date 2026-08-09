@@ -37,8 +37,30 @@ function GetPlayersWithJob(jobs, minGrade)
     return matchingPlayers
 end
 
-function CanPlayerAfford(player, amount)
+local ACCOUNT_ALIASES = {
+    money = 'cash',
+    wallet = 'cash',
+    dirty_money = 'cash',
+    black_money = 'cash',
+    dirty = 'cash',
+    black = 'cash',
+    marked_bills = 'cash',
+    markedbills = 'cash',
+}
+
+local function ParseAccount(account)
+    if not account then
+        return nil
+    end
+    return ACCOUNT_ALIASES[account] or account
+end
+
+function CanPlayerAfford(player, amount, account)
     local xPlayer = TMC.Functions.GetPlayer(player)
+    account = ParseAccount(account)
+    if account then
+        return xPlayer.Functions.GetMoney(account) >= amount
+    end
     if xPlayer.Functions.GetMoney('cash') >= amount then
         return true
     end
@@ -53,13 +75,18 @@ function AddPlayerMoney(player, amount, account)
     if not xPlayer then
         return false
     end
-    return xPlayer.Functions.AddMoney('cash', amount, "Job Payment")
+    return xPlayer.Functions.AddMoney(ParseAccount(account) or 'cash', amount, "Job Payment")
 end
 
-function RemovePlayerMoney(player, amount)
+function RemovePlayerMoney(player, amount, account)
     local xPlayer = TMC.Functions.GetPlayer(player)
-    if not CanPlayerAfford(player, amount) then
+    account = ParseAccount(account)
+    if not CanPlayerAfford(player, amount, account) then
         return false
+    end
+    if account then
+        xPlayer.Functions.RemoveMoney(account, amount, "Job Payment")
+        return true
     end
     if xPlayer.Functions.GetMoney('cash') >= amount then
         xPlayer.Functions.RemoveMoney('cash', amount, "Job Payment")
