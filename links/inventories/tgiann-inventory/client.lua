@@ -12,7 +12,7 @@ function GetItemCount(item)
 end
 
 function GetPlayerInventory()
-    return NormalizeInventoryOutput(exports["tgiann-inventory"]:Items())
+    return NormalizeInventoryOutput(exports["tgiann-inventory"]:GetPlayerItems())
 end
 
 function GetInventoryItems()

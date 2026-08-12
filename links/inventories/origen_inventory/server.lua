@@ -23,8 +23,7 @@ end
 
 function GetPlayerItemCount(player, item, meta)
     if not meta then
-        local data = exports['origen_inventory']:GetItem(player, item)
-        return data and (data.count or data.amount or 0) or 0
+        return exports['origen_inventory']:getItemCount(player, item) or 0
     end
 
     local inventory = exports['origen_inventory']:getInventory(player)
