@@ -11,7 +11,7 @@ function GetPlayerItemData(player, item, meta)
 end
 
 function GetPlayerItemCount(player, item, meta)
-    return exports['tgiann-inventory']:GetItem(player, item, meta, true) or 0
+    return exports['tgiann-inventory']:GetItemCount(player, item, meta) or 0
 end
 
 function AddPlayerItem(player, item, amount, meta)
