@@ -1,5 +1,6 @@
 -- LINKS
 exports('GetPlayerJob', GetPlayerJob)
+exports('GetPlayerGang', GetPlayerGang)
 exports('Notify', Notify)
 exports('SendDispatchMessage', SendDispatchMessage)
 

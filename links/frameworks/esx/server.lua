@@ -20,6 +20,11 @@ function GetPlayerJob(player)
     return job, grade
 end
 
+-- No native gangs in this framework
+function GetPlayerGang(player)
+    return nil
+end
+
 function GetPlayersWithJob(jobs, minGrade)
     minGrade = minGrade or 0
 

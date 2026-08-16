@@ -7,6 +7,11 @@ function GetPlayerJob(player)
     return '', ''
 end
 
+-- No native gangs in this framework
+function GetPlayerGang(player)
+    return nil
+end
+
 function GetPlayersWithJob(jobs)
     -- Not implemented by framework
     return {}
