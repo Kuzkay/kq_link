@@ -15,6 +15,11 @@ function GetPlayerJob(player)
     return job, 1
 end
 
+-- No native gangs in this framework
+function GetPlayerGang(player)
+    return nil
+end
+
 function GetPlayersWithJob(jobs)
     local matchingPlayers = {}
     local users = vRP.getUsers()

@@ -2,6 +2,7 @@
 exports('RegisterUsableItem', RegisterUsableItem)
 
 exports('GetPlayerJob', GetPlayerJob)
+exports('GetPlayerGang', GetPlayerGang)
 exports('GetPlayersWithJob', GetPlayersWithJob)
 
 exports('CanPlayerAfford', CanPlayerAfford)

@@ -11,6 +11,15 @@ function GetPlayerJob(player)
     return job, grade
 end
 
+function GetPlayerGang(player)
+    local xPlayer = exports.qbx_core:GetPlayer(player)
+    local gang = xPlayer and xPlayer.PlayerData and xPlayer.PlayerData.gang
+    local name = gang and gang.name
+    local grade = gang and gang.grade and gang.grade.level
+
+    return name, grade
+end
+
 function GetPlayersWithJob(jobs, minGrade)
     local matchingPlayers = {}
     local players = GetPlayers()

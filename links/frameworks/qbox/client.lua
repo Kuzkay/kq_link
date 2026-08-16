@@ -19,12 +19,26 @@ AddEventHandler('QBCore:Client:OnJobUpdate', function(jobData)
     TriggerEvent('kq_link:jobUpdated', PLAYER_DATA.job.name)
 end)
 
+RegisterNetEvent('QBCore:Client:OnGangUpdate')
+AddEventHandler('QBCore:Client:OnGangUpdate', function(gangData)
+    PLAYER_DATA.gang = gangData
+    TriggerEvent('kq_link:gangUpdated', gangData and gangData.name)
+end)
+
 function GetPlayerJob()
     if not PLAYER_DATA or not PLAYER_DATA.job then
         return nil
     end
-    
+
     return PLAYER_DATA.job.name
+end
+
+function GetPlayerGang()
+    if not PLAYER_DATA or not PLAYER_DATA.gang then
+        return nil
+    end
+
+    return PLAYER_DATA.gang.name
 end
 
 function NotifyViaFramework(message, type)

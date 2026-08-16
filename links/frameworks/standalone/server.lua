@@ -6,6 +6,10 @@ function GetPlayerJob(player)
     return '', ''
 end
 
+function GetPlayerGang(player)
+    return nil
+end
+
 function GetPlayersWithJob(jobs)
     return {}
 end
