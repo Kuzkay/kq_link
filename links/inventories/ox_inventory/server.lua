@@ -102,7 +102,7 @@ function DoesPlayerHaveWeapon(player, weapon)
 end
 
 function RemovePlayerWeapon(player, weapon)
-    return RemovePlayerItem(player, weapon, 1)
+    return exports['ox_inventory']:RemoveItem(player, weapon, 1)
 end
 
 --
