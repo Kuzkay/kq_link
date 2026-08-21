@@ -194,8 +194,15 @@ if Link.inventory == 'framework' or Link.inventory == 'qb-inventory' then
     end
 
     function SetItemDurability(player, slot, durability)
-        -- Not available in base framework inv
-        return true
+        local item = exports['qb-inventory']:GetItemBySlot(player, slot)
+        if not item then
+            return false
+        end
+
+        local info = item.info or {}
+        info.durability = durability
+
+        return exports['qb-inventory']:SetItemData(player, item.name, 'info', info, slot)
     end
 end
 
