@@ -4,7 +4,7 @@ lua54 'yes'
 
 author 'KuzQuality.com | Kuzkay'
 description 'KuzQuality Link | Made to link existing frameworks and dependencies'
-version '1.30.0'
+version '1.31.0'
 
 server_scripts {
     -- RESOURCE BASE
@@ -39,6 +39,10 @@ server_scripts {
     -- VEHICLE KEYS
     'links/vehiclekeys/server/*.lua',
 
+    -- HOUSING
+    'links/housing/**/server.lua',
+    'links/housing/server.lua',
+
     -- EXPORTS
     'exports/server.lua',
 }
@@ -48,9 +52,11 @@ shared_scripts {
     'resource/shared.lua',
     'links/frameworks/shared.lua',
     'links/inventories/shared.lua',
+    'links/housing/shared.lua',
 
-    '@ox_lib/init.lua',
-    '@ox_core/lib/init.lua',
+    -- Uncomment when using ox_core
+    --'@ox_lib/init.lua',
+    --'@ox_core/lib/init.lua',
 }
 
 client_scripts {
@@ -102,6 +108,10 @@ client_scripts {
     'links/inventories/ps-inventory/client.lua',
     'links/inventories/qs-inventory/client.lua',
     'links/inventories/tgiann-inventory/client.lua',
+
+    -- HOUSING
+    'links/housing/**/client.lua',
+    'links/housing/client.lua',
 
     -- EXPORTS
     'exports/client.lua',

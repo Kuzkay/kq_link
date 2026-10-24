@@ -5,7 +5,15 @@ end
 function GetItemCount(item)
     local data = exports['ak47_inventory']:Search('amount', item)
 
-    return data.count or data.amount or 0
+    if type(data) == 'number' then
+        return data
+    end
+
+    if type(data) == 'table' then
+        return data.count or data.amount or 0
+    end
+
+    return 0
 end
 
 function GetPlayerInventory()
