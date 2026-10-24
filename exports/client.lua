@@ -32,3 +32,4 @@ exports('GetInventoryImagePath', GetInventoryImagePath)
 
 -- ROUTING BUCKET
 exports('GetRoutingBucket', GetRoutingBucket)
+

@@ -139,3 +139,23 @@ Link.dispatch = {
 ---
 --- 'standalone' -- Set to this option if you are not using any vehicle keys systems
 Link.vehiclekeys = 'auto'
+
+
+--- HOUSING OPTIONS
+------------------------
+--- 'auto' -- The script will automatically find the housing system
+---
+--- 'nolag_properties'
+--- 'rcore_housing'
+--- 'rtx_housing'
+--- 'ps-housing'
+--- 'qb-houses'
+--- 'qs-housing'
+--- 'esx_property'
+--- 'loaf_housing'
+--- 'vms_housing'
+--- 'origen_housing'
+--- 'RxHousing'
+---
+--- 'standalone' -- No housing system
+Link.housing = 'rtx_housing'

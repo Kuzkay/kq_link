@@ -90,6 +90,21 @@ ___
 - renewed
 - cd_garage
 
+___
+
+## Housing/Property systems
+- nolag_properties
+- rcore_housing
+- rtx_housing
+- ps-housing
+- qb-houses
+- qs-housing
+- esx_property
+- loaf_housing
+- vms_housing
+- origen_housing
+- RxHousing
+
 ## Premium Assets
 Find FiveM scripts which utlize `kq_link` over on our webstore: https://kuzquality.com/
 
