@@ -158,4 +158,4 @@ Link.vehiclekeys = 'auto'
 --- 'RxHousing'
 ---
 --- 'standalone' -- No housing system
-Link.housing = 'rtx_housing'
+Link.housing = 'auto'
